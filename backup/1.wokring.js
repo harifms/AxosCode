@@ -12,22 +12,21 @@ set(Account, "primaryOwner.owner.proofOfIdentity", extendedAccount.primaryOwner.
 set(Account, "primaryOwner.owner.regulatoryDisclosuresV0", extendedAccount.primaryOwner.owner.regulatoryDisclosuresV0);
 
 let accountTypesMap = {
-    "COMM-PROP": "JOINT_COMMUNITY_PROPERTY",
-    "COMM-PROP-RIGHTS-SURV": "JOINT_COMMUNITY_PROPERTY_WITH_ROS",
-    "TENANTS-ENTIRETY": "JOINT_TENANTS_BY_ENTIRETY",
-    "TENANTS-COMM": "JOINT_TENANTS_IN_COMMON",
-    "IRR-TRUST": "TRUST_IRREVOCABLE",
-    "JOINT-TENANTS-RIGHT-SURV": "JOINT_TENANTS_WITH_ROS",
-    "INDIVIDUAL": "INDIVIDUAL",
-    "INDIVIDUAL-TOD": "INDIVIDUAL",
-    "IRA-TRADITIONAL": "IRA_TRADITIONAL",
-    "IRA-ROTH": "IRA_ROTH",
-    "IRA-SIMPLE": "IRA_SIMPLE",
-    "REVOCABLE-TRUST": "TRUST_REVOCABLE",
-    "IRA-SEP": "IRA_SEP"
+    "Individual": "INDIVIDUAL",
+    "Individual TOD": "INDIVIDUAL",
+    "Traditional IRA": "IRA_TRADITIONAL",
+    "Roth IRA": "IRA_ROTH",
+    "Simple IRA": "IRA_SIMPLE",
+    "SEP IRA": "IRA_SEP",
+    "Community Property": "JOINT_COMMUNITY_PROPERTY",
+    "Community Property with Rights of Survivorship": "JOINT_COMMUNITY_PROPERTY_WITH_ROS",
+    "Joint Tenants with Rights of Survivorship": "JOINT_TENANTS_WITH_ROS",
+    "Tenants by Entirety": "JOINT_TENANTS_BY_ENTIRETY",
+    "Tenants in Common": "JOINT_TENANTS_IN_COMMON",
+    "Irrevocable Trust": "TRUST_IRREVOCABLE",
+    "Revocable Trust": "TRUST_REVOCABLE"
 };
-set(Account, "registrationType", accountTypesMap[registrationType] || accountTypesMap[Account.registrationType.code]);
-
+set(Account, "registrationType", accountTypesMap[Account.registrationType.name] || accountTypesMap[lowerCase(registrationType)]);
 if (Account.primaryOwner.owner.middleName){
 	set(Account, "primaryOwner.owner.middleName", substring(Account.primaryOwner.owner.middleName, 0, 1));
 }
@@ -44,9 +43,6 @@ let residencyStatusMap = {
     "US Resident Alien": "RESIDENT_ALIEN",
     "Non-Resident Alien": "NON_RESIDENT_ALIEN"
 };
-if (isPresent(Account.secondaryOwner) && isPresent(Account.secondaryOwner.owner)){
-    set(Account, "secondaryOwner.owner.citizenshipStatus" , Account.secondaryOwner.owner.citizenshipStatus ? residencyStatusMap[Account.secondaryOwner.owner.citizenshipStatus]:residencyStatusMap["US Citizen"]);
-}
 set(Account, "primaryOwner.owner.citizenshipStatus", Account.primaryOwner.owner.citizenshipStatus ? residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus] : residencyStatusMap["US Citizen"]);
 set(Account, "primaryOwner.owner.countryOfCitizenship", residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus]);
 
@@ -66,9 +62,6 @@ let proofOfIdentityMap = {
     "Foreign Tax ID": "FOREIGN_TAX_ID",
     "Other Government ID": "OTHER_GOVERNMENT_ID"
 };
-if (isPresent(Account.secondaryOwner) && isPresent(Account.secondaryOwner.owner) && Account.secondaryOwner.owner.proofOfIdentity != null){
-   set(Account, "secondaryOwner.owner.proofOfIdentity.type", proofOfIdentityMap[Account.secondaryOwner.owner.proofOfIdentity.type]);
-}
 if (Account.primaryOwner.owner.proofOfIdentity != null){
    set(Account, "primaryOwner.owner.proofOfIdentity.type", proofOfIdentityMap[Account.primaryOwner.owner.proofOfIdentity.type]);
 }
@@ -82,9 +75,6 @@ let employmentStatusMap = {
     "Student": "STUDENT"
 };
 set(Account, "primaryOwner.owner.employmentStatus", employmentStatusMap[Account.primaryOwner.owner.employmentStatus]);
-if(isPresent(Account.secondaryOwner) && isPresent(Account.secondaryOwner.owner) && Account.secondaryOwner.owner.employmentStatus){
-   set(Account, "secondaryOwner.owner.employmentStatus", employmentStatusMap[Account.secondaryOwner.owner.employmentStatus]);
-}
 
 let ownershipStatusMap = {
     "Own": "OWN",
@@ -164,13 +154,13 @@ let dividendReinvestmentMap = {
 set(Account, "dividendReinvestmentOption", dividendReinvestmentMap[Account.dividendReinvestmentOption]);
 
 let cashDividendOptionMap = {
-	"deposit into free credit balance": "DEPOSIT",
-	"mail weekly": "MAILED_WEEKLY",
-	"mail semi-monthly": "MAILED_SEMI_MONTHLY",
-	"mail monthly": "MAILED_MONTHLY"
+	"Deposit into Free Credit Balance": "DEPOSIT",
+	"Mail weekly": "MAILED_WEEKLY",
+	"Mail semi-monthly": "MAILED_SEMI_MONTHLY",
+	"Mail monthly": "MAILED_MONTHLY"
 };
 
-set(Account, "cashDividendOption", cashDividendOptionMap[lowerCase(Account.cashDividendOption)]);
+set(Account, "cashDividendOption", cashDividendOptionMap[Account.cashDividendOption]);
 
 let incomeCategory = 
   (Account.annualIncome == "" || !Account.annualIncome) ? 'REFUSE_TO_DISCLOSE' :
