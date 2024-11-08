@@ -56,6 +56,13 @@ let genderTypesMap = {
 	  "No Answer": "NO_ANSWER"
 };
 set(Account, "primaryOwner.owner.gender", genderTypesMap[Account.primaryOwner.owner.gender] || genderTypesMap["No Answer"]);
+i = 0;
+for ( let o of Account.secondaryOwners ) {  
+    if (isPresent(o.owner)) {
+        set(Account.secondaryOwners[i], "owner.gender", genderTypesMap[o.owner.gender] || genderTypesMap["No Answer"]);
+    }
+    i = i + 1;
+}
 
 let residencyStatusMap = {
     "US Citizen": "RESIDENT",
