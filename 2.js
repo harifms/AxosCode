@@ -73,7 +73,7 @@ let payload = {
     ]
 };
 
-if (Account.primaryOwner.trustedContact){
+if (Account.primaryOwner.trustedContact && !Account.primaryOwner.trustedContactInfoDeclined){
     set(payload.requests[0], "trustedContact", {
         "name": [Account.primaryOwner.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),
         "relationship": Account.primaryOwner.trustedContactRelationship,

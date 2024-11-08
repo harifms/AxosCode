@@ -35,7 +35,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "workPhone": replace(o.owner.employerPhoneNumber, " ", "")
                 },
                 "contact": {
-                    "phone": replace(o.owner.secondaryPhoneNumber, " ", "")
+                    "phone": replace(o.owner.primaryPhoneNumber, " ", "")
                 }
             };
                 
@@ -49,7 +49,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "expirationDate": o.owner.proofOfIdentity.expiryDate
                 });
             }            
-            if (o.trustedContact){
+            if (o.trustedContact && !o.trustedContactInfoDeclined){
                 set(coHolder, "trustedContact", {
                     "name": [o.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),
                     "relationship": Account.primaryOwner.trustedContactRelationship,
