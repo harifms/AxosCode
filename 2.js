@@ -80,14 +80,14 @@ if (Account.primaryOwner.trustedContact){
         "phone": replace(Account.primaryOwner.trustedContact.primaryPhoneNumber, " ", ""),
         "email": Account.primaryOwner.trustedContact.primaryEmail 
     });
-    if (Account.primaryOwner.trustedContact.legalAddress){
+    if (Account.primaryOwner.trustedContact.mailingAddress){
         set(payload.requests[0].trustedContact, "address", {
-            "streetLine1": Account.primaryOwner.trustedContact.legalAddress.line1,
-            "streetLine2": Account.primaryOwner.trustedContact.legalAddress.line2,
-            "city": Account.primaryOwner.trustedContact.legalAddress.city,
-            "stateOrProvince": Account.primaryOwner.trustedContact.legalAddress.state,
-            "postalCode": Account.primaryOwner.trustedContact.postalCode,
-            "country": Account.primaryOwner.trustedContact.country || "USA"
+            "streetLine1": Account.primaryOwner.trustedContact.mailingAddress.line1,
+            "streetLine2": Account.primaryOwner.trustedContact.mailingAddress.line2,
+            "city": Account.primaryOwner.trustedContact.mailingAddress.city,
+            "stateOrProvince": Account.primaryOwner.trustedContact.mailingAddress.state,
+            "postalCode": Account.primaryOwner.trustedContact.mailingAddress.postalCode,
+            "country": countries[Account.primaryOwner.trustedContact.mailingAddress.country ? Account.primaryOwner.trustedContact.mailingAddress.country.code2Letters : "US"] || "USA"
         });
     }
 }
@@ -129,7 +129,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
                 "city": address.city,
                 "stateOrProvince": isPresent(address.state) ? address.state.code : null,
                 "postalCode": address.postalCode,
-                "country": countries[address.country.code2Letters] || "USA"
+                "country": countries[address.country ? address.country.code2Letters : "US"] || "USA"
             });
         }
         if (beneficiary.beneficiary.personType == 'Entity' || beneficiary.beneficiary.personType == 'Estate'){

@@ -67,7 +67,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
              "city": Account.primaryOwner.owner.employerAddress.city,
              "stateOrProvince": Account.primaryOwner.owner.employerAddress.state,
              "postalCode": Account.primaryOwner.owner.employerAddress.postalCode,
-             "country": Account.primaryOwner.owner.employerAddress.country || "USA"
+             "country": countries[Account.primaryOwner.owner.employerAddress.country ? Account.primaryOwner.owner.employerAddress.country.code2Letters : "US"] || "USA"
          });
      }
      if (Account.primaryOwner.owner.legalAddress){
@@ -77,7 +77,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
              "city": Account.primaryOwner.owner.legalAddress.city,
              "stateOrProvince": Account.primaryOwner.owner.legalAddress.state,
              "postalCode": Account.primaryOwner.owner.legalAddress.postalCode,
-             "country": Account.primaryOwner.owner.legalAddress.country || "USA"
+             "country": countries[Account.primaryOwner.owner.legalAddress.country ? Account.primaryOwner.owner.legalAddress.country.code2Letters : "US"] || "USA"
          });
      }
      if (Account.primaryOwner.owner.mailingAddress){
@@ -87,7 +87,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
              "city": Account.primaryOwner.owner.mailingAddress.city,
              "stateOrProvince": Account.primaryOwner.owner.mailingAddress.state,
              "postalCode": Account.primaryOwner.owner.mailingAddress.postalCode,
-             "country": Account.primaryOwner.owner.mailingAddress.country || "USA"
+             "country": countries[Account.primaryOwner.owner.mailingAddress.country ? Account.primaryOwner.owner.mailingAddress.country.code2Letters : "US"] || "USA"
          });
      }
      if (Account.primaryOwner.owner.previousLegalAddress){
@@ -97,7 +97,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
              "city": Account.primaryOwner.owner.previousLegalAddress.city,
              "stateOrProvince": Account.primaryOwner.owner.previousLegalAddress.state,
              "postalCode": Account.primaryOwner.owner.previousLegalAddress.postalCode,
-             "country": Account.primaryOwner.owner.previousLegalAddress.country || "USA"
+             "country": countries[Account.primaryOwner.owner.previousLegalAddress.country ? Account.primaryOwner.owner.previousLegalAddress.country.code2Letters : "US"] || "USA"
          });
      }
  
@@ -138,7 +138,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
              "city": Account.primaryOwner.owner.legalAddress.city,
              "stateOrProvince": Account.primaryOwner.owner.legalAddress.state,
              "postalCode": Account.primaryOwner.owner.legalAddress.postalCode,
-             "country": Account.primaryOwner.owner.legalAddress.country || "USA"
+             "country": countries[Account.primaryOwner.owner.legalAddress.country ? Account.primaryOwner.owner.legalAddress.country.code2Letters : "US"] || "USA"
          },
          "mailingAddress": {
              "streetLine1": Account.primaryOwner.owner.mailingAddress.line1,
@@ -146,7 +146,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
              "city": Account.primaryOwner.owner.mailingAddress.city,
              "stateOrProvince": Account.primaryOwner.owner.mailingAddress.state,
              "postalCode": Account.primaryOwner.owner.mailingAddress.postalCode,
-             "country": Account.primaryOwner.owner.mailingAddress.country || "USA"
+             "country": countries[Account.primaryOwner.owner.mailingAddress.country ? Account.primaryOwner.owner.mailingAddress.country.code2Letters : "US"] || "USA"
          },
          "previousAddress": {
              "streetLine1": Account.primaryOwner.owner.previousLegalAddress.line1,
@@ -154,7 +154,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
              "city": Account.primaryOwner.owner.previousLegalAddress.city,
              "stateOrProvince": Account.primaryOwner.owner.previousLegalAddress.state,
              "postalCode": Account.primaryOwner.owner.previousLegalAddress.postalCode,
-             "country": Account.primaryOwner.owner.previousLegalAddress.country || "USA"
+             "country": countries[Account.primaryOwner.owner.previousLegalAddress.country ? Account.primaryOwner.owner.previousLegalAddress.country.code2Letters : "US"] || "USA"
          }
      });             
      if (Account.primaryOwner.owner.regulatoryDisclosuresV0){

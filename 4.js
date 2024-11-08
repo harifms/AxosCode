@@ -21,7 +21,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 "numDependents": o.owner.numberOfDependents,
                 "maritalStatus": o.owner.maritalStatus,
                 "homeType": o.owner.homeOwnership,
-                "email": o.owner.secondaryEmail,
+                "email": o.owner.primaryEmail,
                 "accountAgreement": {
                     "documentRevision": "Account Application|CO01|03.2019 (002)", // ?? Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22", // Not in docs
                     "holderESignature": "YES"
@@ -48,6 +48,24 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "issueDate": o.owner.proofOfIdentity.issueDate,
                     "expirationDate": o.owner.proofOfIdentity.expiryDate
                 });
+            }            
+            if (o.trustedContact){
+                set(coHolder, "trustedContact", {
+                    "name": [o.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),
+                    "relationship": Account.primaryOwner.trustedContactRelationship,
+                    "phone": replace(Account.primaryOwner.trustedContact.primaryPhoneNumber, " ", ""),
+                    "email": Account.primaryOwner.trustedContact.primaryEmail 
+                });
+                if (o.trustedContact.mailingAddress){
+                    set(coHolder.trustedContact, "address", {
+                        "streetLine1": Account.primaryOwner.trustedContact.mailingAddress.line1,
+                        "streetLine2": Account.primaryOwner.trustedContact.mailingAddress.line2,
+                        "city": Account.primaryOwner.trustedContact.mailingAddress.city,
+                        "stateOrProvince": Account.primaryOwner.trustedContact.mailingAddress.state,
+                        "postalCode": Account.primaryOwner.trustedContact.mailingAddress.postalCode,
+                        "country": countries[Account.primaryOwner.trustedContact.mailingAddress.country ? Account.primaryOwner.trustedContact.mailingAddress.country.code2Letters : "US"] || "USA"
+                    });
+                }
             }
             if (o.owner.employerAddress){
                 set(coHolder.employment, "workAddress", {
@@ -56,7 +74,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "city": o.owner.employerAddress.city,
                     "stateOrProvince": o.owner.employerAddress.state,
                     "postalCode": o.owner.employerAddress.postalCode,
-                    "country": o.owner.employerAddress.country || "USA"
+                    "country": countries[o.owner.employerAddress.country ? o.owner.employerAddress.country.code2Letters : "US"] || "USA"
                 });
             }
             if (o.owner.legalAddress){
@@ -66,7 +84,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "city": o.owner.legalAddress.city,
                     "stateOrProvince": o.owner.legalAddress.state,
                     "postalCode": o.owner.legalAddress.postalCode,
-                    "country": o.owner.legalAddress.country || "USA"
+                    "country": countries[o.owner.legalAddress.country ? o.owner.legalAddress.country.code2Letters : "US"] || "USA"
                 });
             }
             if (o.owner.mailingAddress){
@@ -76,7 +94,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "city": o.owner.mailingAddress.city,
                     "stateOrProvince": o.owner.mailingAddress.state,
                     "postalCode": o.owner.mailingAddress.postalCode,
-                    "country": o.owner.mailingAddress.country || "USA"
+                    "country": countries[o.owner.mailingAddress.country ? o.owner.mailingAddress.country.code2Letters : "US"] || "USA"
                 });
             }
             if (o.owner.previousLegalAddress){
@@ -86,7 +104,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "city": o.owner.previousLegalAddress.city,
                     "stateOrProvince": o.owner.previousLegalAddress.state,
                     "postalCode": o.owner.previousLegalAddress.postalCode,
-                    "country": o.owner.previousLegalAddress.country || "USA"
+                    "country": countries[o.owner.previousLegalAddress.country ? o.owner.previousLegalAddress.country.code2Letters : "US"] || "USA"
                 });
             }
             if (o.owner.regulatoryDisclosuresV0){
@@ -133,7 +151,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
     if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType != "TRUST_REVOCABLE") {
         let jointAccount = {
             "jointTenantMarried": Account.primaryOwner.spouseIsAJointOwner ? "YES" : "NO",
-            "numberOfJointTenants": coHolders.length
+            "numberOfJointTenants": coHolders.length - 1
         };
 
         if (Account.registrationType == "JOINT_TENANTS_IN_COMMON"){
