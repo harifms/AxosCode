@@ -1,4 +1,4 @@
-if (account.registrationType != "INDIVIDUAL" && account.registrationType != "IRA_TRADITIONAL" && account.registrationType != "IRA_ROTH" && account.registrationType != "IRA_SIMPLE" && account.registrationType != "IRA_SEP"){
+if (Account.secondaryOwner && Account.secondaryOwner.owner && account.registrationType != "INDIVIDUAL" && account.registrationType != "IRA_TRADITIONAL" && account.registrationType != "IRA_ROTH" && account.registrationType != "IRA_SIMPLE" && account.registrationType != "IRA_SEP"){
 	let coHolder = {
 		"name": {
 			"givenName": Account.secondaryOwner.owner.firstName,

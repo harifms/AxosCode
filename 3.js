@@ -1,4 +1,3 @@
-
 if (account.registrationType != "TRUST_IRREVOCABLE" && account.registrationType != "TRUST_REVOCABLE"){
     set(payload.requests[0], "individualHolder", {
          "name": {
