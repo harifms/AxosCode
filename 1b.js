@@ -43,7 +43,11 @@ let cashDividendOptionMap = {
 	"deposit into free credit balance": "DEPOSIT",
 	"mail weekly": "MAILED_WEEKLY",
 	"mail semi-monthly": "MAILED_SEMI_MONTHLY",
-	"mail monthly": "MAILED_MONTHLY"
+	"mail monthly": "MAILED_MONTHLY",
+	"dividends deposit into free credit balance": "DEPOSIT",
+	"dividends mailed weekly": "MAILED_WEEKLY",
+	"dividends mailed semi-monthly": "MAILED_SEMI_MONTHLY",
+	"dividends mailed monthly": "MAILED_MONTHLY"
 };
 
 set(Account, "cashDividendOption", cashDividendOptionMap[toLower(Account.cashDividendOption)]);
