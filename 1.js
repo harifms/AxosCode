@@ -50,18 +50,31 @@ if (Account.primaryOwner.owner.middleName){
 	set(Account, "primaryOwner.owner.middleName", substring(Account.primaryOwner.owner.middleName, 0, 1));
 }
 
+
+if (isPresent(Account.secondaryOwners)){
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {  
+      if (isPresent(o.owner)) {
+          set(Account.secondaryOwners[i], "owner.middleName", substring(o.owner.middleName, 0, 1));
+      }
+      i = i + 1;
+  }
+}
+
 let genderTypesMap = {
     "Male": "MALE",
     "Female": "FEMALE",
 	  "No Answer": "NO_ANSWER"
 };
 set(Account, "primaryOwner.owner.gender", genderTypesMap[Account.primaryOwner.owner.gender] || genderTypesMap["No Answer"]);
-i = 0;
-for ( let o of Account.secondaryOwners ) {  
-    if (isPresent(o.owner)) {
-        set(Account.secondaryOwners[i], "owner.gender", genderTypesMap[o.owner.gender] || genderTypesMap["No Answer"]);
-    }
-    i = i + 1;
+if (isPresent(Account.secondaryOwners)){
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {  
+      if (isPresent(o.owner)) {
+          set(Account.secondaryOwners[i], "owner.gender", genderTypesMap[o.owner.gender] || genderTypesMap["No Answer"]);
+      }
+      i = i + 1;
+  }
 }
 
 let residencyStatusMap = {
@@ -69,17 +82,18 @@ let residencyStatusMap = {
     "US Resident Alien": "RESIDENT_ALIEN",
     "Non-Resident Alien": "NON_RESIDENT_ALIEN"
 };
+set(Account, "primaryOwner.owner.citizenshipStatus", Account.primaryOwner.owner.citizenshipStatus ? residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus] : residencyStatusMap["US Citizen"]);
+set(Account, "primaryOwner.owner.countryOfCitizenship", residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus]);
 if(isPresent(Account.secondaryOwners)){   
     i = 0;
     for ( let o of Account.secondaryOwners ) {  
         if (isPresent(o.owner)) {
             set(Account.secondaryOwners[i], "owner.citizenshipStatus" , o.owner.citizenshipStatus ? residencyStatusMap[o.owner.citizenshipStatus] : residencyStatusMap["US Citizen"]);
+            set(Account.secondaryOwners[i], "owner.countryOfCitizenship", residencyStatusMap[o.owner.citizenshipStatus]);
         }
         i = i + 1;
     }
 }
-set(Account, "primaryOwner.owner.citizenshipStatus", Account.primaryOwner.owner.citizenshipStatus ? residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus] : residencyStatusMap["US Citizen"]);
-set(Account, "primaryOwner.owner.countryOfCitizenship", residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus]);
 
 let maritalStatusMap = {
     "Single": "SINGLE",
@@ -88,7 +102,15 @@ let maritalStatusMap = {
     "Divorced": "DIVORCED"
 };
 set(Account, "primaryOwner.owner.maritalStatus", maritalStatusMap[Account.primaryOwner.owner.maritalStatus]);
-// Account.primaryOwner.owner.maritalStatus = maritalStatusMap[Account.primaryOwner.owner.maritalStatus];
+if(isPresent(Account.secondaryOwners)){  
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {  
+      if (isPresent(o.owner)) {
+          set(Account.secondaryOwners[i], "owner.maritalStatus", maritalStatusMap[o.owner.maritalStatus]);
+      }
+      i = i + 1;
+  }
+}
 
 let proofOfIdentityMap = {
     "Driver's License": "DRIVERS_LICENSE",
@@ -97,6 +119,9 @@ let proofOfIdentityMap = {
     "Foreign Tax ID": "FOREIGN_TAX_ID",
     "Other Government ID": "OTHER_GOVERNMENT_ID"
 };
+if (Account.primaryOwner.owner.proofOfIdentity != null){
+   set(Account, "primaryOwner.owner.proofOfIdentity.type", proofOfIdentityMap[Account.primaryOwner.owner.proofOfIdentity.type]);
+}
 if(isPresent(Account.secondaryOwners)){  
     i = 0;
     for ( let o of Account.secondaryOwners ) {  
@@ -107,9 +132,6 @@ if(isPresent(Account.secondaryOwners)){
     }
 }
 
-if (Account.primaryOwner.owner.proofOfIdentity != null){
-   set(Account, "primaryOwner.owner.proofOfIdentity.type", proofOfIdentityMap[Account.primaryOwner.owner.proofOfIdentity.type]);
-}
 
 let employmentStatusMap = {
     "Employed": "EMPLOYED",
@@ -135,6 +157,15 @@ let ownershipStatusMap = {
     "Rent": "RENT"
 };
 set(Account, "primaryOwner.owner.homeOwnership", ownershipStatusMap[Account.primaryOwner.owner.homeOwnership]);
+if(isPresent(Account.secondaryOwners)){  
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {
+      if (isPresent(o.owner)) {
+          set(Account.secondaryOwners[i], "owner.homeOwnership", ownershipStatusMap[o.owner.homeOwnership]);
+      }
+      i = i + 1;
+  }
+}
 
 // This has to confirm
 let yesNoMap = {
@@ -146,6 +177,17 @@ if (Account.primaryOwner.owner.regulatoryDisclosuresV0 != null){
   set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.directorOrOfficerInPublicCompany",  yesNoMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.directorOrOfficerInPublicCompany] || yesNoMap["No"]);
   set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial",  yesNoMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial] || yesNoMap["No"]);
 }
+if(isPresent(Account.secondaryOwners)){  
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {
+      if (isPresent(o.owner) && o.owner.regulatoryDisclosuresV0) {
+          set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.employedBySecurityIndustryEntity", yesNoMap[o.owner.regulatoryDisclosuresV0.employedBySecurityIndustryEntity] || yesNoMap["No"]);
+          set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.directorOrOfficerInPublicCompany",  yesNoMap[o.owner.regulatoryDisclosuresV0.directorOrOfficerInPublicCompany] || yesNoMap["No"]);
+          set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial",  yesNoMap[o.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial] || yesNoMap["No"]);
+      }  
+      i = i + 1;
+  }
+}
 
 let brokerRegulatoryMap = {
     "Broker-Dealer or Municipal Securities Dealer": "DEALER",
@@ -155,6 +197,15 @@ let brokerRegulatoryMap = {
 };
 if (Account.primaryOwner.owner.regulatoryDisclosuresV0 != null){
   set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.typeOfEmployer", brokerRegulatoryMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.typeOfEmployer]);
+}
+if(isPresent(Account.secondaryOwners)){  
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {
+      if (isPresent(o.owner) && isPresent(o.owner.regulatoryDisclosuresV0)) {
+          set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.typeOfEmployer", brokerRegulatoryMap[o.owner.regulatoryDisclosuresV0.typeOfEmployer]);
+      }
+      i = i + 1;
+  }
 }
 
 let corporateRolesMap = {
@@ -166,6 +217,15 @@ let corporateRolesMap = {
 };
 if (Account.primaryOwner.owner.regulatoryDisclosuresV0 != null){
   set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.officerRole", corporateRolesMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.officerRole]);
+}
+if(isPresent(Account.secondaryOwners)){  
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {
+      if (isPresent(o.owner) && isPresent(o.owner.regulatoryDisclosuresV0)) {
+          set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.officerRole", corporateRolesMap[o.owner.regulatoryDisclosuresV0.officerRole]);
+      }
+      i = i + 1;
+  }
 }
 
 let financialSourcesMap = {
@@ -309,6 +369,47 @@ set(Account, "primaryOwner.owner.investExperienceMargin",
   (!Account.primaryOwner.owner.investExperienceMargin || Account.primaryOwner.owner.investExperienceMargin == "") ? 'NO_EXPERIENCE' :
   Account.primaryOwner.owner.investExperienceMargin <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
 
+if(isPresent(Account.secondaryOwners)){  
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {
+      if (isPresent(o.owner)) {
+          set(Account.secondaryOwners[i], "owner.investmentExperienceEquities", 
+            !o.owner.investmentExperienceEquities || o.owner.investmentExperienceEquities == "" ? 'NO_EXPERIENCE' :
+            o.owner.investmentExperienceEquities <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
+          
+          set(Account.secondaryOwners[i], "owner.investmentExperienceMutualFunds", 
+            !o.owner.investmentExperienceMutualFunds || o.owner.investmentExperienceMutualFunds == "" ? 'NO_EXPERIENCE' :
+            o.owner.investmentExperienceMutualFunds <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
+          
+          set(Account.secondaryOwners[i], "owner.investmentExperienceFixedIncome", 
+            !o.owner.investmentExperienceFixedIncome || o.owner.investmentExperienceFixedIncome == "" ? 'NO_EXPERIENCE' :
+            o.owner.investmentExperienceFixedIncome <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
+          
+          set(Account.secondaryOwners[i], "owner.investmentExperienceOptions", 
+            !o.owner.investmentExperienceOptions || o.owner.investmentExperienceOptions == "" ? 'NO_EXPERIENCE' :
+            o.owner.investmentExperienceOptions <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
+          
+          set(Account.secondaryOwners[i], "owner.investExperienceFutures", 
+            !o.owner.investExperienceFutures || o.owner.investExperienceFutures == "" ? 'NO_EXPERIENCE' :
+            o.owner.investExperienceFutures <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
+          
+          set(Account.secondaryOwners[i], "owner.investmentExperienceAnnuities", 
+            !o.owner.investmentExperienceAnnuities || o.owner.investmentExperienceAnnuities == "" ? 'NO_EXPERIENCE' :
+            o.owner.investmentExperienceAnnuities <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
+          
+          set(Account.secondaryOwners[i], "owner.investExperienceAlternatives", 
+            !o.owner.investExperienceAlternatives || o.owner.investExperienceAlternatives == "" ? 'NO_EXPERIENCE' :
+            o.owner.investExperienceAlternatives <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
+          
+          set(Account.secondaryOwners[i], "owner.investExperienceMargin", 
+            (!o.owner.investExperienceMargin || o.owner.investExperienceMargin == "") ? 'NO_EXPERIENCE' :
+            o.owner.investExperienceMargin <= 5 ? 'FROM_1_TO_5_YEARS' : 'OVER_5_YEARS');
+      }
+      i = i + 1;
+  }
+}
+
+
 set(Account, "liquidityNeeds", (!Account.liquidityNeeds || Account.liquidityNeeds == "") ? 'UNDER_1_YEAR' :
   (Account.liquidityNeeds >= 1 && Account.liquidityNeeds < 5 ? 'FROM_1_TO_5_YEARS' :  
 	  (Account.liquidityNeeds >= 5 && Account.liquidityNeeds < 10 ? 'FROM_5_TO_10_YEARS' :  
@@ -339,15 +440,15 @@ if (Account.federalMarginalTaxRate){
 	set(Account, "federalMarginalTaxRate", replace(Account.federalMarginalTaxRate, "%", ""));
 }
 
-if(Account.primaryOwner && Account.primaryOwner.owner){
-	set(Account.primaryOwner.owner, "investmentExperienceEquitiesTransactions", 0);
-	set(Account.primaryOwner.owner, "investmentExperienceMutualFundsTransactions",  0);
-	set(Account.primaryOwner.owner, "investmentExperienceFixedIncomeTransactions", 0);
-	set(Account.primaryOwner.owner, "investmentExperienceOptionsTransactions", 0);
-	set(Account.primaryOwner.owner, "investExperienceFuturesTransactions", 0);
-	set(Account.primaryOwner.owner, "investmentExperienceAnnuitiesTransactions", 0);
-	set(Account.primaryOwner.owner, "investExperienceAlternativesTransactions", 0);
-	set(Account.primaryOwner.owner, "investExperienceMarginTransactions", 0);
-}
+// if(Account.primaryOwner && Account.primaryOwner.owner){
+// 	set(Account.primaryOwner.owner, "investmentExperienceEquitiesTransactions", 0);
+// 	set(Account.primaryOwner.owner, "investmentExperienceMutualFundsTransactions",  0);
+// 	set(Account.primaryOwner.owner, "investmentExperienceFixedIncomeTransactions", 0);
+// 	set(Account.primaryOwner.owner, "investmentExperienceOptionsTransactions", 0);
+// 	set(Account.primaryOwner.owner, "investExperienceFuturesTransactions", 0);
+// 	set(Account.primaryOwner.owner, "investmentExperienceAnnuitiesTransactions", 0);
+// 	set(Account.primaryOwner.owner, "investExperienceAlternativesTransactions", 0);
+// 	set(Account.primaryOwner.owner, "investExperienceMarginTransactions", 0);
+// }
 
 return Account;
