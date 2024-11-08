@@ -11,6 +11,19 @@ set(Account, "primaryOwner.owner.employerAddress", extendedAccount.primaryOwner.
 set(Account, "primaryOwner.owner.proofOfIdentity", extendedAccount.primaryOwner.owner.proofOfIdentity);
 set(Account, "primaryOwner.owner.regulatoryDisclosuresV0", extendedAccount.primaryOwner.owner.regulatoryDisclosuresV0);
 
+if (extendedAccount.secondaryOwner){
+  set(Account, "secondaryOwner.owner.mailingAddress", extendedAccount.secondaryOwner.owner.mailingAddress);
+  set(Account, "secondaryOwner.owner.legalAddress", extendedAccount.secondaryOwner.owner.legalAddress);
+  if (!Account.secondaryOwner.trustedContactInfoDeclined && extendedAccount.secondaryOwner.trustedContact != null) {
+    set(Account, "secondaryOwner.trustedContact", extendedAccount.secondaryOwner.trustedContact);  
+    set(Account, "secondaryOwner.trustedContact.legalAddress", extendedAccount.secondaryOwner.trustedContact.legalAddress);
+  }
+  set(Account, "secondaryOwner.owner.previousLegalAddress", extendedAccount.secondaryOwner.owner.previousLegalAddress);
+  set(Account, "secondaryOwner.owner.employerAddress", extendedAccount.secondaryOwner.owner.employerAddress);
+  set(Account, "secondaryOwner.owner.proofOfIdentity", extendedAccount.secondaryOwner.owner.proofOfIdentity);
+  set(Account, "secondaryOwner.owner.regulatoryDisclosuresV0", extendedAccount.secondaryOwner.owner.regulatoryDisclosuresV0);
+}
+
 let accountTypesMap = {
     "COMM-PROP": "JOINT_COMMUNITY_PROPERTY",
     "COMM-PROP-RIGHTS-SURV": "JOINT_COMMUNITY_PROPERTY_WITH_ROS",
@@ -26,7 +39,7 @@ let accountTypesMap = {
     "REVOCABLE-TRUST": "TRUST_REVOCABLE",
     "IRA-SEP": "IRA_SEP"
 };
-set(Account, "registrationType", accountTypesMap[registrationType] || accountTypesMap[Account.registrationType.code]);
+set(Account, "registrationType", accountTypesMap[registrationType || Account.registrationType.code]);
 
 if (Account.primaryOwner.owner.middleName){
 	set(Account, "primaryOwner.owner.middleName", substring(Account.primaryOwner.owner.middleName, 0, 1));
@@ -170,7 +183,7 @@ let cashDividendOptionMap = {
 	"mail monthly": "MAILED_MONTHLY"
 };
 
-set(Account, "cashDividendOption", cashDividendOptionMap[lowerCase(Account.cashDividendOption)]);
+set(Account, "cashDividendOption", cashDividendOptionMap[toLower(Account.cashDividendOption)]);
 
 let incomeCategory = 
   (Account.annualIncome == "" || !Account.annualIncome) ? 'REFUSE_TO_DISCLOSE' :
@@ -278,15 +291,15 @@ set(Account, "specialExpensesTimeframe", (!Account.specialExpensesTimeframe || A
   ));
 
 let horizonMap = {
-    'Not specified': 'NOT_APPLICABLE',
-	'Less than 1 year': 'UNDER_1_YEAR',
+  'not specified': 'NOT_APPLICABLE',
+	'less than 1 year': 'UNDER_1_YEAR',
 	'1 - 5 years': 'FROM_1_TO_5_YEARS',
 	'5 - 10 years': 'FROM_5_TO_10_YEARS',
 	'10 - 15 years': 'FROM_10_TO_15_YEARS',
-	'Over 15 years': 'OVER_15_YEARS'
+	'over 15 years': 'OVER_15_YEARS'
 };
 if (Account.timeHorizon){
-	set(Account, 'timeHorizon', horizonMap[Account.timeHorizon]);
+	set(Account, 'timeHorizon', horizonMap[toLower(Account.timeHorizon)]);
 } else {
 	set(Account, 'timeHorizon', 'NOT_APPLICABLE');
 }
