@@ -1,4 +1,4 @@
-if (account.registrationType != "TRUST_IRREVOCABLE" && account.registrationType != "TRUST_REVOCABLE"){
+if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType != "TRUST_REVOCABLE"){
     set(payload.requests[0], "individualHolder", {
          "name": {
              "givenName": Account.primaryOwner.owner.firstName,
@@ -124,9 +124,9 @@ if (account.registrationType != "TRUST_IRREVOCABLE" && account.registrationType 
          "entityName":Account.primaryOwner.owner.fullName,
          "entityFormationDate":Account.primaryOwner.owner.dateOfBirth,
          "citizenship": {
-             "citizenshipStatus": Account.secondaryOwner.owner.citizenshipStatus ? Account.secondaryOwner.owner.citizenshipStatus : countries["US"],
-             "taxJurisdiction": Account.secondaryOwner.owner.citizenshipStatus == "RESIDENT" ? "US" : "OTHER",
-             "countryOfResidence": Account.secondaryOwner.owner.citizenshipStatus == "RESIDENT" || !Account.secondaryOwner.owner.citizenshipStatus || !Account.secondaryOwner.owner.countryOfResidence ? countries["US"] : countries[Account.secondaryOwner.owner.countryOfResidence.code2Letters]
+             "citizenshipStatus": Account.primaryOwner.owner.citizenshipStatus ? Account.primaryOwner.owner.citizenshipStatus : countries["US"],
+             "taxJurisdiction": Account.primaryOwner.owner.citizenshipStatus == "RESIDENT" ? "US" : "OTHER",
+             "countryOfResidence": Account.primaryOwner.owner.citizenshipStatus == "RESIDENT" || !Account.primaryOwner.owner.citizenshipStatus || !Account.primaryOwner.owner.countryOfResidence ? countries["US"] : countries[Account.primaryOwner.owner.countryOfResidence.code2Letters]
          },
          "itin": Account.primaryOwner.owner.ssnOrTaxId
      });

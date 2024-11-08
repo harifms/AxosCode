@@ -11,17 +11,22 @@ set(Account, "primaryOwner.owner.employerAddress", extendedAccount.primaryOwner.
 set(Account, "primaryOwner.owner.proofOfIdentity", extendedAccount.primaryOwner.owner.proofOfIdentity);
 set(Account, "primaryOwner.owner.regulatoryDisclosuresV0", extendedAccount.primaryOwner.owner.regulatoryDisclosuresV0);
 
-if (extendedAccount.secondaryOwner){
-  set(Account, "secondaryOwner.owner.mailingAddress", extendedAccount.secondaryOwner.owner.mailingAddress);
-  set(Account, "secondaryOwner.owner.legalAddress", extendedAccount.secondaryOwner.owner.legalAddress);
-  if (!Account.secondaryOwner.trustedContactInfoDeclined && extendedAccount.secondaryOwner.trustedContact != null) {
-    set(Account, "secondaryOwner.trustedContact", extendedAccount.secondaryOwner.trustedContact);  
-    set(Account, "secondaryOwner.trustedContact.legalAddress", extendedAccount.secondaryOwner.trustedContact.legalAddress);
-  }
-  set(Account, "secondaryOwner.owner.previousLegalAddress", extendedAccount.secondaryOwner.owner.previousLegalAddress);
-  set(Account, "secondaryOwner.owner.employerAddress", extendedAccount.secondaryOwner.owner.employerAddress);
-  set(Account, "secondaryOwner.owner.proofOfIdentity", extendedAccount.secondaryOwner.owner.proofOfIdentity);
-  set(Account, "secondaryOwner.owner.regulatoryDisclosuresV0", extendedAccount.secondaryOwner.owner.regulatoryDisclosuresV0);
+let i = 0;
+
+if (extendedAccount.secondaryOwners){
+    for ( let o of extendedAccount.secondaryOwners ) { 
+        set(Account.secondaryOwners[i], "owner.mailingAddress", o.owner.mailingAddress);
+        set(Account.secondaryOwners[i], "owner.legalAddress", o.owner.legalAddress);
+        if (!o.trustedContactInfoDeclined && o.trustedContact != null) {
+          set(Account.secondaryOwners[i], "trustedContact", o.trustedContact);  
+          set(Account.secondaryOwners[i], "trustedContact.legalAddress", o.trustedContact.legalAddress);
+        }
+        set(Account.secondaryOwners[i], "owner.previousLegalAddress", o.owner.previousLegalAddress);
+        set(Account.secondaryOwners[i], "owner.employerAddress", o.owner.employerAddress);
+        set(Account.secondaryOwners[i], "owner.proofOfIdentity", o.owner.proofOfIdentity);
+        set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0", o.owner.regulatoryDisclosuresV0);
+        i = i + 1;
+    }
 }
 
 let accountTypesMap = {
@@ -48,7 +53,7 @@ if (Account.primaryOwner.owner.middleName){
 let genderTypesMap = {
     "Male": "MALE",
     "Female": "FEMALE",
-	"No Answer": "NO_ANSWER"
+	  "No Answer": "NO_ANSWER"
 };
 set(Account, "primaryOwner.owner.gender", genderTypesMap[Account.primaryOwner.owner.gender] || genderTypesMap["No Answer"]);
 
@@ -57,8 +62,14 @@ let residencyStatusMap = {
     "US Resident Alien": "RESIDENT_ALIEN",
     "Non-Resident Alien": "NON_RESIDENT_ALIEN"
 };
-if (isPresent(Account.secondaryOwner) && isPresent(Account.secondaryOwner.owner)){
-    set(Account, "secondaryOwner.owner.citizenshipStatus" , Account.secondaryOwner.owner.citizenshipStatus ? residencyStatusMap[Account.secondaryOwner.owner.citizenshipStatus]:residencyStatusMap["US Citizen"]);
+if(isPresent(Account.secondaryOwners)){   
+    i = 0;
+    for ( let o of Account.secondaryOwners ) {  
+        if (isPresent(o.owner)) {
+            set(Account.secondaryOwners[i], "owner.citizenshipStatus" , o.owner.citizenshipStatus ? residencyStatusMap[o.owner.citizenshipStatus] : residencyStatusMap["US Citizen"]);
+        }
+        i = i + 1;
+    }
 }
 set(Account, "primaryOwner.owner.citizenshipStatus", Account.primaryOwner.owner.citizenshipStatus ? residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus] : residencyStatusMap["US Citizen"]);
 set(Account, "primaryOwner.owner.countryOfCitizenship", residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus]);
@@ -79,9 +90,16 @@ let proofOfIdentityMap = {
     "Foreign Tax ID": "FOREIGN_TAX_ID",
     "Other Government ID": "OTHER_GOVERNMENT_ID"
 };
-if (isPresent(Account.secondaryOwner) && isPresent(Account.secondaryOwner.owner) && Account.secondaryOwner.owner.proofOfIdentity != null){
-   set(Account, "secondaryOwner.owner.proofOfIdentity.type", proofOfIdentityMap[Account.secondaryOwner.owner.proofOfIdentity.type]);
+if(isPresent(Account.secondaryOwners)){  
+    i = 0;
+    for ( let o of Account.secondaryOwners ) {  
+        if (isPresent(o.owner) && isPresent(o.owner.proofOfIdentity)) {
+            set(Account.secondaryOwners[i], "owner.proofOfIdentity.type", proofOfIdentityMap[o.owner.proofOfIdentity.type]);
+        }
+        i = i + 1;
+    }
 }
+
 if (Account.primaryOwner.owner.proofOfIdentity != null){
    set(Account, "primaryOwner.owner.proofOfIdentity.type", proofOfIdentityMap[Account.primaryOwner.owner.proofOfIdentity.type]);
 }
@@ -95,8 +113,14 @@ let employmentStatusMap = {
     "Student": "STUDENT"
 };
 set(Account, "primaryOwner.owner.employmentStatus", employmentStatusMap[Account.primaryOwner.owner.employmentStatus]);
-if(isPresent(Account.secondaryOwner) && isPresent(Account.secondaryOwner.owner) && Account.secondaryOwner.owner.employmentStatus){
-   set(Account, "secondaryOwner.owner.employmentStatus", employmentStatusMap[Account.secondaryOwner.owner.employmentStatus]);
+if(isPresent(Account.secondaryOwners)){  
+  i = 0;
+  for ( let o of Account.secondaryOwners ) {
+      if (isPresent(o.owner) && o.owner.employmentStatus) {
+          set(Account.secondaryOwners[i], "owner.employmentStatus", employmentStatusMap[o.owner.employmentStatus]);
+      }  
+      i = i + 1;
+  }
 }
 
 let ownershipStatusMap = {

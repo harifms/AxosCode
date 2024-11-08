@@ -1,4 +1,4 @@
-if (Account.secondaryOwner && Account.secondaryOwner.owner && account.registrationType != "INDIVIDUAL" && account.registrationType != "IRA_TRADITIONAL" && account.registrationType != "IRA_ROTH" && account.registrationType != "IRA_SIMPLE" && account.registrationType != "IRA_SEP"){
+if (Account.secondaryOwner && Account.secondaryOwner.owner && Account.registrationType != "INDIVIDUAL" && Account.registrationType != "IRA_TRADITIONAL" && Account.registrationType != "IRA_ROTH" && Account.registrationType != "IRA_SIMPLE" && Account.registrationType != "IRA_SEP"){
 	let coHolder = {
 		"name": {
 			"givenName": Account.secondaryOwner.owner.firstName,
@@ -121,6 +121,18 @@ if (Account.secondaryOwner && Account.secondaryOwner.owner && account.registrati
         "holderESignature": "YES"
     });
     set(payload.requests[0], "coHolders", [coHolder]);
+
+    if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType != "TRUST_REVOCABLE") {
+        let jointAccount = {
+            "jointTenantMarried": Account.primaryOwner.spouseIsAJointOwner ? "YES" : "NO",
+            "numberOfJointTenants": 1 // Always 1, as Number of coholders is always 1 as per mapping
+        };
+
+        if (Account.registrationType == "JOINT_TENANTS_IN_COMMON"){
+            set(jointAccount, "jointHolderPercentage", Account.secondaryOwner.percentage);
+        }
+        set(payload.requests[0], "jointAccount", jointAccount);
+    }
 }
 
 return payload;
