@@ -58,7 +58,9 @@ let payload = {
             },
             "enableMargin": includes(Account.tradingPrivileges, "Margins", 0) ? "YES" : "NO",
             "enableOptions": includes(Account.tradingPrivileges, "Options", 0) ? "YES" : "NO", 
+            "optionsLevel": Account.optionsRiskLevel,
             "enableFpl": "NO",
+            "discretion": Account.advisorTradingDiscretion == "Full" ? "FULL" : (Account.advisorTradingDiscretion == "Limited" ? "LIMITED" : "BANK"),
             "w9": {
                 "exemptPayee": Account.primaryOwner.owner.backupWithholdingExemptPayeeCode || "NA",
                 "factaCode": Account.primaryOwner.owner.fatcaReportingExemptionCode || "NA"
@@ -107,7 +109,18 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
         set(Account, "contingentBeneficiaries", []);
     }
     set(payload.requests[0], "beneficiaries", []);
+    let relationshipMap = {
+        "Expectancy Table Distribution Begins": "EXPECTANCY_TABLE_DISTRIBUTIONS_BEGIN",
+        "Expectancy Table Distribution 5 year depletion": "EXPECTANCY_TABLE_FIVE_YEARS_DEPLETION",
+        "Expectancy Table Distribution 10 year depletion": "EXPECTANCY_TABLE_TEN_YEARS_DEPLETION",
+        "Joint Elapsed RMD": "JOINT_ELAPSED_RMD",
+        "Other": "OTHER",
+        "Single Recal RMD": "SINGLE_RECALC_RMD",
+        "Spouse": "SPOUSE",
+        "Joint Recalculation": "JOINT_RECALCULATION"
+    };
     for (let beneficiary of beneficiaries){ 
+        let relationship = beneficiary.relationship ? relationshipMap[beneficiary.relationship] : "OTHER";
         let beneficiaryPayload = {
             "name": {
                 "middleInitial": beneficiary.beneficiary.middleName,
@@ -115,9 +128,9 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
                 "familyName": beneficiary.beneficiary.lastName
             },
             "taxId": beneficiary.beneficiary.ssNOrTaxID,
-            "birthDate": beneficiary.beneficiary.dateOfBirth, 
+            "birthDate": beneficiary.beneficiary.dateOfBirth,
             "percentage": beneficiary.percentage,
-            "relationship": beneficiary.relationship == "Spouse" ? "SPOUSE" : "OTHER",
+            "relationship": relationship || "OTHER",
             "type": beneficiary.isContingentBeneficiary == false ? "PRIMARY" : "CONTINGENT",
             "beginDate": currentDate()
         };
