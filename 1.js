@@ -50,7 +50,7 @@ let accountTypesMap = {
 set(Account, "registrationType", accountTypesMap[registrationType || Account.registrationType.code]);
 
 if (Account.primaryOwner.owner.middleName){
-	set(Account, "primaryOwner.owner.middleName", substring(Account.primaryOwner.owner.middleName, 0, 1));
+	set(Account, "primaryOwner.owner.middleName", skipError(substring(Account.primaryOwner.owner.middleName, 0, 1), Account.primaryOwner.owner.middleName));
 }
 
 
@@ -58,7 +58,7 @@ if (isPresent(Account.secondaryOwners)){
   i = 0;
   for ( let o of Account.secondaryOwners ) {  
       if (isPresent(o.owner)) {
-          set(Account.secondaryOwners[i], "owner.middleName", substring(o.owner.middleName, 0, 1));
+          set(Account.secondaryOwners[i], "owner.middleName", skipError(substring(o.owner.middleName, 0, 1), o.owner.middleName));
       }
       i = i + 1;
   }

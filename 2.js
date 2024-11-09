@@ -1,4 +1,5 @@
-let accountName = substring((Account.nickName || "Norberto") + "_my_" + accountNumber, 0, 30);
+let principalName = (Account.nickName || "Norberto") + "_my_" + accountNumber;
+let accountName = skipError(substring(principalName, 0, 30), principalName);
 let payload = {
     "requestId": requestId,
     "requests": [
