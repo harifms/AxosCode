@@ -1,9 +1,9 @@
-if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUAL" && Account.registrationType != "IRA_TRADITIONAL" && Account.registrationType != "IRA_ROTH" && Account.registrationType != "IRA_SIMPLE" && Account.registrationType != "IRA_SEP"){
+if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUAL" && Account.registrationType != "IRA_TRADITIONAL" && Account.registrationType != "IRA_ROTH" && Account.registrationType != "IRA_SIMPLE" && Account.registrationType != "IRA_SEP") {
     let totalPercentage = 0;
     let coHolders = [];
-    
-    for ( let o of Account.secondaryOwners ) {  
-        if (isPresent(o.owner)){
+
+    for (let o of Account.secondaryOwners) {
+        if (isPresent(o.owner)) {
             let coHolder = {
                 "name": {
                     "givenName": o.owner.firstName,
@@ -38,8 +38,8 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "phone": replace(o.owner.primaryPhoneNumber, " ", "")
                 }
             };
-                
-            if (o.owner.proofOfIdentity){
+
+            if (o.owner.proofOfIdentity) {
                 set(coHolder, "patriotAct", {
                     "idType": o.owner.proofOfIdentity.type,
                     "idNumber": o.owner.proofOfIdentity.idNumber,
@@ -48,66 +48,66 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "issueDate": o.owner.proofOfIdentity.issueDate,
                     "expirationDate": o.owner.proofOfIdentity.expiryDate
                 });
-            }            
-            if (o.trustedContact && !o.trustedContactInfoDeclined){
+            }
+            if (o.trustedContact && !o.trustedContactInfoDeclined) {
                 set(coHolder, "trustedContact", {
                     "name": [o.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),
                     "relationship": Account.primaryOwner.trustedContactRelationship,
                     "phone": replace(Account.primaryOwner.trustedContact.primaryPhoneNumber, " ", ""),
-                    "email": Account.primaryOwner.trustedContact.primaryEmail 
+                    "email": Account.primaryOwner.trustedContact.primaryEmail
                 });
-                if (o.trustedContact.mailingAddress){
+                if (o.trustedContact.mailingAddress) {
                     set(coHolder.trustedContact, "address", {
                         "streetLine1": Account.primaryOwner.trustedContact.mailingAddress.line1,
                         "streetLine2": Account.primaryOwner.trustedContact.mailingAddress.line2,
                         "city": Account.primaryOwner.trustedContact.mailingAddress.city,
-                        "stateOrProvince": Account.primaryOwner.trustedContact.mailingAddress.state,
+                        "stateOrProvince": Account.primaryOwner.trustedContact.mailingAddress.state.code,
                         "postalCode": Account.primaryOwner.trustedContact.mailingAddress.postalCode,
                         "country": countries[Account.primaryOwner.trustedContact.mailingAddress.country ? Account.primaryOwner.trustedContact.mailingAddress.country.code2Letters : "US"] || "USA"
                     });
                 }
             }
-            if (o.owner.employerAddress){
+            if (o.owner.employerAddress) {
                 set(coHolder.employment, "workAddress", {
                     "streetLine1": o.owner.employerAddress.line1,
                     "streetLine2": o.owner.employerAddress.line1,
                     "city": o.owner.employerAddress.city,
-                    "stateOrProvince": o.owner.employerAddress.state,
+                    "stateOrProvince": o.owner.employerAddress.state.code,
                     "postalCode": o.owner.employerAddress.postalCode,
                     "country": countries[o.owner.employerAddress.country ? o.owner.employerAddress.country.code2Letters : "US"] || "USA"
                 });
             }
-            if (o.owner.legalAddress){
+            if (o.owner.legalAddress) {
                 set(coHolder.contact, "legalAddress", {
                     "streetLine1": o.owner.legalAddress.line1,
                     "streetLine2": o.owner.legalAddress.line2,
                     "city": o.owner.legalAddress.city,
-                    "stateOrProvince": o.owner.legalAddress.state,
+                    "stateOrProvince": o.owner.legalAddress.state.code,
                     "postalCode": o.owner.legalAddress.postalCode,
                     "country": countries[o.owner.legalAddress.country ? o.owner.legalAddress.country.code2Letters : "US"] || "USA"
                 });
             }
-            if (o.owner.mailingAddress){
+            if (o.owner.mailingAddress) {
                 set(coHolder.contact, "mailingAddress", {
                     "streetLine1": o.owner.mailingAddress.line1,
                     "streetLine2": o.owner.mailingAddress.line2,
                     "city": o.owner.mailingAddress.city,
-                    "stateOrProvince": o.owner.mailingAddress.state,
+                    "stateOrProvince": o.owner.mailingAddress.state.code,
                     "postalCode": o.owner.mailingAddress.postalCode,
                     "country": countries[o.owner.mailingAddress.country ? o.owner.mailingAddress.country.code2Letters : "US"] || "USA"
                 });
             }
-            if (o.owner.previousLegalAddress){
+            if (o.owner.previousLegalAddress) {
                 set(coHolder.contact, "previousAddress", {
                     "streetLine1": o.owner.previousLegalAddress.line1,
                     "streetLine2": o.owner.previousLegalAddress.line2,
                     "city": o.owner.previousLegalAddress.city,
-                    "stateOrProvince": o.owner.previousLegalAddress.state,
+                    "stateOrProvince": o.owner.previousLegalAddress.state.code,
                     "postalCode": o.owner.previousLegalAddress.postalCode,
                     "country": countries[o.owner.previousLegalAddress.country ? o.owner.previousLegalAddress.country.code2Letters : "US"] || "USA"
                 });
             }
-            if (o.owner.regulatoryDisclosuresV0){
+            if (o.owner.regulatoryDisclosuresV0) {
                 set(coHolder.contact, "affiliationsGroup", {
                     "nasdGroup": {
                         "nasd": o.owner.regulatoryDisclosuresV0.employedBySecurityIndustryEntity,
@@ -124,15 +124,15 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                         "foreignOfficialCountry": countries[o.owner.regulatoryDisclosuresV0.foreignCountryName] || "USA"
                     }
                 });
-            } 
-            if (includes(Account.tradingPrivileges, "Margins", 0)){
+            }
+            if (includes(Account.tradingPrivileges, "Margins", 0)) {
                 set(coHolder, "marginsAgreement", {
                     // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020", ?? 
                     "documentRevision": "Margin Agreement|CO02|03.2019",
                     "holderESignature": "YES"
                 });
             }
-            if (includes(Account.tradingPrivileges, "Options", 0)){
+            if (includes(Account.tradingPrivileges, "Options", 0)) {
                 set(coHolder, "optionsAgreement", {
                     // "documentRevision": Account.isManaged ? "Option Agreement|CO04|03.2019" : "Option Agreement|CO04|03.2019",
                     "documentRevision": "Option Agreement|CO04|03.2019",
@@ -154,7 +154,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             "numberOfJointTenants": coHolders.length - 1
         };
 
-        if (Account.registrationType == "JOINT_TENANTS_IN_COMMON"){
+        if (Account.registrationType == "JOINT_TENANTS_IN_COMMON") {
             set(jointAccount, "jointHolderPercentage", totalPercentage);
         }
         set(payload.requests[0], "jointAccount", jointAccount);

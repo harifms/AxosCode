@@ -1,3 +1,4 @@
+let accountName = substring((Account.nickName || "Norberto") + "_my_" + accountNumber, 0, 30);
 let payload = {
     "requestId": requestId,
     "requests": [
@@ -57,7 +58,7 @@ let payload = {
                 "timeHorizon": Account.timeHorizon
             },
             "enableMargin": includes(Account.tradingPrivileges, "Margins", 0) ? "YES" : "NO",
-            "enableOptions": includes(Account.tradingPrivileges, "Options", 0) ? "YES" : "NO", 
+            "enableOptions": includes(Account.tradingPrivileges, "Options", 0) ? "YES" : "NO",
             "optionsLevel": Account.optionsRiskLevel,
             "enableFpl": "NO",
             "discretion": Account.advisorTradingDiscretion == "Full" ? "FULL" : (Account.advisorTradingDiscretion == "Limited" ? "LIMITED" : "BANK"),
@@ -65,41 +66,41 @@ let payload = {
                 "exemptPayee": Account.primaryOwner.owner.backupWithholdingExemptPayeeCode || "NA",
                 "factaCode": Account.primaryOwner.owner.fatcaReportingExemptionCode || "NA"
             },
-            "accountName": (Account.nickName || "Norberto") + "_my_" + accountNumber,
+            "accountName": accountName,
             "repCode": Account.repCodeLink.repCode,
-            "principalName": (Account.nickName || "Norberto") + "_my_" + accountNumber,
-            "openedDate": Account.createdAt, 
+            "principalName": accountName,
+            "openedDate": Account.createdAt,
             "accountNumber": accountNumber,
             "accountType": Account.registrationType
         }
     ]
 };
 
-if (Account.primaryOwner.trustedContact && !Account.primaryOwner.trustedContactInfoDeclined){
+if (Account.primaryOwner.trustedContact && !Account.primaryOwner.trustedContactInfoDeclined) {
     set(payload.requests[0], "trustedContact", {
         "name": [Account.primaryOwner.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),
         "relationship": Account.primaryOwner.trustedContactRelationship,
         "phone": replace(Account.primaryOwner.trustedContact.primaryPhoneNumber, " ", ""),
-        "email": Account.primaryOwner.trustedContact.primaryEmail 
+        "email": Account.primaryOwner.trustedContact.primaryEmail
     });
-    if (Account.primaryOwner.trustedContact.mailingAddress){
+    if (Account.primaryOwner.trustedContact.mailingAddress) {
         set(payload.requests[0].trustedContact, "address", {
             "streetLine1": Account.primaryOwner.trustedContact.mailingAddress.line1,
             "streetLine2": Account.primaryOwner.trustedContact.mailingAddress.line2,
             "city": Account.primaryOwner.trustedContact.mailingAddress.city,
-            "stateOrProvince": Account.primaryOwner.trustedContact.mailingAddress.state,
+            "stateOrProvince": Account.primaryOwner.trustedContact.mailingAddress.state.code,
             "postalCode": Account.primaryOwner.trustedContact.mailingAddress.postalCode,
             "country": countries[Account.primaryOwner.trustedContact.mailingAddress.country ? Account.primaryOwner.trustedContact.mailingAddress.country.code2Letters : "US"] || "USA"
         });
     }
 }
 
-if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiaries)){
+if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiaries)) {
     let beneficiaries = [];
-    if (Account.beneficiaries){
-        for (let beneficiary of Account.beneficiaries){
+    if (Account.beneficiaries) {
+        for (let beneficiary of Account.beneficiaries) {
             if (!beneficiary.isContingentBeneficiary) {
-               beneficiaries = concat(beneficiaries, beneficiary); 
+                beneficiaries = concat(beneficiaries, beneficiary);
             }
         }
     }
@@ -119,8 +120,8 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
         "Spouse": "SPOUSE",
         "Joint Recalculation": "JOINT_RECALCULATION"
     };
-    for (let beneficiary of beneficiaries){ 
-        let relationship = beneficiary.relationship ? relationshipMap[beneficiary.relationship] : "OTHER";
+    for (let beneficiary of beneficiaries) {
+        let relationship = beneficiary.rmdOption ? relationshipMap[beneficiary.rmdOption] : "OTHER";
         let beneficiaryPayload = {
             "name": {
                 "middleInitial": beneficiary.beneficiary.middleName,
@@ -135,7 +136,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
             "beginDate": currentDate()
         };
         let address = beneficiary.beneficiary.legalAddress;
-        if (address){
+        if (address) {
             set(beneficiaryPayload, "address", {
                 "streetLine1": address.line1,
                 "streetLine2": address.line2,
@@ -145,12 +146,12 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
                 "country": countries[address.country ? address.country.code2Letters : "US"] || "USA"
             });
         }
-        if (beneficiary.beneficiary.personType == 'Entity' || beneficiary.beneficiary.personType == 'Estate'){
+        if (beneficiary.beneficiary.personType == 'Entity' || beneficiary.beneficiary.personType == 'Estate') {
             set(beneficiaryPayload, "taxIdFormat", "TIN");
-            set(beneficiaryPayload, "individualOrEntity", "INDIVIDUAL"); 
+            set(beneficiaryPayload, "individualOrEntity", "INDIVIDUAL");
         } else {
             set(beneficiaryPayload, "taxIdFormat", "SSN");
-            set(beneficiaryPayload, "individualOrEntity", "ENTITY"); 
+            set(beneficiaryPayload, "individualOrEntity", "ENTITY");
         }
         set(payload.requests[0], "beneficiaries", concat(payload.requests[0].beneficiaries, beneficiaryPayload));
     }
