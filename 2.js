@@ -136,7 +136,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
             "birthDate": beneficiary.beneficiary.dateOfBirth,
             "percentage": beneficiary.percentage,
             "relationship": relationship || "OTHER",
-            "type": beneficiary.isContingentBeneficiary == false ? "PRIMARY" : "CONTINGENT",
+            "type": !beneficiary.isContingentBeneficiary ? "PRIMARY" : "CONTINGENT",
             "beginDate": currentDate()
         };
         let address = beneficiary.beneficiary.legalAddress;
