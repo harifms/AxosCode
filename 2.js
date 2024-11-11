@@ -62,7 +62,6 @@ let payload = {
             "enableOptions": includes(Account.tradingPrivileges, "Options", 0) ? "YES" : "NO",
             "optionsLevel": Account.optionsRiskLevel,
             "enableFpl": "NO",
-            "discretion": Account.advisorTradingDiscretion == "Full" ? "FULL" : (Account.advisorTradingDiscretion == "Limited" ? "LIMITED" : "BANK"),
             "w9": {
                 "exemptPayee": Account.primaryOwner.owner.backupWithholdingExemptPayeeCode || "NA",
                 "factaCode": Account.primaryOwner.owner.fatcaReportingExemptionCode || "NA"
@@ -76,6 +75,10 @@ let payload = {
         }
     ]
 };
+
+if (Account.advisorTradingDiscretion){
+    set(payload.requests[0], "discretion", Account.advisorTradingDiscretion == "Full" ? "FULL" : (Account.advisorTradingDiscretion == "Limited" ? "LIMITED" : "OTHER"));
+}
 
 if (Account.primaryOwner.trustedContact && !Account.primaryOwner.trustedContactInfoDeclined) {
     set(payload.requests[0], "trustedContact", {
