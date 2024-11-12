@@ -45,7 +45,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
             },
             "foreignGroup": {
                 "foreignOfficial": Account.primaryOwner.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial,
-                "foreignOfficialCountry": countries[Account.primaryOwner.owner.regulatoryDisclosuresV0.foreignCountryName] || "USA"
+                "foreignOfficialCountry": countries[Account.primaryOwner.owner.regulatoryDisclosuresV0.foreignCountry ? Account.primaryOwner.owner.regulatoryDisclosuresV0.foreignCountry.code2Letters : "US"] || "USA"
             }
         });
     }
@@ -174,7 +174,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
             },
             "foreignGroup": {
                 "foreignOfficial": Account.primaryOwner.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial,
-                "foreignOfficialCountry": countries[Account.primaryOwner.owner.regulatoryDisclosuresV0.foreignCountryName] || "USA"
+                "foreignOfficialCountry": countries[Account.primaryOwner.owner.regulatoryDisclosuresV0.foreignCountry.code2Letters || "US"] || "USA"
             }
         });
     }

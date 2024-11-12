@@ -20,24 +20,26 @@ set(Account, "initialFundingSource", financialSourcesMap[Account.initialFundingS
 
 let insuranceSweepMap = {
     "Yes": "INSURED_DEPOSIT",
-    "No": "DO_NOT_SWEEP"
+    true: "INSURED_DEPOSIT",
+    "No": "DO_NOT_SWEEP",
+    false: "DO_NOT_SWEEP"
 };
 set(Account, "moneyFundSweepOptIn", insuranceSweepMap[Account.moneyFundSweepOptIn]);
 
 let depositMailingMap = {
-    "Deposit into Free Credit Balance": "DEPOSIT",
-    "Mail weekly": "MAILED_WEEKLY",
-    "Mail semi-monthly": "MAILED_SEMI_MONTHLY",
-    "Mail monthly": "MAILED_MONTHLY"
+    "deposit into free credit balance": "DEPOSIT",
+    "mail weekly": "MAILED_WEEKLY",
+    "mail semi-monthly": "MAILED_SEMI_MONTHLY",
+    "mail monthly": "MAILED_MONTHLY"
 };
-set(Account, "cashDividentOption", depositMailingMap[Account.cashDividentOption]);
+set(Account, "cashDividentOption", depositMailingMap[toLower(Account.cashDividentOption)]);
 
 let dividendReinvestmentMap = {
-    "Cash dividends - opt in for Reinvest": "CASH",
-    "No Reinvestment": "NO_REINVEST",
-    "Reinvestment all - opt out for Cash Dividends": "REINVEST_ALL"
+    "cash dividends - opt in for reinvestment": "CASH",
+    "no reinvestment": "NO_REINVEST",
+    "reinvestment all - opt out for cash dividends": "REINVEST_ALL"
 };
-set(Account, "dividendReinvestmentOption", dividendReinvestmentMap[Account.dividendReinvestmentOption]);
+set(Account, "dividendReinvestmentOption", dividendReinvestmentMap[toLower(Account.dividendReinvestmentOption)]);
 
 let cashDividendOptionMap = {
 	"deposit into free credit balance": "DEPOSIT",
