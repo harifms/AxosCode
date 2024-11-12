@@ -53,8 +53,8 @@ let payload = {
                     "transactionsPerYear": Account.primaryOwner.owner.investExperienceMarginTransactions || 0
                 },
                 "liquidityNeeds": Account.liquidityNeeds,
-                "annualExpenses": 0,//Account.annualExpenses,
-                "specialExpenses": 0,//Account.specialExpenses,
+                "annualExpenses": Account.annualExpenses || 0,
+                "specialExpenses": Account.specialExpenses || 0,
                 "specialExpenseTimeFrame": Account.specialExpensesTimeframe,
                 "timeHorizon": Account.timeHorizon
             },

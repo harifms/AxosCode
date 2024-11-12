@@ -124,7 +124,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     },
                     "foreignGroup": {
                         "foreignOfficial": o.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial,
-                        "foreignOfficialCountry": countries[o.owner.regulatoryDisclosuresV0.foreignCountry.code2Letters] || "USA"
+                        "foreignOfficialCountry": countries[o.owner.regulatoryDisclosuresV0.foreignCountry ? o.owner.regulatoryDisclosuresV0.foreignCountry.code2Letters : "US"] || "USA"
                     }
                 });
             }
