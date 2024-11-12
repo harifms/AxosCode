@@ -51,14 +51,17 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
     }
 
     if (Account.primaryOwner.owner.proofOfIdentity) {
-        set(payload.requests[0].individualHolder, "patriotAct", {
+        let patriotActVal = {
             "idType": Account.primaryOwner.owner.proofOfIdentity.type,
             "idNumber": Account.primaryOwner.owner.proofOfIdentity.idNumber,
-            "issuedByCountry": Account.primaryOwner.owner.proofOfIdentity.issuingCountry,
-            "issuedByState": Account.primaryOwner.owner.proofOfIdentity.issuingState,
+            "issuedByCountry": countries[Account.primaryOwner.owner.proofOfIdentity.issuingCountry ? Account.primaryOwner.owner.proofOfIdentity.issuingCountry.code2Letters : "US"] || "USA",
             "issueDate": Account.primaryOwner.owner.proofOfIdentity.issueDate,
             "expirationDate": Account.primaryOwner.owner.proofOfIdentity.expiryDate
-        });
+        };
+        if (Account.primaryOwner.owner.proofOfIdentity.issuingState) {
+            set(patriotActVal, "issuingState", Account.primaryOwner.owner.proofOfIdentity.issuingState.code);
+        }
+        set(payload.requests[0].individualHolder, "patriotAct", patriotActVal);
     }
     if (Account.primaryOwner.owner.employerAddress) {
         set(payload.requests[0].individualHolder.employment, "workAddress", {

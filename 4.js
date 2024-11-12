@@ -40,14 +40,17 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             };
 
             if (o.owner.proofOfIdentity) {
-                set(coHolder, "patriotAct", {
+                let coHolderPatriotAct = {
                     "idType": o.owner.proofOfIdentity.type,
                     "idNumber": o.owner.proofOfIdentity.idNumber,
-                    "issuedByCountry": o.owner.proofOfIdentity.issuingCountry,
-                    "issuedByState": o.owner.proofOfIdentity.issuingState,
+                    "issuedByCountry": countries[o.owner.proofOfIdentity.issuingCountry ? o.owner.proofOfIdentity.issuingCountry.code2Letters : "US"] || "USA",
                     "issueDate": o.owner.proofOfIdentity.issueDate,
                     "expirationDate": o.owner.proofOfIdentity.expiryDate
-                });
+                };
+                if (o.owner.proofOfIdentity.issuingState) {
+                    set(coHolderPatriotAct, "issuingState", o.owner.proofOfIdentity.issuingState.code);
+                }
+                set(coHolder, "patriotAct", coHolderPatriotAct);
             }
             if (o.trustedContact && !o.trustedContactInfoDeclined) {
                 set(coHolder, "trustedContact", {
