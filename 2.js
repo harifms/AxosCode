@@ -1,4 +1,4 @@
-let principalName = (Account.nickName || "Norberto") + "_my_" + accountNumber;
+let principalName = (Account.nickName || Account.primaryOwner.owner.firstName || Account.registrationType) + "_" + accountNumber;
 let accountName = skipError(substring(principalName, 0, 30), principalName);
 let payload = {
     "requestId": requestId,
@@ -6,7 +6,7 @@ let payload = {
         {
             "fundingFeatures": {
                 "fundingSource": Account.initialFundingSource,
-                "fundingSpecifics": "ex adipisicing", //?? , 
+                "fundingSpecifics": Account.otherInitialFundingSource,
                 "moneyFundInstructions": Account.moneyFundSweepOptIn,
                 "dividendCashOptions": Account.cashDividendOption,
                 "dividendDripOptions": Account.dividendReinvestmentOption

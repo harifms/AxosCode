@@ -106,7 +106,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
 
     if (includes(Account.tradingPrivileges, "Margins", 0)) {
         set(payload.requests[0].individualHolder, "marginsAgreement", {
-            // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020", ?? 
+            // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
             "documentRevision": "Margin Agreement|CO02|03.2019",
             "holderESignature": "YES"
         });
@@ -119,7 +119,8 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         });
     }
     set(payload.requests[0].individualHolder, "accountAgreement", {
-        "documentRevision": "Account Application|CO01|03.2019 (002)", // ?? Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22", // Not in docs
+        // "documentRevision": Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22",
+        "documentRevision": "Account Application|CO01|03.2019 (002)", 
         "holderESignature": "YES"
     });
 } else {
@@ -180,7 +181,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
     }
     if (includes(Account.tradingPrivileges, "Margins", 0)) {
         set(payload.requests[0].entityHolder, "marginsAgreement", {
-            // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020", ?? 
+            // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
             "documentRevision": "Margin Agreement|CO02|03.2019",
             "holderESignature": "YES"
         });
@@ -193,7 +194,8 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         });
     }
     set(payload.requests[0].entityHolder, "accountAgreement", {
-        "documentRevision": "Account Application|CO01|03.2019 (002)", // ?? Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22", // Not in docs
+        // "documentRevision": Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22",
+        "documentRevision": "Account Application|CO01|03.2019 (002)",
         "holderESignature": "YES"
     });
 }

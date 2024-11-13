@@ -9,6 +9,7 @@ let financialSourcesMap = {
     "Donation": "DONATIONS",
     "Insurance Payments": "INSURANCE",
     "Inheritance": "INHERITANCE",
+    "Inheritence": "INHERITANCE",
     "Social Security Benefits": "SOCIAL_SECURITY_BENEFITS",
     "Legal Settlement": "LEGAL_SETTLEMENT",
     "Spouse/Parent": "SPOUSE_PARENT",
