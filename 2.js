@@ -126,16 +126,11 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
     };
     for (let beneficiary of beneficiaries) {
         let relationship = beneficiary.rmdOption ? relationshipMap[beneficiary.rmdOption] : "OTHER";
-        let beneficiaryPayload = {
-            "name": {
-                "middleInitial": beneficiary.beneficiary.middleName,
-                "givenName": beneficiary.beneficiary.firstName,
-                "familyName": beneficiary.beneficiary.lastName
-            },
+        let beneficiaryPayload = { 
             "taxId": beneficiary.beneficiary.ssNOrTaxID,
-            "birthDate": beneficiary.beneficiary.dateOfBirth,
             "percentage": beneficiary.percentage,
             "relationship": relationship || "OTHER",
+            "relationshipDescription": beneficiary.relationship == "Spouse" ? "SPOUSE" : "OTHER",
             "type": !beneficiary.isContingentBeneficiary ? "PRIMARY" : "CONTINGENT",
             "beginDate": currentDate()
         };
@@ -152,10 +147,19 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
         }
         if (beneficiary.beneficiary.personType == 'Entity' || beneficiary.beneficiary.personType == 'Estate') {
             set(beneficiaryPayload, "taxIdFormat", "TIN");
-            set(beneficiaryPayload, "individualOrEntity", "INDIVIDUAL");
+            set(beneficiaryPayload, "individualOrEntity", "ENTITY");
+            set(beneficiaryPayload, "entityName", beneficiary.beneficiary.fullName);
         } else {
             set(beneficiaryPayload, "taxIdFormat", "SSN");
-            set(beneficiaryPayload, "individualOrEntity", "ENTITY");
+            set(beneficiaryPayload, "individualOrEntity", "INDIVIDUAL");
+            set(beneficiaryPayload, "name", {
+                "middleInitial": beneficiary.beneficiary.middleName,
+                "givenName": beneficiary.beneficiary.firstName,
+                "familyName": beneficiary.beneficiary.lastName
+            });
+        }
+        if (beneficiary.beneficiary.personType != 'Estate'){
+            set(beneficiaryPayload, "birthDate", beneficiary.beneficiary.dateOfBirth);
         }
         set(payload.requests[0], "beneficiaries", concat(payload.requests[0].beneficiaries, beneficiaryPayload));
     }
