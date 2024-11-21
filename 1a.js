@@ -1,3 +1,5 @@
+let i = 0;
+
 let proofOfIdentityMap = {
     "Driver's License": "DRIVERS_LICENSE",
     "Passport": "PASSPORT",
@@ -22,7 +24,7 @@ if(isPresent(Account.secondaryOwners)){
 
 let employmentStatusMap = {
     "Employed": "EMPLOYED",
-    "Self-Employed": "SELF_EMPLOYED",
+    "Self Employed": "SELF_EMPLOYED",
     "Retired": "RETIRED",
     "Not Employed": "UNEMPLOYED",
     "Homemaker": "HOME_MAKER",

@@ -145,7 +145,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
                 "country": countries[address.country ? address.country.code2Letters : "US"] || "USA"
             });
         }
-        if (beneficiary.beneficiary.personType == 'Entity' || beneficiary.beneficiary.personType == 'Estate') {
+        if (beneficiary.beneficiaryType == 'Entity' || beneficiary.beneficiaryType == 'Estate') {
             set(beneficiaryPayload, "taxIdFormat", "TIN");
             set(beneficiaryPayload, "individualOrEntity", "ENTITY");
             set(beneficiaryPayload, "entityName", beneficiary.beneficiary.fullName);
@@ -158,7 +158,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
                 "familyName": beneficiary.beneficiary.lastName
             });
         }
-        if (beneficiary.beneficiary.personType != 'Estate'){
+        if (beneficiary.beneficiaryType != 'Estate'){
             set(beneficiaryPayload, "birthDate", beneficiary.beneficiary.dateOfBirth);
         }
         set(payload.requests[0], "beneficiaries", concat(payload.requests[0].beneficiaries, beneficiaryPayload));
