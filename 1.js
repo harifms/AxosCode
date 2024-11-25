@@ -82,7 +82,7 @@ if (isPresent(Account.secondaryOwners)){
 
 let residencyStatusMap = {
     "US Citizen": "RESIDENT",
-    "US Resident Alien": "RESIDENT_ALIEN",
+    "Resident Alien": "RESIDENT_ALIEN",
     "Non-Resident Alien": "NON_RESIDENT_ALIEN"
 };
 set(Account, "primaryOwner.owner.citizenshipStatus", Account.primaryOwner.owner.citizenshipStatus ? residencyStatusMap[Account.primaryOwner.owner.citizenshipStatus] : residencyStatusMap["US Citizen"]);
