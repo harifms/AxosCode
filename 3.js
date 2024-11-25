@@ -132,7 +132,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
             "taxJurisdiction": Account.primaryOwner.owner.citizenshipStatus == "RESIDENT" ? "US" : "OTHER",
             "countryOfResidence": Account.primaryOwner.owner.citizenshipStatus == "RESIDENT" || !Account.primaryOwner.owner.citizenshipStatus || !Account.primaryOwner.owner.countryOfResidence ? countries["US"] : countries[Account.primaryOwner.owner.countryOfResidence.code2Letters]
         },
-        "itin": Account.primaryOwner.owner.ssnOrTaxId
+        "itin": Account.primaryOwner.owner.ein
     });
     set(payload.requests[0].entityHolder, "contact", {
         "phone": replace(Account.primaryOwner.owner.businessPhoneNumber, " ", ""),

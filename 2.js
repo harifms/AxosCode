@@ -126,8 +126,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
     };
     for (let beneficiary of beneficiaries) {
         let relationship = beneficiary.rmdOption ? relationshipMap[beneficiary.rmdOption] : "OTHER";
-        let beneficiaryPayload = { 
-            "taxId": beneficiary.beneficiary.ssNOrTaxID,
+        let beneficiaryPayload = {
             "percentage": beneficiary.percentage,
             "relationship": relationship || "OTHER",
             "relationshipDescription": beneficiary.relationship == "Spouse" ? "SPOUSE" : "OTHER",
@@ -146,12 +145,14 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
             });
         }
         if (beneficiary.beneficiaryType == 'Entity' || beneficiary.beneficiaryType == 'Estate') {
-            set(beneficiaryPayload, "taxIdFormat", "TIN");
             set(beneficiaryPayload, "individualOrEntity", "ENTITY");
+            set(beneficiaryPayload, "taxId", beneficiary.beneficiary.ein);
+            set(beneficiaryPayload, "taxIdFormat", "TIN");
             set(beneficiaryPayload, "entityName", beneficiary.beneficiary.fullName);
         } else {
-            set(beneficiaryPayload, "taxIdFormat", "SSN");
             set(beneficiaryPayload, "individualOrEntity", "INDIVIDUAL");
+            set(beneficiaryPayload, "taxId", beneficiary.beneficiary.ssNOrTaxID);
+            set(beneficiaryPayload, "taxIdFormat", "SSN");
             set(beneficiaryPayload, "name", {
                 "middleInitial": beneficiary.beneficiary.middleName,
                 "givenName": beneficiary.beneficiary.firstName,
