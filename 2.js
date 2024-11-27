@@ -58,7 +58,7 @@ let payload = {
                 "specialExpenseTimeFrame": Account.specialExpensesTimeframe,
                 "timeHorizon": Account.timeHorizon
             },
-            "enableMargin": includes(Account.tradingPrivileges, "Margins", 0) ? "YES" : "NO",
+            "enableMargin": includes(Account.tradingPrivileges, "Margin", 0) ? "YES" : "NO",
             "enableOptions": includes(Account.tradingPrivileges, "Options", 0) ? "YES" : "NO",
             "optionsLevel": Account.optionsRiskLevel,
             "enableFpl": "NO",

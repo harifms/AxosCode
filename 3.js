@@ -104,7 +104,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         });
     }
 
-    if (includes(Account.tradingPrivileges, "Margins", 0)) {
+    if (includes(Account.tradingPrivileges, "Margin", 0)) {
         set(payload.requests[0].individualHolder, "marginsAgreement", {
             // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
             "documentRevision": "Margin Agreement|CO02|03.2019",
@@ -179,7 +179,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
             }
         });
     }
-    if (includes(Account.tradingPrivileges, "Margins", 0)) {
+    if (includes(Account.tradingPrivileges, "Margin", 0)) {
         set(payload.requests[0].entityHolder, "marginsAgreement", {
             // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
             "documentRevision": "Margin Agreement|CO02|03.2019",

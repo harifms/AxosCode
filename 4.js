@@ -129,7 +129,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     }
                 });
             }
-            if (includes(Account.tradingPrivileges, "Margins", 0)) {
+            if (includes(Account.tradingPrivileges, "Margin", 0)) {
                 set(coHolder, "marginsAgreement", {
                     // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
                     "documentRevision": "Margin Agreement|CO02|03.2019",
