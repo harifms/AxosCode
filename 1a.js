@@ -26,7 +26,7 @@ let employmentStatusMap = {
     "Employed": "EMPLOYED",
     "Self Employed": "SELF_EMPLOYED",
     "Retired": "RETIRED",
-    "Not Employed": "UNEMPLOYED",
+    "Unemployed": "UNEMPLOYED",
     "Homemaker": "HOME_MAKER",
     "Student": "STUDENT"
 };

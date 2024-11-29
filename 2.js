@@ -159,9 +159,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
                 "familyName": beneficiary.beneficiary.lastName
             });
         }
-        if (beneficiary.beneficiaryType != 'Estate'){
-            set(beneficiaryPayload, "birthDate", beneficiary.beneficiary.dateOfBirth);
-        }
+        set(beneficiaryPayload, "birthDate", beneficiary.beneficiary.dateOfBirth);
         set(payload.requests[0], "beneficiaries", concat(payload.requests[0].beneficiaries, beneficiaryPayload));
     }
 }
