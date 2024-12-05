@@ -60,7 +60,6 @@ let payload = {
             },
             "enableMargin": includes(Account.tradingPrivileges, "Margin", 0) ? "YES" : "NO",
             "enableOptions": includes(Account.tradingPrivileges, "Options", 0) ? "YES" : "NO",
-            "optionsLevel": Account.optionsRiskLevel,
             "enableFpl": "NO",
             "w9": {
                 "exemptPayee": Account.primaryOwner.owner.backupWithholdingExemptPayeeCode || "NA",
@@ -75,6 +74,10 @@ let payload = {
         }
     ]
 };
+
+if (payload.requests[0].enableOptions == "YES") {
+    set(payload.requests[0], "optionsLevel", Account.optionsRiskLevel);
+}
 
 if (Account.advisorTradingDiscretion){
     set(payload.requests[0], "discretion", Account.advisorTradingDiscretion == "Full" ? "FULL" : (Account.advisorTradingDiscretion == "Limited" ? "LIMITED" : "OTHER"));
