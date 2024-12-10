@@ -157,7 +157,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
             set(beneficiaryPayload, "taxId", beneficiary.beneficiary.ssNOrTaxID);
             set(beneficiaryPayload, "taxIdFormat", "SSN");
             set(beneficiaryPayload, "name", {
-                "middleInitial": beneficiary.beneficiary.middleName,
+                "middleInitial": skipError(substring(beneficiary.beneficiary.middleName, 0, 1), ""),
                 "givenName": beneficiary.beneficiary.firstName,
                 "familyName": beneficiary.beneficiary.lastName
             });
