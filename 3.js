@@ -2,7 +2,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
     set(payload.requests[0], "individualHolder", {
         "name": {
             "givenName": Account.primaryOwner.owner.firstName,
-            "middleInitial": skipError(substring(Account.primaryOwner.owner.middleName, 0, 1), ""),
+            "middleInitial": skipError(substring(Account.primaryOwner.owner.middleName, 0, 1), null),
             "familyName": Account.primaryOwner.owner.lastName
         },
         "birthDate": Account.primaryOwner.owner.dateOfBirth,

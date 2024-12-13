@@ -7,7 +7,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             let coHolder = {
                 "name": {
                     "givenName": o.owner.firstName,
-                    "middleInitial": skipError(substring(o.owner.middleName, 0, 1), ""),
+                    "middleInitial": skipError(substring(o.owner.middleName, 0, 1), null),
                     "familyName": o.owner.lastName
                 },
                 "birthDate": o.owner.dateOfBirth,
