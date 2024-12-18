@@ -111,7 +111,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
             }
         }
     }
-    if (Account.contingentBeneficiaries && Account.contingentBeneficiaries.length > 0) {
+    if (Account.contingentBeneficiaries && Account.contingentBeneficiaries.length > 0 && indexOf(['INDIVIDUAL-TOD', 'TENANTS-ENTIRETY', 'JOINT-TENANTS-RIGHT-SURV'], account.registrationType, 0) == -1) {
         beneficiaries = beneficiaries.concat(Account.contingentBeneficiaries);
     } else {
         set(Account, "contingentBeneficiaries", []);
