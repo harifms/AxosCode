@@ -47,7 +47,8 @@ let accountTypesMap = {
     "REVOCABLE-TRUST": "TRUST_REVOCABLE",
     "IRA-SEP": "IRA_SEP"
 };
-set(Account, "registrationType", accountTypesMap[registrationType || Account.registrationType.code]);
+registrationType = registrationType || Account.registrationType.code;
+set(Account, "registrationType", accountTypesMap[registrationType]);
 
 if (Account.primaryOwner.owner.middleName){
 	set(Account, "primaryOwner.owner.middleName", skipError(substring(Account.primaryOwner.owner.middleName, 0, 1), Account.primaryOwner.owner.middleName));

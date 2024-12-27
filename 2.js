@@ -1,4 +1,4 @@
-let principalName = (Account.nickName || Account.primaryOwner.owner.firstName || Account.registrationType) + "_" + accountNumber;
+let principalName = (Account.nickName || Account.primaryOwner.owner.firstName || registrationType) + "_" + accountNumber;
 let accountName = skipError(substring(principalName, 0, 30), principalName);
 let payload = {
     "requestId": requestId,
@@ -111,7 +111,7 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
             }
         }
     }
-    if (Account.contingentBeneficiaries && Account.contingentBeneficiaries.length > 0 && indexOf(['INDIVIDUAL-TOD', 'TENANTS-ENTIRETY', 'JOINT-TENANTS-RIGHT-SURV'], account.registrationType, 0) == -1) {
+    if (Account.contingentBeneficiaries && Account.contingentBeneficiaries.length > 0 && indexOf(['INDIVIDUAL-TOD', 'TENANTS-ENTIRETY', 'JOINT-TENANTS-RIGHT-SURV'], registrationType, 0) == -1) {
         beneficiaries = beneficiaries.concat(Account.contingentBeneficiaries);
     } else {
         set(Account, "contingentBeneficiaries", []);
@@ -136,6 +136,9 @@ if (addBeneficiaries && (Account.beneficiaries || Account.contingentBeneficiarie
             "type": !beneficiary.isContingentBeneficiary ? "PRIMARY" : "CONTINGENT",
             "beginDate": currentDate()
         };
+        if (!beneficiary.isContingentBeneficiary && indexOf(['IRA-TRADITIONAL', 'IRA-ROTH', 'IRA-SIMPLE', 'IRA-SEP'], registrationType, 0) > -1) {
+            set(beneficiaryPayload, "perStirpes", beneficiary.perStirpes ? "YES" : "NO");
+        }
         let address = beneficiary.beneficiary.legalAddress;
         if (address) {
             set(beneficiaryPayload, "address", {
