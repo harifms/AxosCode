@@ -45,7 +45,8 @@ let accountTypesMap = {
     "IRA-ROTH": "IRA_ROTH",
     "IRA-SIMPLE": "IRA_SIMPLE",
     "REVOCABLE-TRUST": "TRUST_REVOCABLE",
-    "IRA-SEP": "IRA_SEP"
+    "IRA-SEP": "IRA_SEP",
+    "IRA-ROLL-OVER": "IRA_ROLLOVER"
 };
 registrationType = registrationType || Account.registrationType.code;
 set(Account, "registrationType", accountTypesMap[registrationType]);
