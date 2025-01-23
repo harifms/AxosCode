@@ -1,3 +1,4 @@
+let affiliationsGroup = {};
 if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType != "TRUST_REVOCABLE") {
     set(payload.requests[0], "individualHolder", {
         "name": {
@@ -31,24 +32,47 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
 
         "externalClientId": requestId
     });
-    if (Account.primaryOwner.owner.regulatoryDisclosuresV0) {
-        set(payload.requests[0].individualHolder.contact, "affiliationsGroup", {
-            "nasdGroup": {
-                "nasd": Account.primaryOwner.owner.regulatoryDisclosuresV0.employedBySecurityIndustryEntity,
-                "nasdType": Account.primaryOwner.owner.regulatoryDisclosuresV0.typeOfEmployer,
-                "nasdEntity": Account.primaryOwner.owner.regulatoryDisclosuresV0.firmNameForEmployee
-            },
-            "companyGroup": {
-                "publicCompany": Account.primaryOwner.owner.regulatoryDisclosuresV0.directorOrOfficerInPublicCompany,
-                "publicCompanyType": Account.primaryOwner.owner.regulatoryDisclosuresV0.officerRole,
-                "publicCompanyNameOrSymbol": Account.primaryOwner.owner.regulatoryDisclosuresV0.firmNameForOfficer || Account.primaryOwner.owner.regulatoryDisclosuresV0.firmTickerForOfficer
-            },
-            "foreignGroup": {
-                "foreignOfficial": Account.primaryOwner.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial,
-                "foreignOfficialCountry": countries[Account.primaryOwner.owner.regulatoryDisclosuresV0.foreignCountry ? Account.primaryOwner.owner.regulatoryDisclosuresV0.foreignCountry.code2Letters : "US"] || "USA"
-            }
+    affiliationsGroup = {};
+    if (Account.primaryOwner.owner.securitiesIndustryAffiliation && Account.primaryOwner.owner.securitiesIndustryAffiliation.enabled) {
+        set(affiliationsGroup, "nasdGroup", {
+            "nasd": Account.primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee,
+            "nasdType": Account.primaryOwner.owner.securitiesIndustryAffiliation.typeOfEmployer,
+            "nasdEntity": Account.primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee
+        });
+    } else {
+        set(affiliationsGroup, "nasdGroup", {
+            "nasd": "NO",
+            "nasdType": null,
+            "nasdEntity": null
         });
     }
+
+    if (Account.primaryOwner.owner.publicCompanyOfficial && Account.primaryOwner.owner.publicCompanyOfficial.enabled) {
+        set(affiliationsGroup, "companyGroup", {
+            "publicCompany": Account.primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer,
+            "publicCompanyType": Account.primaryOwner.owner.publicCompanyOfficial.relationshipOfOfficer,
+            "publicCompanyNameOrSymbol": Account.primaryOwner.owner.publicCompanyOfficial.firmTickerForOfficer || Account.primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer
+        });
+    } else {
+        set(affiliationsGroup, "companyGroup", {
+            "publicCompany": "NO",
+            "publicCompanyType": null,
+            "publicCompanyNameOrSymbol": null
+        });
+    }
+
+    if (Account.primaryOwner.owner.foreignOfficial && Account.primaryOwner.owner.foreignOfficial.enabled) {
+        set(affiliationsGroup, "foreignGroup", {
+            "foreignOfficial": "YES",
+            "foreignOfficialCountry": countries[Account.primaryOwner.owner.foreignOfficial.foreignCountryName && Account.primaryOwner.owner.foreignOfficial.foreignCountryName.code2Letters] || "USA"
+        });
+    } else {
+        set(affiliationsGroup, "foreignGroup", {
+            "foreignOfficial": "NO",
+            "foreignOfficialCountry": null
+        });
+    }
+    set(payload.requests[0].individualHolder.contact, "affiliationsGroup", affiliationsGroup);
 
     if (Account.primaryOwner.owner.proofOfIdentity) {
         let patriotActVal = {
@@ -161,24 +185,49 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
             "country": countries[Account.primaryOwner.owner.previousLegalAddress.country ? Account.primaryOwner.owner.previousLegalAddress.country.code2Letters : "US"] || "USA"
         }
     });
-    if (Account.primaryOwner.owner.regulatoryDisclosuresV0) {
-        set(payload.requests[0].entityHolder.contact, "affiliationsGroup", {
-            "nasdGroup": {
-                "nasd": Account.primaryOwner.owner.regulatoryDisclosuresV0.employedBySecurityIndustryEntity,
-                "nasdType": Account.primaryOwner.owner.regulatoryDisclosuresV0.typeOfEmployer,
-                "nasdEntity": Account.primaryOwner.owner.regulatoryDisclosuresV0.firmNameForEmployee
-            },
-            "companyGroup": {
-                "publicCompany": Account.primaryOwner.owner.regulatoryDisclosuresV0.directorOrOfficerInPublicCompany,
-                "publicCompanyType": Account.primaryOwner.owner.regulatoryDisclosuresV0.officerRole,
-                "publicCompanyNameOrSymbol": Account.primaryOwner.owner.regulatoryDisclosuresV0.firmNameForOfficer || Account.primaryOwner.owner.regulatoryDisclosuresV0.firmTickerForOfficer
-            },
-            "foreignGroup": {
-                "foreignOfficial": Account.primaryOwner.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial,
-                "foreignOfficialCountry": countries[Account.primaryOwner.owner.regulatoryDisclosuresV0.foreignCountry.code2Letters || "US"] || "USA"
-            }
+
+    affiliationsGroup = {};
+    if (Account.primaryOwner.owner.securitiesIndustryAffiliation && Account.primaryOwner.owner.securitiesIndustryAffiliation.enabled) {
+        set(affiliationsGroup, "nasdGroup", {
+            "nasd": Account.primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee,
+            "nasdType": Account.primaryOwner.owner.securitiesIndustryAffiliation.typeOfEmployer,
+            "nasdEntity": Account.primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee
+        });
+    } else {
+        set(affiliationsGroup, "nasdGroup", {
+            "nasd": "NO",
+            "nasdType": null,
+            "nasdEntity": null
         });
     }
+
+    if (Account.primaryOwner.owner.publicCompanyOfficial && Account.primaryOwner.owner.publicCompanyOfficial.enabled) {
+        set(affiliationsGroup, "companyGroup", {
+            "publicCompany": Account.primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer,
+            "publicCompanyType": Account.primaryOwner.owner.publicCompanyOfficial.relationshipOfOfficer,
+            "publicCompanyNameOrSymbol": Account.primaryOwner.owner.publicCompanyOfficial.firmTickerForOfficer || Account.primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer
+        });
+    } else {
+        set(affiliationsGroup, "companyGroup", {
+            "publicCompany": "NO",
+            "publicCompanyType": null,
+            "publicCompanyNameOrSymbol": null
+        });
+    }
+
+    if (Account.primaryOwner.owner.foreignOfficial && Account.primaryOwner.owner.foreignOfficial.enabled) {
+        set(affiliationsGroup, "foreignGroup", {
+            "foreignOfficial": "YES",
+            "foreignOfficialCountry": countries[Account.primaryOwner.owner.foreignOfficial.foreignCountryName && Account.primaryOwner.owner.foreignOfficial.foreignCountryName.code2Letters] || "USA"
+        });
+    } else {
+        set(affiliationsGroup, "foreignGroup", {
+            "foreignOfficial": "NO",
+            "foreignOfficialCountry": null
+        });
+    }
+    set(payload.requests[0].individualHolder.contact, "affiliationsGroup", affiliationsGroup);
+
     if (includes(Account.tradingPrivileges, "Margin", 0)) {
         set(payload.requests[0].entityHolder, "marginsAgreement", {
             // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",

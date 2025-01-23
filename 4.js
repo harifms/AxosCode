@@ -1,3 +1,4 @@
+let affiliationsGroup = {};
 if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUAL" && Account.registrationType != "IRA_TRADITIONAL" && Account.registrationType != "IRA_ROTH" && Account.registrationType != "IRA_SIMPLE" && Account.registrationType != "IRA_SEP") {
     let totalPercentage = 0;
     let coHolders = [];
@@ -111,24 +112,49 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "country": countries[o.owner.previousLegalAddress.country ? o.owner.previousLegalAddress.country.code2Letters : "US"] || "USA"
                 });
             }
-            if (o.owner.regulatoryDisclosuresV0) {
-                set(coHolder.contact, "affiliationsGroup", {
-                    "nasdGroup": {
-                        "nasd": o.owner.regulatoryDisclosuresV0.employedBySecurityIndustryEntity,
-                        "nasdType": o.owner.regulatoryDisclosuresV0.typeOfEmployer,
-                        "nasdEntity": o.owner.regulatoryDisclosuresV0.firmNameForEmployee
-                    },
-                    "companyGroup": {
-                        "publicCompany": o.owner.regulatoryDisclosuresV0.directorOrOfficerInPublicCompany,
-                        "publicCompanyType": o.owner.regulatoryDisclosuresV0.officerRole,
-                        "publicCompanyNameOrSymbol": o.owner.regulatoryDisclosuresV0.firmNameForOfficer || o.owner.regulatoryDisclosuresV0.firmTickerForOfficer
-                    },
-                    "foreignGroup": {
-                        "foreignOfficial": o.owner.regulatoryDisclosuresV0.seniorMilitaryGovermentOrPoliticalOfficial,
-                        "foreignOfficialCountry": countries[o.owner.regulatoryDisclosuresV0.foreignCountry ? o.owner.regulatoryDisclosuresV0.foreignCountry.code2Letters : "US"] || "USA"
-                    }
+
+            affiliationsGroup = {};
+            if (o.owner.securitiesIndustryAffiliation && o.owner.securitiesIndustryAffiliation.enabled) {
+                set(affiliationsGroup, "nasdGroup", {
+                    "nasd": o.owner.securitiesIndustryAffiliation.firmNameForEmployee,
+                    "nasdType": o.owner.securitiesIndustryAffiliation.typeOfEmployer,
+                    "nasdEntity": o.owner.securitiesIndustryAffiliation.firmNameForEmployee
+                });
+            } else {
+                set(affiliationsGroup, "nasdGroup", {
+                    "nasd": "NO",
+                    "nasdType": null,
+                    "nasdEntity": null
                 });
             }
+            if (o.owner.publicCompanyOfficial && o.owner.publicCompanyOfficial.enabled) {
+                set(affiliationsGroup, "companyGroup", {
+                    "publicCompany": o.owner.publicCompanyOfficial.firmNameForOfficer,
+                    "publicCompanyType": o.owner.publicCompanyOfficial.relationshipOfOfficer,
+                    "publicCompanyNameOrSymbol": o.owner.publicCompanyOfficial.firmTickerForOfficer || o.owner.publicCompanyOfficial.firmNameForOfficer
+                });
+            } else {
+                set(affiliationsGroup, "companyGroup", {
+                    "publicCompany": "NO",
+                    "publicCompanyType": null,
+                    "publicCompanyNameOrSymbol": null
+                });
+            }
+        
+            if (o.owner.foreignOfficial && o.owner.foreignOfficial.enabled) {
+                set(affiliationsGroup, "foreignGroup", {
+                    "foreignOfficial": "YES",
+                    "foreignOfficialCountry": countries[o.owner.foreignOfficial.foreignCountryName && o.owner.foreignOfficial.foreignCountryName.code2Letters] || "USA"
+                });
+            } else {
+                set(affiliationsGroup, "foreignGroup", {
+                    "foreignOfficial": "NO",
+                    "foreignOfficialCountry": null
+                });
+            }
+        
+            set(coHolder.contact, "affiliationsGroup", affiliationsGroup);
+
             if (includes(Account.tradingPrivileges, "Margin", 0)) {
                 set(coHolder, "marginsAgreement", {
                     // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
