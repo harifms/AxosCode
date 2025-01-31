@@ -29,8 +29,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         "contact": {
             "phone": replace(Account.primaryOwner.owner.primaryPhoneNumber, " ", "")
         },
-
-        "externalClientId": requestId
+        "externalClientId": Account.primaryOwner.owner.id
     });
     affiliationsGroup = {};
     if (Account.primaryOwner.owner.securitiesIndustryAffiliation && Account.primaryOwner.owner.securitiesIndustryAffiliation.enabled) {
@@ -130,21 +129,18 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
 
     if (includes(Account.tradingPrivileges, "Margin", 0)) {
         set(payload.requests[0].individualHolder, "marginsAgreement", {
-            // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
-            "documentRevision": "Margin Agreement|CO02|03.2019",
+            "documentRevision": Account.isManaged ? "Margin Agreement|CO02-R|03.2020" : "Margin Agreement|CO02|03.2019",
             "holderESignature": "YES"
         });
     }
     if (includes(Account.tradingPrivileges, "Options", 0)) {
         set(payload.requests[0].individualHolder, "optionsAgreement", {
-            // "documentRevision": Account.isManaged ? "Option Agreement|CO04|03.2019" : "Option Agreement|CO04|03.2019",
             "documentRevision": "Option Agreement|CO04|03.2019",
             "holderESignature": "YES"
         });
     }
     set(payload.requests[0].individualHolder, "accountAgreement", {
-        // "documentRevision": Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22",
-        "documentRevision": "Account Application|CO01|03.2019 (002)", 
+        "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
         "holderESignature": "YES"
     });
 } else {
@@ -156,7 +152,8 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
             "taxJurisdiction": Account.primaryOwner.owner.citizenshipStatus == "RESIDENT" ? "US" : "OTHER",
             "countryOfResidence": Account.primaryOwner.owner.citizenshipStatus == "RESIDENT" || !Account.primaryOwner.owner.citizenshipStatus || !Account.primaryOwner.owner.countryOfResidence ? countries["US"] : countries[Account.primaryOwner.owner.countryOfResidence.code2Letters]
         },
-        "itin": Account.primaryOwner.owner.ein
+        "itin": Account.primaryOwner.owner.ein,
+        "externalClientId": Account.primaryOwner.owner.id
     });
     set(payload.requests[0].entityHolder, "contact", {
         "phone": replace(Account.primaryOwner.owner.businessPhoneNumber, " ", ""),
@@ -230,21 +227,18 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
 
     if (includes(Account.tradingPrivileges, "Margin", 0)) {
         set(payload.requests[0].entityHolder, "marginsAgreement", {
-            // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
-            "documentRevision": "Margin Agreement|CO02|03.2019",
+            "documentRevision": Account.isManaged ? "Margin Agreement|CO02-R|03.2020" : "Margin Agreement|CO02|03.2019",
             "holderESignature": "YES"
         });
     }
     if (includes(Account.tradingPrivileges, "Options", 0)) {
         set(payload.requests[0].entityHolder, "optionsAgreement", {
-            // "documentRevision": Account.isManaged ? "Option Agreement|CO04|03.2019" : "Option Agreement|CO04|03.2019",
             "documentRevision": "Option Agreement|CO04|03.2019",
             "holderESignature": "YES"
         });
     }
     set(payload.requests[0].entityHolder, "accountAgreement", {
-        // "documentRevision": Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22",
-        "documentRevision": "Account Application|CO01|03.2019 (002)",
+        "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
         "holderESignature": "YES"
     });
 }

@@ -24,8 +24,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 "homeType": o.owner.homeOwnership,
                 "email": o.owner.primaryEmail,
                 "accountAgreement": {
-                    // "documentRevision": Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22",
-                    "documentRevision": "Account Application|CO01|03.2019 (002)",
+                    "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024", 
                     "holderESignature": "YES"
                 },
                 "employment": {
@@ -38,7 +37,8 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 },
                 "contact": {
                     "phone": replace(o.owner.primaryPhoneNumber, " ", "")
-                }
+                },
+                "externalClientId": o.owner.id
             };
 
             if (o.owner.proofOfIdentity) {
@@ -157,21 +157,18 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
 
             if (includes(Account.tradingPrivileges, "Margin", 0)) {
                 set(coHolder, "marginsAgreement", {
-                    // "documentRevision": Account.isManaged ? "Margin Agreement|CO02|03.2020" : "Margin Agreement|CO02-R|03.2020",
-                    "documentRevision": "Margin Agreement|CO02|03.2019",
+                    "documentRevision": Account.isManaged ? "Margin Agreement|CO02-R|03.2020" : "Margin Agreement|CO02|03.2019",
                     "holderESignature": "YES"
                 });
             }
             if (includes(Account.tradingPrivileges, "Options", 0)) {
                 set(coHolder, "optionsAgreement", {
-                    // "documentRevision": Account.isManaged ? "Option Agreement|CO04|03.2019" : "Option Agreement|CO04|03.2019",
                     "documentRevision": "Option Agreement|CO04|03.2019",
                     "holderESignature": "YES"
                 });
             }
             set(coHolder, "accountAgreement", {
-                // "documentRevision": Account.isManaged ? "Account Application|COO1|04.2024" : "Account Application-RIA|CO10|10.22", 
-                "documentRevision": "Account Application|CO01|03.2019 (002)", 
+                "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
                 "holderESignature": "YES"
             });
             totalPercentage = totalPercentage + o.percentage;
