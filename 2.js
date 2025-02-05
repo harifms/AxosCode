@@ -66,7 +66,7 @@ let payload = {
                 "factaCode": Account.primaryOwner.owner.fatcaReportingExemptionCode || "NA"
             },
             "accountName": accountName,
-            "repCode": Account.repCodeLink.repCode,
+            "repCode": skipError(substring(Account.repCodeLink.repCode, 3, 7), Account.repCodeLink.repCode),
             "principalName": accountName,
             "openedDate": Account.createdAt,
             "accountNumber": accountNumber,
