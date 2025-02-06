@@ -1,5 +1,7 @@
-let principalName = (Account.nickName || Account.primaryOwner.owner.firstName || registrationType) + "_" + accountNumber;
-let accountName = skipError(substring(principalName, 0, 30), principalName);
+let principalNameFull = (Account.nickName || Account.primaryOwner.owner.firstName || registrationType) + "_" + accountNumber;
+let principalName = skipError(substring(principalNameFull, 0, 30), principalNameFull);
+let accountNameFullName = join([Account.primaryOwner.owner.firstName, Account.primaryOwner.owner.lastName], " ") + "'s " + registrationType + " Account";
+let accountName = skipError(substring(accountNameFullName, 0, 30), accountNameFullName);
 let payload = {
     "requestId": requestId,
     "requests": [
@@ -67,7 +69,7 @@ let payload = {
             },
             "accountName": accountName,
             "repCode": skipError(substring(Account.repCodeLink.repCode, 3, 7), Account.repCodeLink.repCode),
-            "principalName": accountName,
+            "principalName": principalName,
             "openedDate": Account.createdAt,
             "accountNumber": accountNumber,
             "accountType": Account.registrationType
