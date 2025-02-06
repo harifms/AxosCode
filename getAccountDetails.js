@@ -197,6 +197,10 @@ accDetails = {
   "discretion" : apiResponse.discretion ? (apiResponse.discretion=='FULL'?'Full':'Limited') : ""
 };
 if (isPresent(apiResponse.individualHolder)) {
+let ssNOrTaxID = null;
+if ( isPresent(apiResponse.individualHolder.ssn) )  {
+  ssNOrTaxID = replace(apiResponse.individualHolder.ssn,'-','');
+}
 let owner = {
   "firstName": apiResponse.individualHolder.name && apiResponse.individualHolder.name.givenName
       ? apiResponse.individualHolder.name.givenName
@@ -212,8 +216,8 @@ let owner = {
   "citizenshipStatus": apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.citizenshipStatus
       ? residencyStatusMap[apiResponse.individualHolder.citizenship.citizenshipStatus]
       : "",
-  "ssNOrTaxID": apiResponse.individualHolder.ssn ?  
-                substring(apiResponse.individualHolder.ssn,0,3)+'-'+substring(apiResponse.individualHolder.ssn,3,5)+'-'+substring(apiResponse.individualHolder.ssn,5,9) :
+  "ssNOrTaxID": ssNOrTaxID ?  
+                substring(ssNOrTaxID,0,3)+'-'+substring(ssNOrTaxID,3,5)+'-'+substring(ssNOrTaxID,5,9) :
                 "",
   "numberOfDependents": apiResponse.individualHolder.numDependents
       ? apiResponse.individualHolder.numDependents
@@ -386,6 +390,10 @@ set(accDetails,"primaryOwner.spouseIsAJointOwner", apiResponse.jointAccount.join
 if (apiResponse.coHolders && isArray(apiResponse.coHolders)){
 let secondaryOwners = [];
 for (let secondaryOwner of apiResponse.coHolders ){
+    let ssNOrTaxID2 = null;
+    if ( isPresent(secondaryOwner.ssn) )  {
+      ssNOrTaxID2 = replace(secondaryOwner.ssn,'-','');
+    }
     let owner2 = {
     "firstName": secondaryOwner.name && secondaryOwner.name.givenName
         ? secondaryOwner.name.givenName
@@ -401,8 +409,8 @@ for (let secondaryOwner of apiResponse.coHolders ){
     "citizenshipStatus": secondaryOwner.citizenship && secondaryOwner.citizenship.citizenshipStatus
         ? residencyStatusMap[secondaryOwner.citizenship.citizenshipStatus]
         : "",
-    "ssNOrTaxID": secondaryOwner.ssn ? 
-                  substring(secondaryOwner.ssn,0,3)+'-'+substring(secondaryOwner.ssn,3,5)+'-'+substring(secondaryOwner.ssn,5,9) :
+    "ssNOrTaxID": ssNOrTaxID2 ? 
+                  substring(ssNOrTaxID2,0,3)+'-'+substring(ssNOrTaxID2,3,5)+'-'+substring(ssNOrTaxID2,5,9) :
                   "",
     "numberOfDependents": secondaryOwner.numDependents
         ? secondaryOwner.numDependents
@@ -519,7 +527,7 @@ if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)){
       let response = {
         "perStirpes": item.perStirpes == 'NO' ? false : true,
         "percentage": item.percentage,
-        "relationship": relationship || "Other",
+        "relationship": item.relationshipDescription == "SPOUSE" ? "Spouse" : "Other",
         "beneficiaryType" : item.individualOrEntity == "INDIVIDUAL" ? "Person": "Entity",
         "rmDOption" : relationship || "Other",
         "isContingentBeneficiary" : item.type == 'CONTINGENT' ? true : false
@@ -531,7 +539,11 @@ if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)){
       if (lowerCase(item.individualOrEntity) == 'entity' || lowerCase(item.individualOrEntity) == 'estate') {
         set(person,'ein', item.taxId);
       } else {
-        set(person,'ssNOrTaxID', substring(item.taxId,0,3)+'-'+substring(item.taxId,3,5)+'-'+substring(item.taxId,5,9));
+        let ssNOrTaxID3 = null;
+        if ( isPresent(item.taxId) )  {
+          ssNOrTaxID3 = replace(item.taxId,'-','');
+        }
+        set(person,'ssNOrTaxID', substring(ssNOrTaxID3,0,3)+'-'+substring(ssNOrTaxID3,3,5)+'-'+substring(ssNOrTaxID3,5,9));
         set(person,"firstName", item.name ? item.name.givenName : "");
         set(person,"middleName", item.name ? item.name.middleInitial : "");
         set(person,"lastName", item.name ? item.name.familyName : "");
