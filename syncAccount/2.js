@@ -1,9 +1,11 @@
+let accDetails = response.accDetails;
+let fields = response.fields;
 if (isPresent(apiResponse.individualHolder)) {
     let ssNOrTaxID = null;
     if (isPresent(apiResponse.individualHolder.ssn)) {
         ssNOrTaxID = replace(apiResponse.individualHolder.ssn, '-', '');
     }
-    let owner = accDetails.primaryOwner;
+    let owner = accDetails.primaryOwner.owner;
 
     set(owner, "firstName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.givenName ? apiResponse.individualHolder.name.givenName : "");
     set(owner, "middleName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.middleInitial ? apiResponse.individualHolder.name.middleInitial : "");
@@ -25,13 +27,13 @@ if (isPresent(apiResponse.individualHolder)) {
     set(owner, "primaryPhoneNumber", apiResponse.individualHolder.contact && apiResponse.individualHolder.contact.phone ? apiResponse.individualHolder.contact.phone : "");
 
     set(owner, "investmentExperienceEquities", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? maps.experienceMap[apiResponse.investmentProfile.stocksExperience.assetExperienceRange] : null);
-    set(owner, "investmentExperienceEquitiesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? apiResponse.investmentProfile.stocksExperience.transactionsPerYear : null);
+    set(owner, "investmentExperienceEquitiesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? toString(apiResponse.investmentProfile.stocksExperience.transactionsPerYear) : null);
     set(owner, "investmentExperienceMutualFunds", apiResponse.investmentProfile && apiResponse.investmentProfile.mutualFundsExperience ? maps.experienceMap[apiResponse.investmentProfile.mutualFundsExperience.assetExperienceRange] : null);
     set(owner, "investmentExperienceMutualFundsTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.mutualFundsExperience ? apiResponse.investmentProfile.mutualFundsExperience.transactionsPerYear : null);
     set(owner, "investmentExperienceFixedIncome", apiResponse.investmentProfile && apiResponse.investmentProfile.bondsExperience ? maps.experienceMap[apiResponse.investmentProfile.bondsExperience.assetExperienceRange] : null);
     set(owner, "investmentExperienceFixedIncomeTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.bondsExperience ? apiResponse.investmentProfile.bondsExperience.transactionsPerYear : null);
     set(owner, "investmentExperienceOptions", apiResponse.investmentProfile && apiResponse.investmentProfile.optionsExperience ? maps.experienceMap[apiResponse.investmentProfile.optionsExperience.assetExperienceRange] : null);
-    set(owner, "investmentExperienceOptionsTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.optionsExperience ? apiResponse.investmentProfile.optionsExperience.transactionsPerYear : null);
+    set(owner, "investmentExperienceOptionsTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.optionsExperience ? toString(apiResponse.investmentProfile.optionsExperience.transactionsPerYear) : null);
     set(owner, "investExperienceFutures", apiResponse.investmentProfile && apiResponse.investmentProfile.futuresExperience ? maps.experienceMap[apiResponse.investmentProfile.futuresExperience.assetExperienceRange] : null);
     set(owner, "investExperienceFuturesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.futuresExperience ? apiResponse.investmentProfile.futuresExperience.transactionsPerYear : null);
     set(owner, "investmentExperienceAnnuities", apiResponse.investmentProfile && apiResponse.investmentProfile.annuitiesExperience ? maps.experienceMap[apiResponse.investmentProfile.annuitiesExperience.assetExperienceRange] : null);
@@ -116,4 +118,4 @@ let fieldsAssigned = [
 ];
 
 fields = concat(fields, fieldsAssigned);
-return accDetails;
+return {"fields": fields, "accDetails": accDetails};
