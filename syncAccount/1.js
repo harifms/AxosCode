@@ -4,6 +4,7 @@ set(accDetails, "name", apiResponse.accountName);
 set(accDetails, "accountNumber", apiResponse.accountNumber);
 set(accDetails, "accountCustodianStatus", apiResponse.status);
 set(accDetails, "startDate", parseDate(apiResponse.openedDate, "yyyy-MM-dd"));
+set(accDetails, "registrationType", isEmpty(regTypeBo) ? accDetails.registrationType : regTypeBo[0]);
 
 let tradingPrivileges = [];
 
@@ -63,7 +64,8 @@ let fieldsAssigned = [
   "specialExpensesTimeframe",
   "timeHorizon",
   "optionsRiskLevel",
-  "discretion"
+  "discretion",
+  "registrationType"
 ];
 
 return {
