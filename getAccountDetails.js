@@ -404,7 +404,7 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
       "lastName": secondaryOwner.name && secondaryOwner.name.familyName
         ? secondaryOwner.name.familyName
         : "",
-      "birthDate": secondaryOwner.birthDate ? secondaryOwner.birthDate : "",
+      "dateOfBirth": secondaryOwner.birthDate ? secondaryOwner.birthDate : "",
       "gender": secondaryOwner.gender ? genderTypeMap[secondaryOwner.gender] : "",
       "citizenshipStatus": secondaryOwner.citizenship && secondaryOwner.citizenship.citizenshipStatus
         ? residencyStatusMap[secondaryOwner.citizenship.citizenshipStatus]

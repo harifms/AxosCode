@@ -11,7 +11,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
     set(owner, "firstName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.givenName ? apiResponse.individualHolder.name.givenName : "");
     set(owner, "middleName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.middleInitial ? apiResponse.individualHolder.name.middleInitial : "");
     set(owner, "lastName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.familyName ? apiResponse.individualHolder.name.familyName : "");
-    set(owner, "birthDate", apiResponse.individualHolder.birthDate ? apiResponse.individualHolder.birthDate : "");
+    set(owner, "dateOfBirth", apiResponse.individualHolder.birthDate ? apiResponse.individualHolder.birthDate : "");
     set(owner, "gender", apiResponse.individualHolder.gender ? maps.genderTypeMap[apiResponse.individualHolder.gender] : "");
     set(owner, "citizenshipStatus", apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.citizenshipStatus ? maps.residencyStatusMap[apiResponse.individualHolder.citizenship.citizenshipStatus] : "");
     set(owner, "ssNOrTaxID", ssNOrTaxID ? substring(ssNOrTaxID, 0, 3) + '-' + substring(ssNOrTaxID, 3, 5) + '-' + substring(ssNOrTaxID, 5, 9) : "");
@@ -95,6 +95,26 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
 
         set(owner, "previousLegalAddress", previousAddress);
       }
+      if (apiResponse.individualHolder.contact.affiliationsGroup) {
+        if (apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup && apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup){
+          let securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
+          set(securitiesIndustryAffiliation, "typeOfEmployer", apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdType);
+          set(securitiesIndustryAffiliation, "firmNameForEmployee", apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
+          set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
+        }
+        if (apiResponse.individualHolder.contact.affiliationsGroup.companyGroup && apiResponse.individualHolder.contact.affiliationsGroup.companyGroup){
+          let publicCompanyOfficial = owner.publicCompanyOfficial || {};
+          set(publicCompanyOfficial, "firmNameForOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "relationshipOfOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
+          set(publicCompanyOfficial, "firmTickerForOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
+          set(owner, "publicCompanyOfficial", publicCompanyOfficial);
+        }
+        if (apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup && apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup){
+          let foreignOfficial = owner.foreignOfficial || {};
+          set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(owner, "foreignOfficial", foreignOfficial);
+        }
+      }
     }
 
     if (apiResponse.individualHolder.patriotAct) {
@@ -104,6 +124,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
       set(proofOfIdentity, "idNumber", apiResponse.individualHolder.patriotAct.idNumber);
       set(proofOfIdentity, "issueDate", apiResponse.individualHolder.patriotAct.issueDate);
       set(proofOfIdentity, "expiryDate", apiResponse.individualHolder.patriotAct.expirationDate);
+      set(proofOfIdentity, "issuingCountry", find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.patriotAct.issuedByCountry]));
 
       set(owner, "proofOfIdentity", proofOfIdentity);
     }
@@ -112,81 +133,88 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
       set(owner, "countryOfResidence", countryOfResidence);
     }
     set(accDetails.primaryOwner, "owner", owner);
+
+    let fieldsAssigned = [
+      "primaryOwner.owner.firstName",
+      "primaryOwner.owner.middleName",
+      "primaryOwner.owner.lastName",
+      "primaryOwner.owner.dateOfBirth",
+      "primaryOwner.owner.gender",
+      "primaryOwner.owner.citizenshipStatus",
+      "primaryOwner.owner.ssNOrTaxID",
+      "primaryOwner.owner.maritalStatus",
+      "primaryOwner.owner.employmentStatus",
+      "primaryOwner.owner.occupation",
+      "primaryOwner.owner.natureOfBusiness",
+      "primaryOwner.owner.employer",
+      "primaryOwner.owner.employerPhoneNumber",
+      "primaryOwner.owner.homeOwnership",
+      "primaryOwner.owner.primaryEmail",
+      "primaryOwner.owner.primaryPhoneNumber",
+      "primaryOwner.owner.investmentExperienceEquities",
+      "primaryOwner.owner.investmentExperienceEquitiesTransactions",
+      "primaryOwner.owner.investmentExperienceMutualFunds",
+      "primaryOwner.owner.investmentExperienceMutualFundsTransactions",
+      "primaryOwner.owner.investmentExperienceFixedIncome",
+      "primaryOwner.owner.investmentExperienceFixedIncomeTransactions",
+      "primaryOwner.owner.investmentExperienceOptions",
+      "primaryOwner.owner.investmentExperienceOptionsTransactions",
+      "primaryOwner.owner.investExperienceFutures",
+      "primaryOwner.owner.investExperienceFuturesTransactions",
+      "primaryOwner.owner.investmentExperienceAnnuities",
+      "primaryOwner.owner.investmentExperienceAnnuitiesTransactions",
+      "primaryOwner.owner.investExperienceAlternatives",
+      "primaryOwner.owner.investExperienceAlternativesTransactions",
+      "primaryOwner.owner.investExperienceMargin",
+      "primaryOwner.owner.investExperienceMarginTransactions",
+      "primaryOwner.owner.backupWithholdingExemptPayeeCode",
+      "primaryOwner.owner.fatcaReportingExemptionCode",
+
+      "primaryOwner.owner.employerAddress.line1",
+      "primaryOwner.owner.employerAddress.line2",
+      "primaryOwner.owner.employerAddress.city",
+      "primaryOwner.owner.employerAddress.postalCode",
+      "primaryOwner.owner.employerAddress.state",
+      "primaryOwner.owner.employerAddress.country",
+
+      "primaryOwner.owner.legalAddress.line1",
+      "primaryOwner.owner.legalAddress.line2",
+      "primaryOwner.owner.legalAddress.city",
+      "primaryOwner.owner.legalAddress.postalCode",
+      "primaryOwner.owner.legalAddress.state",
+      "primaryOwner.owner.legalAddress.country",
+
+      "primaryOwner.owner.mailingAddress.line1",
+      "primaryOwner.owner.mailingAddress.line2",
+      "primaryOwner.owner.mailingAddress.city",
+      "primaryOwner.owner.mailingAddress.postalCode",
+      "primaryOwner.owner.mailingAddress.state",
+      "primaryOwner.owner.mailingAddress.country",
+
+      "primaryOwner.owner.previousLegalAddress.line1",
+      "primaryOwner.owner.previousLegalAddress.line2",
+      "primaryOwner.owner.previousLegalAddress.city",
+      "primaryOwner.owner.previousLegalAddress.postalCode",
+      "primaryOwner.owner.previousLegalAddress.state",
+      "primaryOwner.owner.previousLegalAddress.country",
+
+      "primaryOwner.owner.proofOfIdentity.type",
+      "primaryOwner.owner.proofOfIdentity.idNumber",
+      "primaryOwner.owner.proofOfIdentity.issueDate",
+      "primaryOwner.owner.proofOfIdentity.expiryDate",
+      "primaryOwner.owner.proofOfIdentity.issuingCountry",
+
+      "primaryOwner.owner.countryOfResidence",
+      "primaryOwner.owner.securitiesIndustryAffiliation.typeOfEmployer",
+      "primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee",
+      "primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer",
+      "primaryOwner.owner.publicCompanyOfficial.relationshipOfOfficer",
+      "primaryOwner.owner.publicCompanyOfficial.firmTickerForOfficer",
+      "primaryOwner.owner.foreignOfficial.foreignCountryName"
+    ];
+
+    fields = concat(fields, fieldsAssigned);
   }
-
-  let fieldsAssigned = [
-    "primaryOwner.owner.firstName",
-    "primaryOwner.owner.middleName",
-    "primaryOwner.owner.lastName",
-    "primaryOwner.owner.birthDate",
-    "primaryOwner.owner.gender",
-    "primaryOwner.owner.citizenshipStatus",
-    "primaryOwner.owner.ssNOrTaxID",
-    "primaryOwner.owner.maritalStatus",
-    "primaryOwner.owner.employmentStatus",
-    "primaryOwner.owner.occupation",
-    "primaryOwner.owner.natureOfBusiness",
-    "primaryOwner.owner.employer",
-    "primaryOwner.owner.employerPhoneNumber",
-    "primaryOwner.owner.homeOwnership",
-    "primaryOwner.owner.primaryEmail",
-    "primaryOwner.owner.primaryPhoneNumber",
-    "primaryOwner.owner.investmentExperienceEquities",
-    "primaryOwner.owner.investmentExperienceEquitiesTransactions",
-    "primaryOwner.owner.investmentExperienceMutualFunds",
-    "primaryOwner.owner.investmentExperienceMutualFundsTransactions",
-    "primaryOwner.owner.investmentExperienceFixedIncome",
-    "primaryOwner.owner.investmentExperienceFixedIncomeTransactions",
-    "primaryOwner.owner.investmentExperienceOptions",
-    "primaryOwner.owner.investmentExperienceOptionsTransactions",
-    "primaryOwner.owner.investExperienceFutures",
-    "primaryOwner.owner.investExperienceFuturesTransactions",
-    "primaryOwner.owner.investmentExperienceAnnuities",
-    "primaryOwner.owner.investmentExperienceAnnuitiesTransactions",
-    "primaryOwner.owner.investExperienceAlternatives",
-    "primaryOwner.owner.investExperienceAlternativesTransactions",
-    "primaryOwner.owner.investExperienceMargin",
-    "primaryOwner.owner.investExperienceMarginTransactions",
-    "primaryOwner.owner.backupWithholdingExemptPayeeCode",
-    "primaryOwner.owner.fatcaReportingExemptionCode",
-
-    "primaryOwner.owner.employerAddress.line1",
-    "primaryOwner.owner.employerAddress.line2",
-    "primaryOwner.owner.employerAddress.city",
-    "primaryOwner.owner.employerAddress.postalCode",
-    "primaryOwner.owner.employerAddress.state",
-    "primaryOwner.owner.employerAddress.country",
-
-    "primaryOwner.owner.legalAddress.line1",
-    "primaryOwner.owner.legalAddress.line2",
-    "primaryOwner.owner.legalAddress.city",
-    "primaryOwner.owner.legalAddress.postalCode",
-    "primaryOwner.owner.legalAddress.state",
-    "primaryOwner.owner.legalAddress.country",
-
-    "primaryOwner.owner.mailingAddress.line1",
-    "primaryOwner.owner.mailingAddress.line2",
-    "primaryOwner.owner.mailingAddress.city",
-    "primaryOwner.owner.mailingAddress.postalCode",
-    "primaryOwner.owner.mailingAddress.state",
-    "primaryOwner.owner.mailingAddress.country",
-
-    "primaryOwner.owner.previousLegalAddress.line1",
-    "primaryOwner.owner.previousLegalAddress.line2",
-    "primaryOwner.owner.previousLegalAddress.city",
-    "primaryOwner.owner.previousLegalAddress.postalCode",
-    "primaryOwner.owner.previousLegalAddress.state",
-    "primaryOwner.owner.previousLegalAddress.country",
-
-    "primaryOwner.owner.proofOfIdentity.type",
-    "primaryOwner.owner.proofOfIdentity.idNumber",
-    "primaryOwner.owner.proofOfIdentity.issueDate",
-    "primaryOwner.owner.proofOfIdentity.expiryDate",
-
-    "primaryOwner.owner.countryOfResidence"
-  ];
-
-  fields = concat(fields, fieldsAssigned);
 }
 return {
   "fields": fields,

@@ -1,10 +1,10 @@
 set(accDetails, "name", apiResponse.accountName);
 set(accDetails, "nickName", apiResponse.principalName);
-set(accDetails, "name", apiResponse.accountName);
-set(accDetails, "accountNumber", apiResponse.accountNumber);
+// set(accDetails, "accountNumber", apiResponse.accountNumber);
 set(accDetails, "accountCustodianStatus", apiResponse.status);
 set(accDetails, "startDate", parseDate(apiResponse.openedDate, "yyyy-MM-dd"));
 set(accDetails, "registrationType", isEmpty(regTypeBo) ? accDetails.registrationType : regTypeBo[0]);
+set(accDetails, "repCodeLink", isEmpty(repCodeBo) ? accDetails.repCodeLink : repCodeBo[0]);
 
 let tradingPrivileges = [];
 
@@ -41,7 +41,7 @@ set(accDetails, "advisorTradingDiscretion", apiResponse.discretion ? (apiRespons
 let fieldsAssigned = [
   "name",
   "nickName",
-  "accountNumber",
+  // "accountNumber",
   "accountCustodianStatus",
   "createdAt",
   "tradingPrivileges",
@@ -65,7 +65,8 @@ let fieldsAssigned = [
   "timeHorizon",
   "optionsRiskLevel",
   "discretion",
-  "registrationType"
+  "registrationType",
+  "repCodeLink"
 ];
 
 return {

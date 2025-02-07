@@ -223,7 +223,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
             "foreignOfficialCountry": null
         });
     }
-    set(payload.requests[0].individualHolder.contact, "affiliationsGroup", affiliationsGroup);
+    set(payload.requests[0].entityHolder.contact, "affiliationsGroup", affiliationsGroup);
 
     if (includes(Account.tradingPrivileges, "Margin", 0)) {
         set(payload.requests[0].entityHolder, "marginsAgreement", {
