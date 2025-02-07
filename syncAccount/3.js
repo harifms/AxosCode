@@ -20,7 +20,7 @@ if (apiResponse.trustedContact) {
 
   set(accDetails.primaryOwner, "trustedContactRelationship", apiResponse.trustedContact.relationship);
   set(accDetails.primaryOwner, "trustedContact", trustedContact);
-  fieldsAssigned = contact(fieldsAssigned, [  
+  fieldsAssigned = concat(fieldsAssigned, [  
     "primaryOwner.trustedContactRelationship",
     "primaryOwner.owner.trustedContact.mailingAddress.previousLegalAddress.line1",
     "primaryOwner.owner.trustedContact.mailingAddress.previousLegalAddress.line2",

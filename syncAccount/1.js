@@ -34,7 +34,7 @@ set(accDetails, "annualExpenses", apiResponse.investmentProfile ? apiResponse.in
 set(accDetails, "specialExpenses", apiResponse.investmentProfile ? apiResponse.investmentProfile.specialExpenses : 0);
 set(accDetails, "specialExpensesTimeframe", apiResponse.investmentProfile ? maps.experienceMap[apiResponse.investmentProfile.specialExpenseTimeFrame] : "");
 set(accDetails, "timeHorizon", apiResponse.investmentProfile ? maps.experienceMap[apiResponse.investmentProfile.timeHorizon] : "");
-set(accDetails, "optionsRiskLevel", apiResponse.optionsLevel ? apiResponse.optionsLevel : "");
+set(accDetails, "optionsRiskLevel", apiResponse.optionsLevel ? maps.optionsRiskLevelMap[apiResponse.optionsLevel] : "");
 set(accDetails, "advisorTradingDiscretion", apiResponse.discretion ? (apiResponse.discretion == 'FULL' ? 'Full' : 'Limited') : "");
 
 let fieldsAssigned = [
