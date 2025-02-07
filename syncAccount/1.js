@@ -8,11 +8,11 @@ set(accDetails, "startDate", parseDate(apiResponse.openedDate, "yyyy-MM-dd"));
 let tradingPrivileges = [];
 
 if (apiResponse.enableMargin && apiResponse.enableMargin == 'YES') {
-    tradingPrivileges = concat(tradingPrivileges, 'Margin');
+  tradingPrivileges = concat(tradingPrivileges, 'Margin');
 }
 
 if (apiResponse.enableOptions && apiResponse.enableOptions == 'YES') {
-    tradingPrivileges = concat(tradingPrivileges, 'Options');
+  tradingPrivileges = concat(tradingPrivileges, 'Options');
 }
 
 set(accDetails, "tradingPrivileges", tradingPrivileges);
@@ -38,32 +38,35 @@ set(accDetails, "optionsRiskLevel", apiResponse.optionsLevel ? apiResponse.optio
 set(accDetails, "advisorTradingDiscretion", apiResponse.discretion ? (apiResponse.discretion == 'FULL' ? 'Full' : 'Limited') : "");
 
 let fieldsAssigned = [
-    "name",
-    "nickName",
-    "accountNumber",
-    "accountCustodianStatus",
-    "createdAt",
-    "tradingPrivileges",
-    "initialFundingSource",
-    "otherInitialFundingSource",
-    "moneyFundSweepOptIn",
-    "cashDividendOption",
-    "dividendReinvestmentOption",
-    "annualIncome",
-    "netWorthExcludingHome",
-    "liquidAssets",
-    "federalMarginalTaxRate",
-    "riskTolerance",
-    "estimatedValueOfInvestments",
-    "investmentObjective",
-    "investmentExperience",
-    "liquidityNeeds",
-    "annualExpenses",
-    "specialExpenses",
-    "specialExpensesTimeframe",
-    "timeHorizon",
-    "optionsRiskLevel",
-    "discretion"
+  "name",
+  "nickName",
+  "accountNumber",
+  "accountCustodianStatus",
+  "createdAt",
+  "tradingPrivileges",
+  "initialFundingSource",
+  "otherInitialFundingSource",
+  "moneyFundSweepOptIn",
+  "cashDividendOption",
+  "dividendReinvestmentOption",
+  "annualIncome",
+  "netWorthExcludingHome",
+  "liquidAssets",
+  "federalMarginalTaxRate",
+  "riskTolerance",
+  "estimatedValueOfInvestments",
+  "investmentObjective",
+  "investmentExperience",
+  "liquidityNeeds",
+  "annualExpenses",
+  "specialExpenses",
+  "specialExpensesTimeframe",
+  "timeHorizon",
+  "optionsRiskLevel",
+  "discretion"
 ];
 
-return {"fields": fieldsAssigned, "accDetails": accDetails};
+return {
+  "fields": fieldsAssigned,
+  "accDetails": accDetails
+};
