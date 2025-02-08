@@ -37,5 +37,54 @@ if (apiResponse.jointAccount && apiResponse.jointAccount.jointTenantMarried) {
   ]);
 }
 
+if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)) {
+  let beneficiaries = [];
+  let i = 0;
+  for (let item of apiResponse.beneficiaries) {
+    let relationship = item.relationship ? maps.reversedRelationshipMap[item.relationship] : "Other";
+    let benObj = {};
+    set(benObj, "perStirpes", item.perStirpes == 'NO' ? false : true);
+    set(benObj, "percentage", item.percentage);
+    set(benObj, "relationship", item.relationshipDescription == "SPOUSE" ? "Spouse" : "Other");
+    set(benObj, "beneficiaryType", item.individualOrEntity == "INDIVIDUAL" ? "Person" : "Entity");
+    set(benObj, "rmDOption", relationship || "Other");
+    set(benObj, "isContingentBeneficiary", item.type == 'CONTINGENT' ? true : false);
+
+    let person = {
+      "taxIDType": item.taxIdFormat,
+      "dateOfBirth": item.birthDate
+    };
+    if (lowerCase(item.individualOrEntity) == 'entity' || lowerCase(item.individualOrEntity) == 'estate') {
+      set(person, 'ein', item.taxId);
+      set(person, "fullName", item.entityName);
+    } else {
+      if (isPresent(item.taxId)) {
+        let ssNOrTaxID3 = replace(item.taxId, '-', '');
+        set(person, 'ssNOrTaxID', skipError(substring(ssNOrTaxID3, 0, 3) + '-' + substring(ssNOrTaxID3, 3, 5) + '-' + substring(ssNOrTaxID3, 5, 9), ssNOrTaxID3));
+      }
+      set(person, "firstName", item.name ? item.name.givenName : "");
+      set(person, "middleName", item.name ? item.name.middleInitial : "");
+      set(person, "lastName", item.name ? item.name.familyName : "");
+    }
+    let addr = {
+      "line1": item.address.streetLine1,
+      "line2": item.address.streetLine2,
+      "city": item.address.city,
+      "postalCode": item.address.postalCode,
+      "state": find(stateBO, state, state.code == item.address.stateOrProvince),
+      "country": find(countryBO, country, country.code2Letters == countryMap[item.address.country])
+    };
+    set(person, 'legalAddress', addr);
+    set(benObj, 'beneficiary', person);
+    beneficiaries = concat(beneficiaries, benObj);
+    i = i + 1;
+  }
+  set(accDetails, "beneficiaries", beneficiaries);
+  // TODO: Add fields to fieldsAssigned
+  // fieldsAssigned = concat(fieldsAssigned, [  
+  //  "primaryOwner.spouseIsAJointOwner"
+  // ]);
+}
+
 fields = isEmpty(fieldsAssigned) ? fields : concat(fields, fieldsAssigned);
 return { "fields": fields, "accDetails": accDetails };
