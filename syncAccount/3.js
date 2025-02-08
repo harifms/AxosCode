@@ -82,7 +82,25 @@ if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)) {
   set(accDetails, "beneficiaries", beneficiaries);
   // TODO: Add fields to fieldsAssigned
   // fieldsAssigned = concat(fieldsAssigned, [  
-  //  "primaryOwner.spouseIsAJointOwner"
+  //   "beneficiaries.perStirpes",
+  //   "beneficiaries.percentage",
+  //   "beneficiaries.relationship",
+  //   "beneficiaries.beneficiaryType",
+  //   "beneficiaries.rmDOption",
+  //   "beneficiaries.isContingentBeneficiary", 
+  //   "beneficiaries.beneficiary.firstName",
+  //   "beneficiaries.beneficiary.middleName",
+  //   "beneficiaries.beneficiary.lastName",
+  //   "beneficiaries.beneficiary.fullName",
+  //   "beneficiaries.beneficiary.ein",
+  //   "beneficiaries.beneficiary.taxIDType",
+  //   "beneficiaries.beneficiary.dateOfBirth",
+  //   "beneficiaries.beneficiary.legalAddress.line1",
+  //   "beneficiaries.beneficiary.legalAddress.line2",
+  //   "beneficiaries.beneficiary.legalAddress.city",
+  //   "beneficiaries.beneficiary.legalAddress.postalCode",
+  //   "beneficiaries.beneficiary.legalAddress.state",
+  //   "beneficiaries.beneficiary.legalAddress.country.code2Letters"
   // ]);
 }
 
