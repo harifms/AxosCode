@@ -17,12 +17,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         "numDependents": Account.primaryOwner.owner.numberOfDependents,
         "maritalStatus": Account.primaryOwner.owner.maritalStatus,
         "employment": {
-            "employmentStatus": Account.primaryOwner.owner.employmentStatus,
-            "occupation": Account.primaryOwner.owner.occupation, // ?? (Account.primaryOwner.owner.employmentStatus == "RETIRED" || Account.primaryOwner.owner.employmentStatus == "UNEMPLOYED") ? Account.primaryOwner.owner. : Account.primaryOwner.owner.occupation,
-            "natureOfBusiness": Account.primaryOwner.owner.natureOfBusiness,
-            "employer": Account.primaryOwner.owner.employer,
-            "yearsEmployed": Account.primaryOwner.owner.yearsEmployed || 0,
-            "workPhone": replace(Account.primaryOwner.owner.employerPhoneNumber, " ", "")
+            "employmentStatus": Account.primaryOwner.owner.employmentStatus
         },
         "homeType": Account.primaryOwner.owner.homeOwnership,
         "email": Account.primaryOwner.owner.primaryEmail,
@@ -31,6 +26,18 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         },
         "externalClientId": Account.primaryOwner.owner.id
     });
+
+    if (Account.primaryOwner.owner.employmentStatus != "UNEMPLOYED") {
+        set(payload.requests[0].individualHolder, "employment", {
+            "employmentStatus": Account.primaryOwner.owner.employmentStatus,
+            "occupation": Account.primaryOwner.owner.occupation,
+            "natureOfBusiness": Account.primaryOwner.owner.natureOfBusiness,
+            "employer": Account.primaryOwner.owner.employer,
+            "yearsEmployed": Account.primaryOwner.owner.yearsEmployed || 0,
+            "workPhone": Account.primaryOwner.owner.employerPhoneNumber ? replace(Account.primaryOwner.owner.employerPhoneNumber, " ", "") : ""
+        });
+    }
+    set(payload.requests[0].individualHolder.contact, "affiliationsGroup", affiliationsGroup);
     affiliationsGroup = {};
     if (Account.primaryOwner.owner.securitiesIndustryAffiliation && Account.primaryOwner.owner.securitiesIndustryAffiliation.enabled) {
         set(affiliationsGroup, "nasdGroup", {

@@ -48,7 +48,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
 
     if (apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.workAddress) {
       let workAddress = apiResponse.individualHolder.employment.workAddress;
-      let employerAddress = owner.employerAddress;
+      let employerAddress = owner.employerAddress || {};
 
       set(employerAddress, "line1", workAddress.streetLine1);
       set(employerAddress, "line2", workAddress.streetLine2);
@@ -62,7 +62,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
 
     if (apiResponse.individualHolder.contact) {
       if (apiResponse.individualHolder.contact.legalAddress) {
-        let legalAddress = owner.legalAddress;
+        let legalAddress = owner.legalAddress || {};
 
         set(legalAddress, "line1", apiResponse.individualHolder.contact.legalAddress.streetLine1);
         set(legalAddress, "line2", apiResponse.individualHolder.contact.legalAddress.streetLine2);
@@ -74,7 +74,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
         set(owner, "legalAddress", legalAddress);
       }
       if (apiResponse.individualHolder.contact.mailingAddress) {
-        let mailingAddress = owner.mailingAddress;
+        let mailingAddress = owner.mailingAddress || {};
         set(mailingAddress, "line1", apiResponse.individualHolder.contact.mailingAddress.streetLine1);
         set(mailingAddress, "line2", apiResponse.individualHolder.contact.mailingAddress.streetLine2);
         set(mailingAddress, "city", apiResponse.individualHolder.contact.mailingAddress.city);
@@ -84,7 +84,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
         set(owner, "mailingAddress", mailingAddress);
       }
       if (apiResponse.individualHolder.contact.previousAddress) {
-        let previousAddress = owner.previousLegalAddress;
+        let previousAddress = owner.previousLegalAddress || {};
 
         set(previousAddress, "line1", apiResponse.individualHolder.contact.previousAddress.streetLine1);
         set(previousAddress, "line2", apiResponse.individualHolder.contact.previousAddress.streetLine2);
@@ -118,7 +118,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
     }
 
     if (apiResponse.individualHolder.patriotAct) {
-      let proofOfIdentity = owner.proofOfIdentity;
+      let proofOfIdentity = owner.proofOfIdentity || {};
 
       set(proofOfIdentity, "type", apiResponse.individualHolder.patriotAct.idType);
       set(proofOfIdentity, "idNumber", apiResponse.individualHolder.patriotAct.idNumber);

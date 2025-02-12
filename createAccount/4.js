@@ -28,18 +28,23 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "holderESignature": "YES"
                 },
                 "employment": {
-                    "employmentStatus": o.owner.employmentStatus,
-                    "occupation": o.owner.occupation,
-                    "natureOfBusiness": o.owner.natureOfBusiness,
-                    "employer": o.owner.employer,
-                    "yearsEmployed": o.owner.yearsEmployed || 0,
-                    "workPhone": replace(o.owner.employerPhoneNumber, " ", "")
+                    "employmentStatus": o.owner.employmentStatus
                 },
                 "contact": {
                     "phone": replace(o.owner.primaryPhoneNumber, " ", "")
                 },
                 "externalClientId": o.owner.id
             };
+            if (o.owner.employmentStatus != "UNEMPLOYED") {
+                set(coHolder, "employment", {
+                    "employmentStatus": o.owner.employmentStatus,
+                    "occupation": o.owner.occupation,
+                    "natureOfBusiness": o.owner.natureOfBusiness,
+                    "employer": o.owner.employer,
+                    "yearsEmployed": o.owner.yearsEmployed || 0,
+                    "workPhone": o.owner.employerPhoneNumber ? replace(o.owner.employerPhoneNumber, " ", "") : null
+                });
+            }
 
             if (o.owner.proofOfIdentity) {
                 let coHolderPatriotAct = {

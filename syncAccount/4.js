@@ -14,7 +14,7 @@ if (apiResponse.accountType == "TRUST_IRREVOCABLE" || apiResponse.accountType ==
       set(owner, "businessPhoneNumber", apiResponse.entityHolder.contact.phone);
 
       if (apiResponse.entityHolder.contact.legalAddress) {
-        let legalAddress = owner.legalAddress;
+        let legalAddress = owner.legalAddress || {};
 
         set(legalAddress, "line1", apiResponse.entityHolder.contact.legalAddress.streetLine1);
         set(legalAddress, "line2", apiResponse.entityHolder.contact.legalAddress.streetLine2);
@@ -26,7 +26,7 @@ if (apiResponse.accountType == "TRUST_IRREVOCABLE" || apiResponse.accountType ==
         set(owner, "legalAddress", legalAddress);
       }
       if (apiResponse.entityHolder.contact.mailingAddress) {
-        let mailingAddress = owner.mailingAddress;
+        let mailingAddress = owner.mailingAddress || {};
         set(mailingAddress, "line1", apiResponse.entityHolder.contact.mailingAddress.streetLine1);
         set(mailingAddress, "line2", apiResponse.entityHolder.contact.mailingAddress.streetLine2);
         set(mailingAddress, "city", apiResponse.entityHolder.contact.mailingAddress.city);
@@ -36,7 +36,7 @@ if (apiResponse.accountType == "TRUST_IRREVOCABLE" || apiResponse.accountType ==
         set(owner, "mailingAddress", mailingAddress);
       }
       if (apiResponse.entityHolder.contact.previousAddress) {
-        let previousAddress = owner.previousLegalAddress;
+        let previousAddress = owner.previousLegalAddress || {};
 
         set(previousAddress, "line1", apiResponse.entityHolder.contact.previousAddress.streetLine1);
         set(previousAddress, "line2", apiResponse.entityHolder.contact.previousAddress.streetLine2);
