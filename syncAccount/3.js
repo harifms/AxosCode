@@ -2,7 +2,7 @@ let accDetails = response.accDetails;
 let fields = response.fields;
 let fieldsAssigned = [];
 if (apiResponse.trustedContact) {
-  let trustedContact = accDetails.primaryOwner.trustedContact;
+  let trustedContact = accDetails.primaryOwner.trustedContact || {};
 
   set(trustedContact, "fullName", apiResponse.trustedContact.name);
   set(trustedContact, "primaryEmail", apiResponse.trustedContact.email);
