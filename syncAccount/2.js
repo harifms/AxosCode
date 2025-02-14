@@ -6,7 +6,10 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
     if (isPresent(apiResponse.individualHolder.ssn)) {
       ssNOrTaxID = replace(apiResponse.individualHolder.ssn, '-', '');
     }
-    let owner = accDetails.primaryOwner.owner;
+    if (!accDetails.primaryOwner) {
+      set(accDetails, "primaryOwner", {});
+    }
+    let owner = accDetails.primaryOwner.owner || {};
 
     set(owner, "firstName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.givenName ? apiResponse.individualHolder.name.givenName : "");
     set(owner, "middleName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.middleInitial ? apiResponse.individualHolder.name.middleInitial : "");
