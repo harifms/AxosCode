@@ -6,7 +6,8 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
   let secondaryOwners = [];
  
   for (let secondaryOwner of apiResponse.coHolders) {
-    let owner = find(accDetails.secondaryOwners, so, so.id == secondaryOwner.externalClientId) || {};
+    let secOwner = find(accDetails.secondaryOwners, so, so.id == secondaryOwner.externalClientId) || {};
+    let owner = secOwner.owner || {};
     set(owner, "firstName", secondaryOwner.name && secondaryOwner.name.givenName ? secondaryOwner.name.givenName : "");
     set(owner, "middleName", secondaryOwner.name && secondaryOwner.name.middleInitial ? secondaryOwner.name.middleInitial : "");
     set(owner, "lastName", secondaryOwner.name && secondaryOwner.name.familyName ? secondaryOwner.name.familyName : "");
@@ -111,7 +112,30 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
       let countryOfResidence = find(countryBO, country, country.code2Letters == countryMap[secondaryOwner.citizenship.countryOfResidence]);
       set(owner, "countryOfResidence", countryOfResidence);
     }
-    secondaryOwners = concat(secondaryOwners, owner);
+    
+    if (secondaryOwner.trustedContact) {
+      let trustedContact = secOwner.trustedContact || {};
+    
+      set(trustedContact, "fullName", secondaryOwner.trustedContact.name);
+      set(trustedContact, "primaryEmail", secondaryOwner.trustedContact.email);
+      set(trustedContact, "primaryPhoneNumber", secondaryOwner.trustedContact.phone);
+    
+      if (!trustedContact.mailingAddress) {
+        set(trustedContact, "mailingAddress", {});
+      }
+      if (secondaryOwner.trustedContact.address){
+        set(trustedContact.mailingAddress, "line1", secondaryOwner.trustedContact.address.streetLine1);
+        set(trustedContact.mailingAddress, "line2", secondaryOwner.trustedContact.address.streetLine2);
+        set(trustedContact.mailingAddress, "city", secondaryOwner.trustedContact.address.city);
+        set(trustedContact.mailingAddress, "postalCode", secondaryOwner.trustedContact.address.postalCode);
+        set(trustedContact.mailingAddress, "state", find(stateBO, state, state.code == secondaryOwner.trustedContact.address.stateOrProvince));
+        set(trustedContact.mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[secondaryOwner.trustedContact.address.country]));
+      }
+      set(secOwner, "trustedContactRelationship", secondaryOwner.trustedContact.relationship);
+      set(secOwner, "trustedContact", trustedContact);
+    }
+    set(secOwner, "owner", owner);
+    secondaryOwners = concat(secondaryOwners, secOwner);
   }
   fieldsAssigned = [
     "secondaryOwners.owner.firstName",
@@ -191,7 +215,18 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
     "secondaryOwners.owner.publicCompanyOfficial.firmNameForOfficer",
     "secondaryOwners.owner.publicCompanyOfficial.relationshipOfOfficer",
     "secondaryOwners.owner.publicCompanyOfficial.firmTickerForOfficer",
-    "secondaryOwners.owner.foreignOfficial.foreignCountryName"
+    "secondaryOwners.owner.foreignOfficial.foreignCountryName",
+    
+    "secondaryOwners.trustedContactRelationship",
+    "secondaryOwners.owner.trustedContact.fullName",
+    "secondaryOwners.owner.trustedContact.primaryPhoneNumber",
+    "secondaryOwners.owner.trustedContact.primaryEmail",
+    "secondaryOwners.owner.trustedContact.mailingAddress.previousLegalAddress.line1",
+    "secondaryOwners.owner.trustedContact.mailingAddress.previousLegalAddress.line2",
+    "secondaryOwners.owner.trustedContact.mailingAddress.previousLegalAddress.city",
+    "secondaryOwners.owner.trustedContact.mailingAddress.previousLegalAddress.postalCode",
+    "secondaryOwners.owner.trustedContact.mailingAddress.previousLegalAddress.state",
+    "secondaryOwners.owner.trustedContact.mailingAddress.previousLegalAddress.country",
   ];
   set(accDetails, "secondaryOwners", secondaryOwners);
 }

@@ -69,7 +69,7 @@ if (isPresent(Account.secondaryOwners)){
 let genderTypesMap = {
     "Male": "MALE",
     "Female": "FEMALE",
-	  "No Answer": "NO_ANSWER"
+	"No Answer": "NO_ANSWER"
 };
 set(Account, "primaryOwner.owner.gender", genderTypesMap[Account.primaryOwner.owner.gender] || genderTypesMap["No Answer"]);
 if (isPresent(Account.secondaryOwners)){

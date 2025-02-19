@@ -22,6 +22,9 @@ if (apiResponse.trustedContact) {
   set(accDetails.primaryOwner, "trustedContact", trustedContact);
   fieldsAssigned = concat(fieldsAssigned, [  
     "primaryOwner.trustedContactRelationship",
+    "primaryOwner.owner.trustedContact.fullName",
+    "primaryOwner.owner.trustedContact.primaryPhoneNumber",
+    "primaryOwner.owner.trustedContact.primaryEmail",
     "primaryOwner.owner.trustedContact.mailingAddress.previousLegalAddress.line1",
     "primaryOwner.owner.trustedContact.mailingAddress.previousLegalAddress.line2",
     "primaryOwner.owner.trustedContact.mailingAddress.previousLegalAddress.city",

@@ -61,19 +61,19 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             }
             if (o.trustedContact && !o.trustedContactInfoDeclined) {
                 set(coHolder, "trustedContact", {
-                    "name": [o.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),
-                    "relationship": Account.primaryOwner.trustedContactRelationship,
-                    "phone": replace(Account.primaryOwner.trustedContact.primaryPhoneNumber, " ", ""),
-                    "email": Account.primaryOwner.trustedContact.primaryEmail
+                    "name": [o.trustedContact.firstName, o.trustedContact.middleName, o.trustedContact.lastName].join(' '),
+                    "relationship": o.trustedContactRelationship,
+                    "phone": replace(o.trustedContact.primaryPhoneNumber, " ", ""),
+                    "email": o.trustedContact.primaryEmail
                 });
                 if (o.trustedContact.mailingAddress) {
                     set(coHolder.trustedContact, "address", {
-                        "streetLine1": Account.primaryOwner.trustedContact.mailingAddress.line1,
-                        "streetLine2": Account.primaryOwner.trustedContact.mailingAddress.line2,
-                        "city": Account.primaryOwner.trustedContact.mailingAddress.city,
-                        "stateOrProvince": Account.primaryOwner.trustedContact.mailingAddress.state.code,
-                        "postalCode": Account.primaryOwner.trustedContact.mailingAddress.postalCode,
-                        "country": countries[Account.primaryOwner.trustedContact.mailingAddress.country ? Account.primaryOwner.trustedContact.mailingAddress.country.code2Letters : "US"] || "USA"
+                        "streetLine1": o.trustedContact.mailingAddress.line1,
+                        "streetLine2": o.trustedContact.mailingAddress.line2,
+                        "city": o.trustedContact.mailingAddress.city,
+                        "stateOrProvince": o.trustedContact.mailingAddress.state.code,
+                        "postalCode": o.trustedContact.mailingAddress.postalCode,
+                        "country": countries[o.trustedContact.mailingAddress.country ? o.trustedContact.mailingAddress.country.code2Letters : "US"] || "USA"
                     });
                 }
             }
