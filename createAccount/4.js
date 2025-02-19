@@ -80,7 +80,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             if (o.owner.employerAddress) {
                 set(coHolder.employment, "workAddress", {
                     "streetLine1": o.owner.employerAddress.line1,
-                    "streetLine2": o.owner.employerAddress.line1,
+                    "streetLine2": o.owner.employerAddress.line2,
                     "city": o.owner.employerAddress.city,
                     "stateOrProvince": o.owner.employerAddress.state.code,
                     "postalCode": o.owner.employerAddress.postalCode,
