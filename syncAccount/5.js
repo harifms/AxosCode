@@ -8,27 +8,27 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
   for (let secondaryOwner of apiResponse.coHolders) {
     let secOwner = find(accDetails.secondaryOwners, so, so.id == secondaryOwner.externalClientId) || {};
     let owner = secOwner.owner || {};
-    set(owner, "firstName", secondaryOwner.name && secondaryOwner.name.givenName ? secondaryOwner.name.givenName : "");
-    set(owner, "middleName", secondaryOwner.name && secondaryOwner.name.middleInitial ? secondaryOwner.name.middleInitial : "");
-    set(owner, "lastName", secondaryOwner.name && secondaryOwner.name.familyName ? secondaryOwner.name.familyName : "");
-    set(owner, "dateOfBirth", secondaryOwner.birthDate ? secondaryOwner.birthDate : "");
-    set(owner, "gender", secondaryOwner.gender ? maps.genderTypeMap[secondaryOwner.gender] : "");
-    set(owner, "citizenshipStatus", secondaryOwner.citizenship && secondaryOwner.citizenship.citizenshipStatus ? maps.residencyStatusMap[secondaryOwner.citizenship.citizenshipStatus] : "");
+    set(owner, "firstName", secondaryOwner.name && secondaryOwner.name.givenName ? secondaryOwner.name.givenName : null);
+    set(owner, "middleName", secondaryOwner.name && secondaryOwner.name.middleInitial ? secondaryOwner.name.middleInitial : null);
+    set(owner, "lastName", secondaryOwner.name && secondaryOwner.name.familyName ? secondaryOwner.name.familyName : null);
+    set(owner, "dateOfBirth", secondaryOwner.birthDate ? secondaryOwner.birthDate : null);
+    set(owner, "gender", secondaryOwner.gender ? maps.genderTypeMap[secondaryOwner.gender] : null);
+    set(owner, "citizenshipStatus", secondaryOwner.citizenship && secondaryOwner.citizenship.citizenshipStatus ? maps.residencyStatusMap[secondaryOwner.citizenship.citizenshipStatus] : null);
     if (isPresent(secondaryOwner.ssn)) {
       let ssNOrTaxID2 = replace(secondaryOwner.ssn, '-', '');
       set(owner, "ssNOrTaxID", skipError(substring(ssNOrTaxID2, 0, 3) + '-' + substring(ssNOrTaxID2, 3, 5) + '-' + substring(ssNOrTaxID2, 5, 9), ssNOrTaxID2));
     }
     set(owner, "numberOfDependents", secondaryOwner.numDependents ? secondaryOwner.numDependents : 0);
-    set(owner, "maritalStatus", secondaryOwner.maritalStatus ? maps.maritalStatusMap[secondaryOwner.maritalStatus] : "");
-    set(owner, "employmentStatus", secondaryOwner.employment && secondaryOwner.employment.employmentStatus ? maps.employmentStatusMap[secondaryOwner.employment.employmentStatus] : "");
-    set(owner, "occupation", secondaryOwner.employment && secondaryOwner.employment.occupation ? secondaryOwner.employment.occupation : "");
-    set(owner, "natureOfBusiness", secondaryOwner.employment && secondaryOwner.employment.natureOfBusiness ? secondaryOwner.employment.natureOfBusiness : "");
-    set(owner, "employer", secondaryOwner.employment && secondaryOwner.employment.employer ? secondaryOwner.employment.employer : "");
+    set(owner, "maritalStatus", secondaryOwner.maritalStatus ? maps.maritalStatusMap[secondaryOwner.maritalStatus] : null);
+    set(owner, "employmentStatus", secondaryOwner.employment && secondaryOwner.employment.employmentStatus ? maps.employmentStatusMap[secondaryOwner.employment.employmentStatus] : null);
+    set(owner, "occupation", secondaryOwner.employment && secondaryOwner.employment.occupation ? secondaryOwner.employment.occupation : null);
+    set(owner, "natureOfBusiness", secondaryOwner.employment && secondaryOwner.employment.natureOfBusiness ? secondaryOwner.employment.natureOfBusiness : null);
+    set(owner, "employer", secondaryOwner.employment && secondaryOwner.employment.employer ? secondaryOwner.employment.employer : null);
     set(owner, "yearsEmployed", secondaryOwner.employment && secondaryOwner.employment.yearsEmployed ? secondaryOwner.employment.yearsEmployed : 0);
-    set(owner, "employerPhoneNumber", secondaryOwner.employment && secondaryOwner.employment.workPhone ? secondaryOwner.employment.workPhone : "");
-    set(owner, "homeOwnership", secondaryOwner.homeType ? maps.ownershipStatusMap[secondaryOwner.homeType] : "");
-    set(owner, "primaryEmail", secondaryOwner.email ? secondaryOwner.email : "");
-    set(owner, "primaryPhoneNumber", secondaryOwner.contact && secondaryOwner.contact.phone ? secondaryOwner.contact.phone : "");
+    set(owner, "employerPhoneNumber", secondaryOwner.employment && secondaryOwner.employment.workPhone ? secondaryOwner.employment.workPhone : null);
+    set(owner, "homeOwnership", secondaryOwner.homeType ? maps.ownershipStatusMap[secondaryOwner.homeType] : null);
+    set(owner, "primaryEmail", secondaryOwner.email ? secondaryOwner.email : null);
+    set(owner, "primaryPhoneNumber", secondaryOwner.contact && secondaryOwner.contact.phone ? secondaryOwner.contact.phone : null);
     
     if (secondaryOwner.employment && secondaryOwner.employment.workAddress) {
       let workAddress2 = secondaryOwner.employment.workAddress;

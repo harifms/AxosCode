@@ -11,24 +11,24 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
     }
     let owner = accDetails.primaryOwner.owner || {};
 
-    set(owner, "firstName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.givenName ? apiResponse.individualHolder.name.givenName : "");
-    set(owner, "middleName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.middleInitial ? apiResponse.individualHolder.name.middleInitial : "");
-    set(owner, "lastName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.familyName ? apiResponse.individualHolder.name.familyName : "");
-    set(owner, "dateOfBirth", apiResponse.individualHolder.birthDate ? apiResponse.individualHolder.birthDate : "");
-    set(owner, "gender", apiResponse.individualHolder.gender ? maps.genderTypeMap[apiResponse.individualHolder.gender] : "");
-    set(owner, "citizenshipStatus", apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.citizenshipStatus ? maps.residencyStatusMap[apiResponse.individualHolder.citizenship.citizenshipStatus] : "");
-    set(owner, "ssNOrTaxID", ssNOrTaxID ? substring(ssNOrTaxID, 0, 3) + '-' + substring(ssNOrTaxID, 3, 5) + '-' + substring(ssNOrTaxID, 5, 9) : "");
+    set(owner, "firstName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.givenName ? apiResponse.individualHolder.name.givenName : null);
+    set(owner, "middleName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.middleInitial ? apiResponse.individualHolder.name.middleInitial : null);
+    set(owner, "lastName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.familyName ? apiResponse.individualHolder.name.familyName : null);
+    set(owner, "dateOfBirth", apiResponse.individualHolder.birthDate ? apiResponse.individualHolder.birthDate : null);
+    set(owner, "gender", apiResponse.individualHolder.gender ? maps.genderTypeMap[apiResponse.individualHolder.gender] : null);
+    set(owner, "citizenshipStatus", apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.citizenshipStatus ? maps.residencyStatusMap[apiResponse.individualHolder.citizenship.citizenshipStatus] : null);
+    set(owner, "ssNOrTaxID", ssNOrTaxID ? substring(ssNOrTaxID, 0, 3) + '-' + substring(ssNOrTaxID, 3, 5) + '-' + substring(ssNOrTaxID, 5, 9) : null);
     set(owner, "numberOfDependents", apiResponse.individualHolder.numDependents ? apiResponse.individualHolder.numDependents : 0);
-    set(owner, "maritalStatus", apiResponse.individualHolder.maritalStatus ? maps.maritalStatusMap[apiResponse.individualHolder.maritalStatus] : "");
-    set(owner, "employmentStatus", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.employmentStatus ? maps.employmentStatusMap[apiResponse.individualHolder.employment.employmentStatus] : "");
-    set(owner, "occupation", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.occupation ? apiResponse.individualHolder.employment.occupation : "");
-    set(owner, "natureOfBusiness", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.natureOfBusiness ? apiResponse.individualHolder.employment.natureOfBusiness : "");
-    set(owner, "employer", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.employer ? apiResponse.individualHolder.employment.employer : "");
+    set(owner, "maritalStatus", apiResponse.individualHolder.maritalStatus ? maps.maritalStatusMap[apiResponse.individualHolder.maritalStatus] : null);
+    set(owner, "employmentStatus", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.employmentStatus ? maps.employmentStatusMap[apiResponse.individualHolder.employment.employmentStatus] : null);
+    set(owner, "occupation", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.occupation ? apiResponse.individualHolder.employment.occupation : null);
+    set(owner, "natureOfBusiness", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.natureOfBusiness ? apiResponse.individualHolder.employment.natureOfBusiness : null);
+    set(owner, "employer", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.employer ? apiResponse.individualHolder.employment.employer : null);
     set(owner, "yearsEmployed", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.yearsEmployed ? apiResponse.individualHolder.employment.yearsEmployed : 0);
-    set(owner, "employerPhoneNumber", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.workPhone ? apiResponse.individualHolder.employment.workPhone : "");
-    set(owner, "homeOwnership", apiResponse.individualHolder.homeType ? maps.ownershipStatusMap[apiResponse.individualHolder.homeType] : "");
-    set(owner, "primaryEmail", apiResponse.individualHolder.email ? apiResponse.individualHolder.email : "");
-    set(owner, "primaryPhoneNumber", apiResponse.individualHolder.contact && apiResponse.individualHolder.contact.phone ? apiResponse.individualHolder.contact.phone : "");
+    set(owner, "employerPhoneNumber", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.workPhone ? apiResponse.individualHolder.employment.workPhone : null);
+    set(owner, "homeOwnership", apiResponse.individualHolder.homeType ? maps.ownershipStatusMap[apiResponse.individualHolder.homeType] : null);
+    set(owner, "primaryEmail", apiResponse.individualHolder.email ? apiResponse.individualHolder.email : null);
+    set(owner, "primaryPhoneNumber", apiResponse.individualHolder.contact && apiResponse.individualHolder.contact.phone ? apiResponse.individualHolder.contact.phone : null);
 
     set(owner, "investmentExperienceEquities", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? maps.experienceMap[apiResponse.investmentProfile.stocksExperience.assetExperienceRange] : null);
     set(owner, "investmentExperienceEquitiesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? toString(apiResponse.investmentProfile.stocksExperience.transactionsPerYear) : null);
