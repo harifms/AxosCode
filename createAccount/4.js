@@ -24,7 +24,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 "homeType": o.owner.homeOwnership,
                 "email": o.owner.primaryEmail,
                 "accountAgreement": {
-                    "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024", 
+                    "documentRevision": "Account Application|CO01|03.2019 (002)", //Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024", 
                     "holderESignature": "YES"
                 },
                 "employment": {
@@ -173,7 +173,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 });
             }
             set(coHolder, "accountAgreement", {
-                "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
+                "documentRevision": "Account Application|CO01|03.2019 (002)", //Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
                 "holderESignature": "YES"
             });
             totalPercentage = totalPercentage + o.percentage;

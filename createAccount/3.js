@@ -147,7 +147,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         });
     }
     set(payload.requests[0].individualHolder, "accountAgreement", {
-        "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
+        "documentRevision": "Account Application|CO01|03.2019 (002)", //Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
         "holderESignature": "YES"
     });
 } else {
@@ -245,7 +245,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         });
     }
     set(payload.requests[0].entityHolder, "accountAgreement", {
-        "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
+        "documentRevision": "Account Application|CO01|03.2019 (002)", //Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
         "holderESignature": "YES"
     });
 }
