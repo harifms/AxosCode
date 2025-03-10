@@ -34,7 +34,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
             "natureOfBusiness": Account.primaryOwner.owner.natureOfBusiness,
             "employer": Account.primaryOwner.owner.employer,
             "yearsEmployed": Account.primaryOwner.owner.yearsEmployed || 0,
-            "workPhone": Account.primaryOwner.owner.employerPhoneNumber ? replace(Account.primaryOwner.owner.employerPhoneNumber, " ", "") : ""
+            "workPhone": Account.primaryOwner.owner.employerPhoneNumber ? replace(Account.primaryOwner.owner.employerPhoneNumber, " ", "") : null
         });
     }
     set(payload.requests[0].individualHolder.contact, "affiliationsGroup", affiliationsGroup);
@@ -147,7 +147,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         });
     }
     set(payload.requests[0].individualHolder, "accountAgreement", {
-        "documentRevision": "Account Application|CO01|03.2019 (002)", //Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
+        "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
         "holderESignature": "YES"
     });
 } else {
@@ -245,7 +245,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         });
     }
     set(payload.requests[0].entityHolder, "accountAgreement", {
-        "documentRevision": "Account Application|CO01|03.2019 (002)", //Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
+        "documentRevision": Account.isManaged ? "Account Application-RIA|CO10|10.22" : "Account Application|COO1|04.2024",
         "holderESignature": "YES"
     });
 }
