@@ -59,7 +59,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 }
                 set(coHolder, "patriotAct", coHolderPatriotAct);
             }
-            if (o.trustedContact && !o.trustedContactInfoDeclined) {
+            if (o.trustedContact && o.trustedContactInfoDeclined) {
                 set(coHolder, "trustedContact", {
                     "name": [o.trustedContact.firstName, o.trustedContact.middleName, o.trustedContact.lastName].join(' '),
                     "relationship": o.trustedContactRelationship,
