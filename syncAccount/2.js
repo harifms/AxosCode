@@ -47,7 +47,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
     set(owner, "investExperienceMargin", apiResponse.investmentProfile && apiResponse.investmentProfile.marginsExperience ? maps.experienceMap[apiResponse.investmentProfile.marginsExperience.assetExperienceRange] : null);
     set(owner, "investExperienceMarginTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.marginsExperience ? apiResponse.investmentProfile.marginsExperience.transactionsPerYear : null);
     set(owner, "backupWithholdingExemptPayeeCode", apiResponse.w9 && apiResponse.w9.exemptPayee ? apiResponse.w9.exemptPayee : null);
-    set(owner, "fatcaReportingExemptionCode", apiResponse.w9 && apiResponse.w9.factaCode ? apiResponse.w9.factaCode : null);
+    set(owner, "faTCAReportingExemptionCode", apiResponse.w9 && apiResponse.w9.factaCode ? apiResponse.w9.factaCode : null);
 
     if (apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.workAddress) {
       let workAddress = apiResponse.individualHolder.employment.workAddress;
@@ -173,7 +173,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
       "primaryOwner.owner.investExperienceMargin",
       "primaryOwner.owner.investExperienceMarginTransactions",
       "primaryOwner.owner.backupWithholdingExemptPayeeCode",
-      "primaryOwner.owner.fatcaReportingExemptionCode",
+      "primaryOwner.owner.faTCAReportingExemptionCode",
 
       "primaryOwner.owner.employerAddress.line1",
       "primaryOwner.owner.employerAddress.line2",

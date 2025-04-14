@@ -65,7 +65,7 @@ let payload = {
             "enableFpl": "NO",
             "w9": {
                 "exemptPayee": Account.primaryOwner.owner.backupWithholdingExemptPayeeCode || "NA",
-                "factaCode": Account.primaryOwner.owner.fatcaReportingExemptionCode || "NA"
+                "factaCode": Account.primaryOwner.owner.faTCAReportingExemptionCode || "NA"
             },
             "accountName": accountName,
             "repCode": skipError(substring(Account.repCodeLink.repCode, 3, 7), Account.repCodeLink.repCode),
