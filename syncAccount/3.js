@@ -3,6 +3,7 @@ let fields = response.fields;
 let fieldsAssigned = [];
 if (apiResponse.trustedContact) {
   let trustedContact = accDetails.primaryOwner.trustedContact || {};
+  set(accDetails.primaryOwner, "includeTrustedContact", true);
 
   set(trustedContact, "fullName", apiResponse.trustedContact.name);
   set(trustedContact, "primaryEmail", apiResponse.trustedContact.email);
@@ -21,6 +22,7 @@ if (apiResponse.trustedContact) {
   set(accDetails.primaryOwner, "trustedContactRelationship", apiResponse.trustedContact.relationship);
   set(accDetails.primaryOwner, "trustedContact", trustedContact);
   fieldsAssigned = concat(fieldsAssigned, [  
+    "primaryOwner.includeTrustedContact",
     "primaryOwner.trustedContactRelationship",
     "primaryOwner.owner.trustedContact.fullName",
     "primaryOwner.owner.trustedContact.primaryPhoneNumber",

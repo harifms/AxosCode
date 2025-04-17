@@ -2,7 +2,7 @@ let Account = account;
 
 set(Account, "primaryOwner.owner.mailingAddress", extendedAccount.primaryOwner.owner.mailingAddress);
 set(Account, "primaryOwner.owner.legalAddress", extendedAccount.primaryOwner.owner.legalAddress);
-if (!Account.primaryOwner.trustedContactInfoDeclined && extendedAccount.primaryOwner.trustedContact != null) {
+if (Account.primaryOwner.includeTrustedContact && extendedAccount.primaryOwner.trustedContact != null) {
   set(Account, "primaryOwner.trustedContact", extendedAccount.primaryOwner.trustedContact);  
   set(Account, "primaryOwner.trustedContact.legalAddress", extendedAccount.primaryOwner.trustedContact.legalAddress);
   set(Account, "primaryOwner.trustedContact.mailingAddress", extendedAccount.primaryOwner.trustedContact.mailingAddress);
@@ -19,7 +19,7 @@ if (extendedAccount.secondaryOwners){
     for ( let o of extendedAccount.secondaryOwners ) { 
         set(Account.secondaryOwners[i], "owner.mailingAddress", o.owner.mailingAddress);
         set(Account.secondaryOwners[i], "owner.legalAddress", o.owner.legalAddress);
-        if (!o.trustedContactInfoDeclined && o.trustedContact != null) {
+        if (o.includeTrustedContact && o.trustedContact != null) {
           set(Account.secondaryOwners[i], "trustedContact", o.trustedContact);  
           set(Account.secondaryOwners[i], "trustedContact.legalAddress", o.trustedContact.legalAddress);
           set(Account.secondaryOwners[i], "trustedContact.mailingAddress", o.trustedContact.mailingAddress);

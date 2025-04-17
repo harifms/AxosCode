@@ -85,7 +85,7 @@ if (Account.advisorTradingDiscretion){
     set(payload.requests[0], "discretion", Account.advisorTradingDiscretion == "Full" ? "FULL" : (Account.advisorTradingDiscretion == "Limited" ? "LIMITED" : "OTHER"));
 }
 
-if (Account.primaryOwner.trustedContact && !Account.primaryOwner.trustedContactInfoDeclined) {
+if (Account.primaryOwner.trustedContact && Account.primaryOwner.includeTrustedContact) {
     set(payload.requests[0], "trustedContact", {
         "name": [Account.primaryOwner.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),
         "relationship": Account.primaryOwner.trustedContactRelationship,

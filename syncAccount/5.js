@@ -115,6 +115,7 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
     
     if (secondaryOwner.trustedContact) {
       let trustedContact = secOwner.trustedContact || {};
+      set(secOwner, "includeTrustedContact", true);
     
       set(trustedContact, "fullName", secondaryOwner.trustedContact.name);
       set(trustedContact, "primaryEmail", secondaryOwner.trustedContact.email);
@@ -200,6 +201,7 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
     "secondaryOwners.owner.foreignOfficial.foreignCountryName",
     
     "secondaryOwners.trustedContactRelationship",
+    "secondaryOwners.includeTrustedContact",
     "secondaryOwners.owner.trustedContact.fullName",
     "secondaryOwners.owner.trustedContact.primaryPhoneNumber",
     "secondaryOwners.owner.trustedContact.primaryEmail",
