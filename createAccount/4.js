@@ -63,9 +63,11 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 set(coHolder, "trustedContact", {
                     "name": [o.trustedContact.firstName, o.trustedContact.middleName, o.trustedContact.lastName].join(' '),
                     "relationship": o.trustedContactRelationship,
-                    "phone": replace(o.trustedContact.primaryPhoneNumber, " ", ""),
-                    "email": o.trustedContact.primaryEmail
+                    "phone": replace(o.trustedContact.primaryPhoneNumber, " ", "")
                 });
+                if(o.trustedContact.primaryEmail) {
+                    set(coHolder.trustedContact, "email", o.trustedContact.primaryEmail);
+                }
                 if (o.trustedContact.mailingAddress) {
                     set(coHolder.trustedContact, "address", {
                         "streetLine1": o.trustedContact.mailingAddress.line1,

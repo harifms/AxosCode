@@ -89,9 +89,11 @@ if (Account.primaryOwner.trustedContact && Account.primaryOwner.includeTrustedCo
     set(payload.requests[0], "trustedContact", {
         "name": [Account.primaryOwner.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),
         "relationship": Account.primaryOwner.trustedContactRelationship,
-        "phone": replace(Account.primaryOwner.trustedContact.primaryPhoneNumber, " ", ""),
-        "email": Account.primaryOwner.trustedContact.primaryEmail
+        "phone": replace(Account.primaryOwner.trustedContact.primaryPhoneNumber, " ", "")
     });
+    if (Account.primaryOwner.trustedContact.primaryEmail) {
+        set(payload.requests[0].trustedContact, "email", Account.primaryOwner.trustedContact.primaryEmail);
+    }
     if (Account.primaryOwner.trustedContact.mailingAddress) {
         set(payload.requests[0].trustedContact, "address", {
             "streetLine1": Account.primaryOwner.trustedContact.mailingAddress.line1,
