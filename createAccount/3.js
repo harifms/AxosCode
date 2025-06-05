@@ -1,5 +1,6 @@
 let affiliationsGroup = {};
 if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType != "TRUST_REVOCABLE") {
+    let phoneNumberCleaned = replace(removeCharacters(Account.primaryOwner.owner.primaryPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "");
     set(payload.requests[0], "individualHolder", {
         "name": {
             "givenName": Account.primaryOwner.owner.firstName,
@@ -22,19 +23,20 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         "homeType": Account.primaryOwner.owner.homeOwnership,
         "email": Account.primaryOwner.owner.primaryEmail,
         "contact": {
-            "phone": replace(Account.primaryOwner.owner.primaryPhoneNumber, " ", "")
+            "phone": phoneNumberCleaned
         },
         "externalClientId": Account.primaryOwner.owner.id
     });
 
     if (Account.primaryOwner.owner.employmentStatus != "UNEMPLOYED") {
+        let empPhoneNumberCleaned = Account.primaryOwner.owner.employerPhoneNumber ? replace(removeCharacters(Account.primaryOwner.owner.employerPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "") : null;
         set(payload.requests[0].individualHolder, "employment", {
             "employmentStatus": Account.primaryOwner.owner.employmentStatus,
             "occupation": Account.primaryOwner.owner.occupation,
             "natureOfBusiness": Account.primaryOwner.owner.natureOfBusiness,
             "employer": Account.primaryOwner.owner.employer,
             "yearsEmployed": Account.primaryOwner.owner.yearsEmployed || 0,
-            "workPhone": Account.primaryOwner.owner.employerPhoneNumber ? replace(Account.primaryOwner.owner.employerPhoneNumber, " ", "") : null
+            "workPhone": empPhoneNumberCleaned
         });
     }
     set(payload.requests[0].individualHolder.contact, "affiliationsGroup", affiliationsGroup);
@@ -162,8 +164,9 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         "itin": Account.primaryOwner.owner.ein,
         "externalClientId": Account.primaryOwner.owner.id
     });
+    let bizPhoneNumberCleaned = Account.primaryOwner.owner.businessPhoneNumber ? replace(removeCharacters(Account.primaryOwner.owner.businessPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "") : null;
     set(payload.requests[0].entityHolder, "contact", {
-        "phone": replace(Account.primaryOwner.owner.businessPhoneNumber, " ", ""),
+        "phone": bizPhoneNumberCleaned,
         "legalAddress": {
             "streetLine1": Account.primaryOwner.owner.legalAddress.line1,
             "streetLine2": Account.primaryOwner.owner.legalAddress.line2,

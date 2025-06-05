@@ -5,6 +5,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
 
     for (let o of Account.secondaryOwners) {
         if (isPresent(o.owner)) {
+            let phoneNumberCleaned = replace(removeCharacters(o.owner.primaryPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "");
             let coHolder = {
                 "name": {
                     "givenName": o.owner.firstName,
@@ -31,18 +32,19 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "employmentStatus": o.owner.employmentStatus
                 },
                 "contact": {
-                    "phone": replace(o.owner.primaryPhoneNumber, " ", "")
+                    "phone": phoneNumberCleaned
                 },
                 "externalClientId": o.owner.id
             };
             if (o.owner.employmentStatus != "UNEMPLOYED") {
+                let empPhoneNumberCleaned = o.owner.employerPhoneNumber ? replace(removeCharacters(o.owner.employerPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "") : null;
                 set(coHolder, "employment", {
                     "employmentStatus": o.owner.employmentStatus,
                     "occupation": o.owner.occupation,
                     "natureOfBusiness": o.owner.natureOfBusiness,
                     "employer": o.owner.employer,
                     "yearsEmployed": o.owner.yearsEmployed || 0,
-                    "workPhone": o.owner.employerPhoneNumber ? replace(o.owner.employerPhoneNumber, " ", "") : null
+                    "workPhone": empPhoneNumberCleaned
                 });
             }
 
@@ -60,10 +62,11 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 set(coHolder, "patriotAct", coHolderPatriotAct);
             }
             if (o.trustedContact && o.includeTrustedContact) {
+                let tcPhoneNumberCleaned = o.trustedContact.primaryPhoneNumber ? replace(removeCharacters(o.trustedContact.primaryPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "") : null;
                 set(coHolder, "trustedContact", {
                     "name": [o.trustedContact.firstName, o.trustedContact.middleName, o.trustedContact.lastName].join(' '),
                     "relationship": o.trustedContactRelationship,
-                    "phone": replace(o.trustedContact.primaryPhoneNumber, " ", ""),
+                    "phone": tcPhoneNumberCleaned,
                     "email": o.trustedContact.primaryEmail
                 });
                 if (o.trustedContact.mailingAddress) {
