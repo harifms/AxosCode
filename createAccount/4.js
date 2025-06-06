@@ -5,7 +5,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
 
     for (let o of Account.secondaryOwners) {
         if (isPresent(o.owner)) {
-            let phoneNumberCleaned = replace(removeCharacters(o.owner.primaryPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "");
+            let phoneNumberCleaned = replace(removeCharacters(o.owner.primaryPhoneNumber, [" "]), "+1 ", "");
             let coHolder = {
                 "name": {
                     "givenName": o.owner.firstName,
@@ -37,7 +37,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 "externalClientId": o.owner.id
             };
             if (o.owner.employmentStatus != "UNEMPLOYED") {
-                let empPhoneNumberCleaned = o.owner.employerPhoneNumber ? replace(removeCharacters(o.owner.employerPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "") : null;
+                let empPhoneNumberCleaned = o.owner.employerPhoneNumber ? replace(removeCharacters(o.owner.employerPhoneNumber, [" "]), "+1 ", "") : null;
                 set(coHolder, "employment", {
                     "employmentStatus": o.owner.employmentStatus,
                     "occupation": o.owner.occupation,
@@ -62,7 +62,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 set(coHolder, "patriotAct", coHolderPatriotAct);
             }
             if (o.trustedContact && o.includeTrustedContact) {
-                let tcPhoneNumberCleaned = o.trustedContact.primaryPhoneNumber ? replace(removeCharacters(o.trustedContact.primaryPhoneNumber, [" ", "(", ")", "-", "+"]), "-", "") : null;
+                let tcPhoneNumberCleaned = o.trustedContact.primaryPhoneNumber ? replace(removeCharacters(o.trustedContact.primaryPhoneNumber, [" "]), "+1 ", "") : null;
                 set(coHolder, "trustedContact", {
                     "name": [o.trustedContact.firstName, o.trustedContact.middleName, o.trustedContact.lastName].join(' '),
                     "relationship": o.trustedContactRelationship,
