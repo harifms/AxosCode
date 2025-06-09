@@ -1,6 +1,6 @@
 let affiliationsGroup = {};
 if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType != "TRUST_REVOCABLE") {
-    let phoneNumberCleaned = replace(removeCharacters(Account.primaryOwner.owner.primaryPhoneNumber, [" "]), "+1 ", "");
+    let phoneNumberCleaned = removeCharacters(replace(Account.primaryOwner.owner.primaryPhoneNumber, "+1 ", ""), [" "]);
     set(payload.requests[0], "individualHolder", {
         "name": {
             "givenName": Account.primaryOwner.owner.firstName,
@@ -29,7 +29,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
     });
 
     if (Account.primaryOwner.owner.employmentStatus != "UNEMPLOYED") {
-        let empPhoneNumberCleaned = Account.primaryOwner.owner.employerPhoneNumber ? replace(removeCharacters(Account.primaryOwner.owner.employerPhoneNumber, [" "]), "+1 ", "") : null;
+        let empPhoneNumberCleaned = Account.primaryOwner.owner.employerPhoneNumber ? removeCharacters(replace(Account.primaryOwner.owner.employerPhoneNumber, "+1 ", ""), [" "]) : null;
         set(payload.requests[0].individualHolder, "employment", {
             "employmentStatus": Account.primaryOwner.owner.employmentStatus,
             "occupation": Account.primaryOwner.owner.occupation,
@@ -164,7 +164,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         "itin": Account.primaryOwner.owner.ein,
         "externalClientId": Account.primaryOwner.owner.id
     });
-    let bizPhoneNumberCleaned = Account.primaryOwner.owner.businessPhoneNumber ? replace(removeCharacters(Account.primaryOwner.owner.businessPhoneNumber, [" "]), "+1 ", "") : null;
+    let bizPhoneNumberCleaned = Account.primaryOwner.owner.businessPhoneNumber ? removeCharacters(replace(Account.primaryOwner.owner.businessPhoneNumber, "+1 ", ""), [" "]) : null;
     set(payload.requests[0].entityHolder, "contact", {
         "phone": bizPhoneNumberCleaned,
         "legalAddress": {
