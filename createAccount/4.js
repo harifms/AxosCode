@@ -124,7 +124,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             affiliationsGroup = {};
             if (o.owner.securitiesIndustryAffiliation && o.owner.securitiesIndustryAffiliation.enabled) {
                 set(affiliationsGroup, "nasdGroup", {
-                    "nasd": o.owner.securitiesIndustryAffiliation.firmNameForEmployee,
+                    "nasd": "YES",
                     "nasdType": o.owner.securitiesIndustryAffiliation.typeOfEmployer,
                     "nasdEntity": o.owner.securitiesIndustryAffiliation.firmNameForEmployee
                 });
@@ -137,7 +137,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             }
             if (o.owner.publicCompanyOfficial && o.owner.publicCompanyOfficial.enabled) {
                 set(affiliationsGroup, "companyGroup", {
-                    "publicCompany": o.owner.publicCompanyOfficial.firmNameForOfficer,
+                    "publicCompany": "YES",
                     "publicCompanyType": o.owner.publicCompanyOfficial.relationshipOfOfficer,
                     "publicCompanyNameOrSymbol": o.owner.publicCompanyOfficial.firmTickerForOfficer || o.owner.publicCompanyOfficial.firmNameForOfficer
                 });

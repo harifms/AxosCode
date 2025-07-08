@@ -43,7 +43,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
     affiliationsGroup = {};
     if (Account.primaryOwner.owner.securitiesIndustryAffiliation && Account.primaryOwner.owner.securitiesIndustryAffiliation.enabled) {
         set(affiliationsGroup, "nasdGroup", {
-            "nasd": Account.primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee,
+            "nasd": "YES",
             "nasdType": Account.primaryOwner.owner.securitiesIndustryAffiliation.typeOfEmployer,
             "nasdEntity": Account.primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee
         });
@@ -57,7 +57,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
 
     if (Account.primaryOwner.owner.publicCompanyOfficial && Account.primaryOwner.owner.publicCompanyOfficial.enabled) {
         set(affiliationsGroup, "companyGroup", {
-            "publicCompany": Account.primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer,
+            "publicCompany": "YES",
             "publicCompanyType": Account.primaryOwner.owner.publicCompanyOfficial.relationshipOfOfficer,
             "publicCompanyNameOrSymbol": Account.primaryOwner.owner.publicCompanyOfficial.firmTickerForOfficer || Account.primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer
         });
@@ -196,7 +196,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
     affiliationsGroup = {};
     if (Account.primaryOwner.owner.securitiesIndustryAffiliation && Account.primaryOwner.owner.securitiesIndustryAffiliation.enabled) {
         set(affiliationsGroup, "nasdGroup", {
-            "nasd": Account.primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee,
+            "nasd": "YES",
             "nasdType": Account.primaryOwner.owner.securitiesIndustryAffiliation.typeOfEmployer,
             "nasdEntity": Account.primaryOwner.owner.securitiesIndustryAffiliation.firmNameForEmployee
         });
@@ -210,7 +210,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
 
     if (Account.primaryOwner.owner.publicCompanyOfficial && Account.primaryOwner.owner.publicCompanyOfficial.enabled) {
         set(affiliationsGroup, "companyGroup", {
-            "publicCompany": Account.primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer,
+            "publicCompany": "YES",
             "publicCompanyType": Account.primaryOwner.owner.publicCompanyOfficial.relationshipOfOfficer,
             "publicCompanyNameOrSymbol": Account.primaryOwner.owner.publicCompanyOfficial.firmTickerForOfficer || Account.primaryOwner.owner.publicCompanyOfficial.firmNameForOfficer
         });

@@ -109,7 +109,13 @@ let optionsRiskLevelMap = {
   'Spreads/long straddles': 3,
   'Equity puts writing': 4,
   'Uncovered call writing': 5,
-  'Uncovered index options': 6
+  'Uncovered index options': 6,
+  "1 - Covered calls": 1,
+  "2 - Purchase calls & puts": 2,
+  "3 - Spreads/long straddles": 3,
+  "4 - Equity puts writing": 4,
+  "5 - Uncovered call writing": 5,
+  "6 - Uncovered index options": 6
 };
 set(Account, 'optionsRiskLevel', optionsRiskLevelMap[Account.optionsRiskLevel] || 6);
 

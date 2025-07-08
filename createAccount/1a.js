@@ -87,11 +87,17 @@ let brokerRegulatoryMap = {
 if (Account.primaryOwner.owner.regulatoryDisclosuresV0 != null){
   set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.typeOfEmployer", brokerRegulatoryMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.typeOfEmployer]);
 }
+if (Account.primaryOwner.owner.securitiesIndustryAffiliation != null){
+  set(Account, "primaryOwner.owner.securitiesIndustryAffiliation.typeOfEmployer", brokerRegulatoryMap[Account.primaryOwner.owner.securitiesIndustryAffiliation.typeOfEmployer]);
+}
 if(isPresent(Account.secondaryOwners)){  
   i = 0;
   for ( let o of Account.secondaryOwners ) {
       if (isPresent(o.owner) && isPresent(o.owner.regulatoryDisclosuresV0)) {
           set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.typeOfEmployer", brokerRegulatoryMap[o.owner.regulatoryDisclosuresV0.typeOfEmployer]);
+      }
+      if (isPresent(o.owner) && isPresent(o.owner.securitiesIndustryAffiliation)) {
+          set(Account.secondaryOwners[i], "owner.securitiesIndustryAffiliation.typeOfEmployer", brokerRegulatoryMap[o.owner.securitiesIndustryAffiliation.typeOfEmployer]);
       }
       i = i + 1;
   }
@@ -99,19 +105,26 @@ if(isPresent(Account.secondaryOwners)){
 
 let corporateRolesMap = {
     "10% shareholder": "SHAREHOLDER",
+    "10% Shareholder": "SHAREHOLDER",
     "CEO": "CEO",
     "CFO": "CFO",
     "COO": "COO",
     "Other Officer": "OTHER"
 };
 if (Account.primaryOwner.owner.regulatoryDisclosuresV0 != null){
-  set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.officerRole", corporateRolesMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.officerRole]);
+  set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.officerRole", corporateRolesMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.officerRole] || "OTHER");
+}
+if (Account.primaryOwner.owner.publicCompanyOfficial != null){
+  set(Account, "primaryOwner.owner.publicCompanyOfficial.officerRole", corporateRolesMap[Account.primaryOwner.owner.publicCompanyOfficial.officerRole] || "OTHER");
 }
 if(isPresent(Account.secondaryOwners)){  
   i = 0;
   for ( let o of Account.secondaryOwners ) {
       if (isPresent(o.owner) && isPresent(o.owner.regulatoryDisclosuresV0)) {
-          set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.officerRole", corporateRolesMap[o.owner.regulatoryDisclosuresV0.officerRole]);
+          set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.officerRole", corporateRolesMap[o.owner.regulatoryDisclosuresV0.officerRole] || "OTHER");
+      }
+      if (isPresent(o.owner) && isPresent(o.owner.publicCompanyOfficial)) {
+          set(Account.secondaryOwners[i], "owner.publicCompanyOfficial.officerRole", corporateRolesMap[o.owner.publicCompanyOfficial.officerRole] || "OTHER");
       }
       i = i + 1;
   }
