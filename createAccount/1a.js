@@ -113,18 +113,22 @@ let corporateRolesMap = {
 };
 if (Account.primaryOwner.owner.regulatoryDisclosuresV0 != null){
   set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.officerRole", corporateRolesMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.officerRole] || "OTHER");
+  set(Account, "primaryOwner.owner.regulatoryDisclosuresV0.relationshipOfOfficer", corporateRolesMap[Account.primaryOwner.owner.regulatoryDisclosuresV0.relationshipOfOfficer] || "OTHER");
 }
 if (Account.primaryOwner.owner.publicCompanyOfficial != null){
   set(Account, "primaryOwner.owner.publicCompanyOfficial.officerRole", corporateRolesMap[Account.primaryOwner.owner.publicCompanyOfficial.officerRole] || "OTHER");
+  set(Account, "primaryOwner.owner.publicCompanyOfficial.relationshipOfOfficer", corporateRolesMap[Account.primaryOwner.owner.publicCompanyOfficial.relationshipOfOfficer] || "OTHER");
 }
 if(isPresent(Account.secondaryOwners)){  
   i = 0;
   for ( let o of Account.secondaryOwners ) {
       if (isPresent(o.owner) && isPresent(o.owner.regulatoryDisclosuresV0)) {
           set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.officerRole", corporateRolesMap[o.owner.regulatoryDisclosuresV0.officerRole] || "OTHER");
+          set(Account.secondaryOwners[i], "owner.regulatoryDisclosuresV0.relationshipOfOfficer", corporateRolesMap[o.owner.publicCompanyOfficial.relationshipOfOfficer] || "OTHER");
       }
       if (isPresent(o.owner) && isPresent(o.owner.publicCompanyOfficial)) {
           set(Account.secondaryOwners[i], "owner.publicCompanyOfficial.officerRole", corporateRolesMap[o.owner.publicCompanyOfficial.officerRole] || "OTHER");
+          set(Account.secondaryOwners[i], "owner.publicCompanyOfficial.relationshipOfOfficer", corporateRolesMap[o.owner.publicCompanyOfficial.relationshipOfOfficer] || "OTHER");
       }
       i = i + 1;
   }

@@ -3,7 +3,6 @@ set(accDetails, "nickName", apiResponse.principalName);
 // set(accDetails, "accountNumber", apiResponse.accountNumber);
 set(accDetails, "accountCustodianStatus", apiResponse.status);
 set(accDetails, "startDate", parseDate(apiResponse.openedDate, "yyyy-MM-dd"));
-set(accDetails, "registrationType", isEmpty(regTypeBo) ? accDetails.registrationType : regTypeBo[0]);
 set(accDetails, "repCodeLink", isEmpty(repCodeBo) ? accDetails.repCodeLink : repCodeBo[0]);
 set(accDetails, "ouLevel1", isEmpty(orgUnitBo) ? accDetails.ouLevel1 : orgUnitBo[0]);
 
