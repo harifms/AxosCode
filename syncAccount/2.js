@@ -99,20 +99,20 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
         set(owner, "previousLegalAddress", previousAddress);
       }
       if (apiResponse.individualHolder.contact.affiliationsGroup) {
-        if (apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup && apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup){
+        if (apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup){
           let securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
           set(securitiesIndustryAffiliation, "typeOfEmployer", apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdType);
           set(securitiesIndustryAffiliation, "firmNameForEmployee", apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
-        if (apiResponse.individualHolder.contact.affiliationsGroup.companyGroup && apiResponse.individualHolder.contact.affiliationsGroup.companyGroup){
+        if (apiResponse.individualHolder.contact.affiliationsGroup.companyGroup){
           let publicCompanyOfficial = owner.publicCompanyOfficial || {};
           set(publicCompanyOfficial, "firmNameForOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompany);
           set(publicCompanyOfficial, "relationshipOfOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
           set(publicCompanyOfficial, "firmTickerForOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
-        if (apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup && apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup){
+        if (apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup){
           let foreignOfficial = owner.foreignOfficial || {};
           set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
           set(owner, "foreignOfficial", foreignOfficial);

@@ -44,20 +44,20 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
     
     if (secondaryOwner.contact) {
       if (secondaryOwner.affiliationsGroup) {
-        if (secondaryOwner.affiliationsGroup.nasdGroup && secondaryOwner.affiliationsGroup.nasdGroup){
+        if (secondaryOwner.affiliationsGroup.nasdGroup){
           let securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
           set(securitiesIndustryAffiliation, "typeOfEmployer", secondaryOwner.affiliationsGroup.nasdGroup.nasdType);
           set(securitiesIndustryAffiliation, "firmNameForEmployee", secondaryOwner.affiliationsGroup.nasdGroup.nasdEntity);
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
-        if (secondaryOwner.affiliationsGroup.companyGroup && secondaryOwner.affiliationsGroup.companyGroup){
+        if (secondaryOwner.affiliationsGroup.companyGroup){
           let publicCompanyOfficial = owner.publicCompanyOfficial || {};
           set(publicCompanyOfficial, "firmNameForOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompany);
           set(publicCompanyOfficial, "relationshipOfOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyType);
           set(publicCompanyOfficial, "firmTickerForOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
-        if (secondaryOwner.affiliationsGroup.foreignGroup && secondaryOwner.affiliationsGroup.foreignGroup){
+        if (secondaryOwner.affiliationsGroup.foreignGroup){
           let foreignOfficial = owner.foreignOfficial || {};
           set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[secondaryOwner.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
           set(owner, "foreignOfficial", foreignOfficial);
