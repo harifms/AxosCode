@@ -110,6 +110,7 @@ let incomeCategoryMap = {
   "FROM_500K_TO_1M": "Between 500k and 1M",
   "FROM_1M_TO_3M": "From 1M to 3M",
   "OVER_3M": "Over 3M",
+  "OVER_1M": "Over 1M",
   "OVER_500K": "Over 500k",
   "GREATER_THAN_1M": "Greater than 1M"
 };
