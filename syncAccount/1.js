@@ -38,6 +38,21 @@ set(accDetails, "timeHorizon", apiResponse.investmentProfile ? maps.experienceMa
 set(accDetails, "optionsRiskLevel", apiResponse.optionsLevel ? maps.optionsRiskLevelMap[apiResponse.optionsLevel] : null);
 set(accDetails, "advisorTradingDiscretion", apiResponse.discretion ? (apiResponse.discretion == 'FULL' ? 'Full' : 'Limited') : null);
 
+if(apiResponse.investmentProfile){
+  if (apiResponse.investmentProfile.annualIncomeOther) {
+    set(accDetails, "annualIncomeExact", apiResponse.investmentProfile.annualIncomeOther);
+  }
+
+  if (apiResponse.investmentProfile.netWorthOther) {
+    set(accDetails, "netWorthExcludingHomeExact", apiResponse.investmentProfile.netWorthOther);
+  }
+
+  if (apiResponse.investmentProfile.liquidNetWorthOther) {
+    set(accDetails, "liquidAssetsExact", apiResponse.investmentProfile.liquidNetWorthOther);
+  }
+}
+
+
 let fieldsAssigned = [
   "name",
   "nickName",
