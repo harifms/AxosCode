@@ -9,15 +9,17 @@ if (apiResponse.trustedContact) {
   set(trustedContact, "primaryEmail", apiResponse.trustedContact.email);
   set(trustedContact, "primaryPhoneNumber", apiResponse.trustedContact.phone);
 
-  if (!trustedContact.mailingAddress) {
-    set(trustedContact, "mailingAddress", {});
+  if (apiResponse.trustedContact.address){
+    if (!trustedContact.mailingAddress) {
+      set(trustedContact, "mailingAddress", {});
+    }
+    set(trustedContact.mailingAddress, "line1", apiResponse.trustedContact.address.streetLine1);
+    set(trustedContact.mailingAddress, "line2", apiResponse.trustedContact.address.streetLine2);
+    set(trustedContact.mailingAddress, "city", apiResponse.trustedContact.address.city);
+    set(trustedContact.mailingAddress, "postalCode", apiResponse.trustedContact.address.postalCode);
+    set(trustedContact.mailingAddress, "state", find(stateBO, state, state.code == apiResponse.trustedContact.address.stateOrProvince));
+    set(trustedContact.mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.trustedContact.address.country]));
   }
-  set(trustedContact.mailingAddress, "line1", apiResponse.trustedContact.address.streetLine1);
-  set(trustedContact.mailingAddress, "line2", apiResponse.trustedContact.address.streetLine2);
-  set(trustedContact.mailingAddress, "city", apiResponse.trustedContact.address.city);
-  set(trustedContact.mailingAddress, "postalCode", apiResponse.trustedContact.address.postalCode);
-  set(trustedContact.mailingAddress, "state", find(stateBO, state, state.code == apiResponse.trustedContact.address.stateOrProvince));
-  set(trustedContact.mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.trustedContact.address.country]));
 
   set(accDetails.primaryOwner, "trustedContactRelationship", apiResponse.trustedContact.relationship);
   set(accDetails.primaryOwner, "trustedContact", trustedContact);
@@ -71,15 +73,17 @@ if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)) {
       set(person, "middleName", item.name ? item.name.middleInitial : "");
       set(person, "lastName", item.name ? item.name.familyName : "");
     }
-    let addr = {
-      "line1": item.address.streetLine1,
-      "line2": item.address.streetLine2,
-      "city": item.address.city,
-      "postalCode": item.address.postalCode,
-      "state": find(stateBO, state, state.code == item.address.stateOrProvince),
-      "country": find(countryBO, country, country.code2Letters == countryMap[item.address.country])
-    };
-    set(person, 'legalAddress', addr);
+    if (item.address){
+      let addr = {
+        "line1": item.address.streetLine1,
+        "line2": item.address.streetLine2,
+        "city": item.address.city,
+        "postalCode": item.address.postalCode,
+        "state": find(stateBO, state, state.code == item.address.stateOrProvince),
+        "country": find(countryBO, country, country.code2Letters == countryMap[item.address.country])
+      };
+      set(person, 'legalAddress', addr);
+    }
     set(benObj, 'beneficiary', person);
     beneficiaries = concat(beneficiaries, benObj);
     i = i + 1;
