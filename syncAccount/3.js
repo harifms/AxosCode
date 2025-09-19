@@ -46,6 +46,7 @@ if (apiResponse.jointAccount && apiResponse.jointAccount.jointTenantMarried) {
 
 if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)) {
   let beneficiaries = [];
+  let contingentBeneficiaries = [];
   let i = 0;
   for (let item of apiResponse.beneficiaries) {
     let relationship = item.relationship ? maps.reversedRelationshipMap[item.relationship] : "Other";
@@ -85,10 +86,15 @@ if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)) {
       set(person, 'legalAddress', addr);
     }
     set(benObj, 'beneficiary', person);
-    beneficiaries = concat(beneficiaries, benObj);
+    if (item.type == 'CONTINGENT') {
+      beneficiaries = concat(beneficiaries, benObj);
+    } else {
+      contingentBeneficiaries = concat(contingentBeneficiaries, benObj);
+    }
     i = i + 1;
   }
   set(accDetails, "beneficiaries", beneficiaries);
+  set(accDetails, "contingentBeneficiaries", contingentBeneficiaries);
   // TODO: Add fields to fieldsAssigned
   // fieldsAssigned = concat(fieldsAssigned, [  
   //   "beneficiaries.perStirpes",
