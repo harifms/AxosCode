@@ -38,7 +38,7 @@ set(accDetails, "specialExpenses", apiResponse.investmentProfile ? apiResponse.i
 set(accDetails, "specialExpensesTimeframe", apiResponse.investmentProfile ? maps.experienceMap[apiResponse.investmentProfile.specialExpenseTimeFrame] : null);
 set(accDetails, "timeHorizon", apiResponse.investmentProfile ? maps.experienceMap[apiResponse.investmentProfile.timeHorizon] : null);
 set(accDetails, "optionsRiskLevel", apiResponse.optionsLevel ? maps.optionsRiskLevelMap[apiResponse.optionsLevel] : null);
-set(accDetails, "advisorTradingDiscretion", apiResponse.discretion ? (apiResponse.discretion == 'FULL' ? 'Full' : 'Limited') : null);
+set(accDetails, "advisorTradingDiscretion", apiResponse.discretion);
 
 if(apiResponse.investmentProfile){
   if (apiResponse.investmentProfile.annualIncomeOther) {
