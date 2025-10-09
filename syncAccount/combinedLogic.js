@@ -2,7 +2,6 @@
 
 set(accDetails, "name", apiResponse.accountName);
 set(accDetails, "nickName", apiResponse.principalName);
-// set(accDetails, "accountNumber", apiResponse.accountNumber);
 set(accDetails, "accountCustodianStatus", apiResponse.status);
 set(accDetails, "startDate", parseDate(apiResponse.openedDate, "yyyy-MM-dd"));
 set(accDetails, "repCodeLink", isEmpty(repCodeBo) ? accDetails.repCodeLink : repCodeBo[0]);
@@ -54,14 +53,12 @@ if(apiResponse.investmentProfile){
   }
 }
 
-
 let fieldsAssigned = [
   "annualIncomeExact",
   "netWorthExcludingHomeExact",
   "liquidAssetsExact",
   "name",
   "nickName",
-  // "accountNumber",
   "accountCustodianStatus",
   "createdAt",
   "tradingPrivileges",
