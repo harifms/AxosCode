@@ -144,6 +144,17 @@ let experienceMap = {
   "OVER_5_YEARS": "Over 5 years",
   "NOT_APPLICABLE": "not specified"
 };
+let assetExperienceRangeMap = {
+  "NO_EXPERIENCE": "0",
+  "UNDER_1_YEAR": "0",
+  "FROM_1_TO_5_YEARS": "1",
+  "FROM_3_TO_5_YEARS": "3",
+  "FROM_5_TO_10_YEARS": "5",
+  "FROM_10_TO_15_YEARS": "10",
+  "OVER_15_YEARS": "16",
+  "OVER_5_YEARS": "6",
+  "NOT_APPLICABLE": "0"
+};
 let reversedRelationshipMap = {
   "EXPECTANCY_TABLE_DISTRIBUTIONS_BEGIN": "Expectancy Table Distribution Begins",
   "EXPECTANCY_TABLE_FIVE_YEARS_DEPLETION": "Expectancy Table Distribution 5 year depletion",

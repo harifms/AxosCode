@@ -119,21 +119,21 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
     set(owner, "primaryEmail", apiResponse.individualHolder.email ? apiResponse.individualHolder.email : null);
     set(owner, "primaryPhoneNumber", apiResponse.individualHolder.contact && apiResponse.individualHolder.contact.phone ? apiResponse.individualHolder.contact.phone : null);
 
-    set(owner, "investmentExperienceEquities", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? maps.experienceMap[apiResponse.investmentProfile.stocksExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceEquities", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.stocksExperience.assetExperienceRange] : null);
     set(owner, "investmentExperienceEquitiesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? toString(apiResponse.investmentProfile.stocksExperience.transactionsPerYear) : null);
-    set(owner, "investmentExperienceMutualFunds", apiResponse.investmentProfile && apiResponse.investmentProfile.mutualFundsExperience ? maps.experienceMap[apiResponse.investmentProfile.mutualFundsExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceMutualFunds", apiResponse.investmentProfile && apiResponse.investmentProfile.mutualFundsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.mutualFundsExperience.assetExperienceRange] : null);
     set(owner, "investmentExperienceMutualFundsTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.mutualFundsExperience ? apiResponse.investmentProfile.mutualFundsExperience.transactionsPerYear : null);
-    set(owner, "investmentExperienceFixedIncome", apiResponse.investmentProfile && apiResponse.investmentProfile.bondsExperience ? maps.experienceMap[apiResponse.investmentProfile.bondsExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceFixedIncome", apiResponse.investmentProfile && apiResponse.investmentProfile.bondsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.bondsExperience.assetExperienceRange] : null);
     set(owner, "investmentExperienceFixedIncomeTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.bondsExperience ? apiResponse.investmentProfile.bondsExperience.transactionsPerYear : null);
-    set(owner, "investmentExperienceOptions", apiResponse.investmentProfile && apiResponse.investmentProfile.optionsExperience ? maps.experienceMap[apiResponse.investmentProfile.optionsExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceOptions", apiResponse.investmentProfile && apiResponse.investmentProfile.optionsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.optionsExperience.assetExperienceRange] : null);
     set(owner, "investmentExperienceOptionsTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.optionsExperience ? toString(apiResponse.investmentProfile.optionsExperience.transactionsPerYear) : null);
-    set(owner, "investExperienceFutures", apiResponse.investmentProfile && apiResponse.investmentProfile.futuresExperience ? maps.experienceMap[apiResponse.investmentProfile.futuresExperience.assetExperienceRange] : null);
+    set(owner, "investExperienceFutures", apiResponse.investmentProfile && apiResponse.investmentProfile.futuresExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.futuresExperience.assetExperienceRange] : null);
     set(owner, "investExperienceFuturesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.futuresExperience ? apiResponse.investmentProfile.futuresExperience.transactionsPerYear : null);
-    set(owner, "investmentExperienceAnnuities", apiResponse.investmentProfile && apiResponse.investmentProfile.annuitiesExperience ? maps.experienceMap[apiResponse.investmentProfile.annuitiesExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceAnnuities", apiResponse.investmentProfile && apiResponse.investmentProfile.annuitiesExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.annuitiesExperience.assetExperienceRange] : null);
     set(owner, "investmentExperienceAnnuitiesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.annuitiesExperience ? apiResponse.investmentProfile.annuitiesExperience.transactionsPerYear : null);
-    set(owner, "investExperienceAlternatives", apiResponse.investmentProfile && apiResponse.investmentProfile.alternativeInvestmentsExperience ? maps.experienceMap[apiResponse.investmentProfile.alternativeInvestmentsExperience.assetExperienceRange] : null);
+    set(owner, "investExperienceAlternatives", apiResponse.investmentProfile && apiResponse.investmentProfile.alternativeInvestmentsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.alternativeInvestmentsExperience.assetExperienceRange] : null);
     set(owner, "investExperienceAlternativesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.alternativeInvestmentsExperience ? apiResponse.investmentProfile.alternativeInvestmentsExperience.transactionsPerYear : null);
-    set(owner, "investExperienceMargin", apiResponse.investmentProfile && apiResponse.investmentProfile.marginsExperience ? maps.experienceMap[apiResponse.investmentProfile.marginsExperience.assetExperienceRange] : null);
+    set(owner, "investExperienceMargin", apiResponse.investmentProfile && apiResponse.investmentProfile.marginsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.marginsExperience.assetExperienceRange] : null);
     set(owner, "investExperienceMarginTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.marginsExperience ? apiResponse.investmentProfile.marginsExperience.transactionsPerYear : null);
     set(owner, "backupWithholdingExemptPayeeCode", apiResponse.w9 && apiResponse.w9.exemptPayee ? apiResponse.w9.exemptPayee : null);
     set(owner, "faTCAReportingExemptionCode", apiResponse.w9 && apiResponse.w9.factaCode ? apiResponse.w9.factaCode : null);
@@ -223,6 +223,10 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
     if (apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.countryOfResidence) {
       let countryOfResidence = find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.citizenship.countryOfResidence]);
       set(owner, "countryOfResidence", countryOfResidence);
+    }
+    if (apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.taxJurisdiction) {
+      let taxJurisdiction = find(countryBO, country, country.code2Letters == apiResponse.individualHolder.citizenship.taxJurisdiction);
+      set(owner, "countryOfTaxJurisdiction", taxJurisdiction);
     }
     set(accDetails.primaryOwner, "owner", owner);
 
@@ -504,6 +508,10 @@ if (apiResponse.accountType == "TRUST_IRREVOCABLE" || apiResponse.accountType ==
       countryOfResidence = find(countryBO, country, country.code2Letters == countryMap[apiResponse.entityHolder.citizenship.countryOfResidence]);
       set(owner, "countryOfResidence", countryOfResidence);
     }
+    if (apiResponse.entityHolder.citizenship && apiResponse.entityHolder.citizenship.taxJurisdiction) {
+      taxJurisdiction = find(countryBO, country, country.code2Letters == apiResponse.entityHolder.citizenship.taxJurisdiction);
+      set(owner, "countryOfTaxJurisdiction", taxJurisdiction);
+    }
     set(accDetails.primaryOwner, "owner", owner);
     let fieldsAssigned3 = [
       "primaryOwner.owner.fullName",
@@ -662,6 +670,10 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
     if (secondaryOwner.citizenship && secondaryOwner.citizenship.countryOfResidence) {
       countryOfResidence = find(countryBO, country, country.code2Letters == countryMap[secondaryOwner.citizenship.countryOfResidence]);
       set(owner, "countryOfResidence", countryOfResidence);
+    }
+    if (secondaryOwner.citizenship && secondaryOwner.citizenship.taxJurisdiction) {
+      taxJurisdiction = find(countryBO, country, country.code2Letters == secondaryOwner.citizenship.taxJurisdiction);
+      set(owner, "countryOfTaxJurisdiction", taxJurisdiction);
     }
 
     if (secondaryOwner.trustedContact) {
