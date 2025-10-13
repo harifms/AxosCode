@@ -197,6 +197,7 @@ return {
   "investmentObjectiveMap": investmentObjectiveMap,
   "ratingLevelMap": ratingLevelMap,
   "experienceMap": experienceMap,
+  "assetExperienceRangeMap":assetExperienceRangeMap,
   "reversedRelationshipMap": reversedRelationshipMap,
   "yesNoMap": yesNoMap,
   "optionsRiskLevelMap": optionsRiskLevelMap
