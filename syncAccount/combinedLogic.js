@@ -365,13 +365,12 @@ if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)) {
   let contingentBeneficiaries = [];
   let i = 0;
   for (let item of apiResponse.beneficiaries) {
-    let relationship = item.relationship ? maps.reversedRelationshipMap[item.relationship] : "Other";
     let benObj = {};
     set(benObj, "perStirpes", item.perStirpes == 'NO' ? false : true);
     set(benObj, "percentage", item.percentage);
-    set(benObj, "relationship", item.relationshipDescription == "SPOUSE" ? "Spouse" : "Other");
+    set(benObj, "relationship", item.relationshipDescription);
     set(benObj, "beneficiaryType", item.individualOrEntity == "INDIVIDUAL" ? "Person" : "Entity");
-    set(benObj, "rmDOption", relationship || "Other");
+    set(benObj, "rmDOption", item.relationship);
     set(benObj, "isContingentBeneficiary", item.type == 'CONTINGENT' ? true : false);
 
     let person = {
