@@ -9,12 +9,20 @@ set(accDetails, "ouLevel1", isEmpty(orgUnitBo) ? accDetails.ouLevel1 : orgUnitBo
 
 let tradingPrivileges = [];
 
-if (apiResponse.enableMargin && apiResponse.enableMargin == 'YES') {
-  tradingPrivileges = concat(tradingPrivileges, 'Margin');
+if (apiResponse.enableMargin) {
+  if(apiResponse.enableMargin == 'YES'){
+    tradingPrivileges = concat(tradingPrivileges, 'Margin');
+  }  
+  set(accDetails, "enableMargin", apiResponse.enableMargin);
 }
-
-if (apiResponse.enableOptions && apiResponse.enableOptions == 'YES') {
-  tradingPrivileges = concat(tradingPrivileges, 'Options');
+if (apiResponse.enableOptions) {
+  if(apiResponse.enableOptions == 'YES'){
+    tradingPrivileges = concat(tradingPrivileges, 'Options');
+  }  
+  set(accDetails, "enableOptions", apiResponse.enableOptions);
+}
+if(apiResponse.optionsLevel){
+    set(accDetails, "optionsLevel", apiResponse.optionsLevel);
 }
 
 set(accDetails, "tradingPrivileges", tradingPrivileges);
@@ -84,7 +92,10 @@ let fieldsAssigned = [
   "discretion",
   "registrationType",
   "repCodeLink",
-  "ouLevel1"
+  "ouLevel1",
+  "enableMargin",
+  "enableOptions",
+  "optionsLevel"
 ];
 
 // mapping logic 2
