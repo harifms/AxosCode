@@ -12,17 +12,15 @@ let tradingPrivileges = [];
 if (apiResponse.enableMargin) {
   if(apiResponse.enableMargin == 'YES'){
     tradingPrivileges = concat(tradingPrivileges, 'Margin');
-  }  
-  set(accDetails, "enableMargin", apiResponse.enableMargin);
+  }
 }
 if (apiResponse.enableOptions) {
   if(apiResponse.enableOptions == 'YES'){
     tradingPrivileges = concat(tradingPrivileges, 'Options');
-  }  
-  set(accDetails, "enableOptions", apiResponse.enableOptions);
+  }
 }
 if(apiResponse.optionsLevel){
-    set(accDetails, "optionsLevel", apiResponse.optionsLevel);
+    set(accDetails, "optionsRiskLevel", apiResponse.optionsLevel);
 }
 
 set(accDetails, "tradingPrivileges", tradingPrivileges);
@@ -125,6 +123,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
     set(owner, "natureOfBusiness", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.natureOfBusiness ? apiResponse.individualHolder.employment.natureOfBusiness : null);
     set(owner, "employer", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.employer ? apiResponse.individualHolder.employment.employer : null);
     set(owner, "yearsEmployed", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.yearsEmployed ? apiResponse.individualHolder.employment.yearsEmployed : 0);
+    set(owner, "yeMployed", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.yearsEmployed ? apiResponse.individualHolder.employment.yearsEmployed : 0);
     set(owner, "employerPhoneNumber", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.workPhone ? apiResponse.individualHolder.employment.workPhone : null);
     set(owner, "homeOwnership", apiResponse.individualHolder.homeType ? maps.ownershipStatusMap[apiResponse.individualHolder.homeType] : null);
     set(owner, "primaryEmail", apiResponse.individualHolder.email ? apiResponse.individualHolder.email : null);
@@ -256,6 +255,7 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
       "primaryOwner.owner.natureOfBusiness",
       "primaryOwner.owner.employer",
       "primaryOwner.owner.yearsEmployed",
+      "primaryOwner.owner.yeMployed",
       "primaryOwner.owner.employerPhoneNumber",
       "primaryOwner.owner.homeOwnership",
       "primaryOwner.owner.primaryEmail",
@@ -594,6 +594,7 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
     set(owner, "natureOfBusiness", secondaryOwner.employment && secondaryOwner.employment.natureOfBusiness ? secondaryOwner.employment.natureOfBusiness : null);
     set(owner, "employer", secondaryOwner.employment && secondaryOwner.employment.employer ? secondaryOwner.employment.employer : null);
     set(owner, "yearsEmployed", secondaryOwner.employment && secondaryOwner.employment.yearsEmployed ? secondaryOwner.employment.yearsEmployed : 0);
+    set(owner, "yeMployed", secondaryOwner.employment && secondaryOwner.employment.yearsEmployed ? secondaryOwner.employment.yearsEmployed : 0);
     set(owner, "employerPhoneNumber", secondaryOwner.employment && secondaryOwner.employment.workPhone ? secondaryOwner.employment.workPhone : null);
     set(owner, "homeOwnership", secondaryOwner.homeType ? maps.ownershipStatusMap[secondaryOwner.homeType] : null);
     set(owner, "primaryEmail", secondaryOwner.email ? secondaryOwner.email : null);
@@ -726,6 +727,7 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
     "secondaryOwners.owner.natureOfBusiness",
     "secondaryOwners.owner.employer",
     "secondaryOwners.owner.yearsEmployed",
+    "secondaryOwners.owner.yeMployed",
     "secondaryOwners.owner.employerPhoneNumber",
     "secondaryOwners.owner.homeOwnership",
     "secondaryOwners.owner.primaryEmail",
