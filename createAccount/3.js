@@ -1,6 +1,7 @@
 let affiliationsGroup = {};
 if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType != "TRUST_REVOCABLE") {
-    let phoneNumberCleaned = removeCharacters(replace(Account.primaryOwner.owner.primaryPhoneNumber, "+1 ", ""), [" "]);
+    let phoneNumberCleaned = removeCharacters(Account.primaryOwner.owner.primaryPhoneNumber, ["+1"," ",")","(","-"]);
+    let phoneNumberFormatted = substring(phoneNumberCleaned,0,3)+"-"+substring(phoneNumberCleaned,3,6)+"-"+substring(phoneNumberCleaned,6);
     set(payload.requests[0], "individualHolder", {
         "name": {
             "givenName": Account.primaryOwner.owner.firstName,
@@ -23,20 +24,24 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         "homeType": Account.primaryOwner.owner.homeOwnership,
         "email": Account.primaryOwner.owner.primaryEmail,
         "contact": {
-            "phone": phoneNumberCleaned
+            "phone": phoneNumberFormatted
         },
         "externalClientId": Account.primaryOwner.owner.id
     });
 
     if (Account.primaryOwner.owner.employmentStatus != "UNEMPLOYED") {
-        let empPhoneNumberCleaned = Account.primaryOwner.owner.employerPhoneNumber ? removeCharacters(replace(Account.primaryOwner.owner.employerPhoneNumber, "+1 ", ""), [" "]) : null;
-        set(payload.requests[0].individualHolder, "employment", {
+        let empPhoneNumberFormatted=null;
+        if(Account.primaryOwner.owner.employerPhoneNumber){
+             let empPhoneNumberCleaned = removeCharacters(Account.primaryOwner.owner.employerPhoneNumber, ["+1"," ",")","(","-"]);
+            empPhoneNumberFormatted = substring(empPhoneNumberCleaned,0,3)+"-"+substring(empPhoneNumberCleaned,3,6)+"-"+substring(empPhoneNumberCleaned,6);
+        }
+       set(payload.requests[0].individualHolder, "employment", {
             "employmentStatus": Account.primaryOwner.owner.employmentStatus,
             "occupation": Account.primaryOwner.owner.occupation,
             "natureOfBusiness": Account.primaryOwner.owner.natureOfBusiness,
             "employer": Account.primaryOwner.owner.employer,
             "yearsEmployed": Account.primaryOwner.owner.yearsEmployed || 0,
-            "workPhone": empPhoneNumberCleaned
+            "workPhone": empPhoneNumberFormatted
         });
     }
     set(payload.requests[0].individualHolder.contact, "affiliationsGroup", affiliationsGroup);
@@ -164,9 +169,13 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
         "itin": Account.primaryOwner.owner.ein,
         "externalClientId": Account.primaryOwner.owner.id
     });
-    let bizPhoneNumberCleaned = Account.primaryOwner.owner.businessPhoneNumber ? removeCharacters(replace(Account.primaryOwner.owner.businessPhoneNumber, "+1 ", ""), [" "]) : null;
+    let bizPhoneNumberFormatted =  null;
+    if(Account.primaryOwner.owner.businessPhoneNumber){
+        let bizPhoneNumberCleaned = removeCharacters(Account.primaryOwner.owner.businessPhoneNumber, ["+1"," ",")","(","-"]);
+        bizPhoneNumberFormatted = substring(bizPhoneNumberCleaned,0,3)+"-"+substring(bizPhoneNumberCleaned,3,6)+"-"+substring(bizPhoneNumberCleaned,6);
+    }
     set(payload.requests[0].entityHolder, "contact", {
-        "phone": bizPhoneNumberCleaned,
+        "phone": bizPhoneNumberFormatted,
         "legalAddress": {
             "streetLine1": Account.primaryOwner.owner.legalAddress.line1,
             "streetLine2": Account.primaryOwner.owner.legalAddress.line2,

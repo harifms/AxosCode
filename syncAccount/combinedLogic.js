@@ -780,6 +780,26 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
   ];
   set(accDetails, "secondaryOwners", secondaryOwners);
 }
+// pledgedCollateral
+if (apiResponse.creditCards && isArray(apiResponse.creditCards)) {
+  let pledgedCollateral = [];
+  for(let creditCard of apiResponse.creditCards){
+    let pledgedCollateralObj = {
+      "outStandingBalance": creditCard.outStandingBalance ? creditCard.outStandingBalance : null,
+      "availableCredit": creditCard.availableCredit ? creditCard.availableCredit : null,
+      "creditLimit": creditCard.creditLimit ? creditCard.creditLimit : null,
+      "subStatusLaHlx3u": creditCard.subStatusLabel ? creditCard.subStatusLabel : null,
+      "macroStatusLa3z7ya": creditCard.macroStatusLabel ? creditCard.macroStatusLabel : null,
+      "nextPaymentDueDate": creditCard.nextPaymentDueDate ? creditCard.nextPaymentDueDate : null,
+      "minimumPaymentDueAmount": creditCard.minimumPaymentDueAmount ? creditCard.minimumPaymentDueAmount : null,
+      "statementBalanceAmount": creditCard.statementBalanceAmount ? creditCard.statementBalanceAmount : null,
+      "cardNumberLast4Digits": creditCard.cardNumberLast4Digits ? creditCard.cardNumberLast4Digits : null,
+      "description": creditCard.description ? creditCard.description : null
+    };
+    pledgedCollateral = concat(pledgedCollateral, pledgedCollateralObj);
+  }
+   set(accDetails, "pledgedCollateral", pledgedCollateral);
+}
 fieldsAssigned = concat(fieldsAssigned, fieldsAssigned4);
 
 return {

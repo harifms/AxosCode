@@ -5,7 +5,8 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
 
     for (let o of Account.secondaryOwners) {
         if (isPresent(o.owner)) {
-            let phoneNumberCleaned = removeCharacters(replace(o.owner.primaryPhoneNumber, "+1 ", ""), [" "]);
+            let phoneNumberCleaned = removeCharacters(o.owner.primaryPhoneNumber, ["+1"," ",")","(","-"]);
+            let phoneNumberFormatted = substring(phoneNumberCleaned,0,3)+"-"+substring(phoneNumberCleaned,3,6)+"-"+substring(phoneNumberCleaned,6);
             let coHolder = {
                 "name": {
                     "givenName": o.owner.firstName,
@@ -32,19 +33,23 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                     "employmentStatus": o.owner.employmentStatus
                 },
                 "contact": {
-                    "phone": phoneNumberCleaned
+                    "phone": phoneNumberFormatted
                 },
                 "externalClientId": o.owner.id
             };
             if (o.owner.employmentStatus != "UNEMPLOYED") {
-                let empPhoneNumberCleaned = o.owner.employerPhoneNumber ? removeCharacters(replace(o.owner.employerPhoneNumber, "+1 ", ""), [" "]) : null;
+                let empPhoneNumberFormated = null;
+                if(o.owner.employerPhoneNumber){
+                    let emplyrNumberCleaned = removeCharacters(o.owner.employerPhoneNumber, ["+1"," ",")","(","-"]);
+                    empPhoneNumberFormated = substring(emplyrNumberCleaned,0,3)+"-"+substring(emplyrNumberCleaned,3,6)+"-"+substring(emplyrNumberCleaned,6);
+                }
                 set(coHolder, "employment", {
                     "employmentStatus": o.owner.employmentStatus,
                     "occupation": o.owner.occupation,
                     "natureOfBusiness": o.owner.natureOfBusiness,
                     "employer": o.owner.employer,
                     "yearsEmployed": o.owner.yearsEmployed || 0,
-                    "workPhone": empPhoneNumberCleaned
+                    "workPhone": empPhoneNumberFormated
                 });
             }
 
@@ -62,11 +67,15 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
                 set(coHolder, "patriotAct", coHolderPatriotAct);
             }
             if (o.trustedContact && o.includeTrustedContact) {
-                let tcPhoneNumberCleaned = o.trustedContact.primaryPhoneNumber ? removeCharacters(replace(o.trustedContact.primaryPhoneNumber, "+1 ", ""), [" "]) : null;
+                let tcPhoneNumberFormated =  null;
+                if(o.trustedContact.primaryPhoneNumber){
+                    let trustedNumberCleaned = removeCharacters(o.trustedContact.primaryPhoneNumber, ["+1"," ",")","(","-"]);
+                    tcPhoneNumberFormated = substring(trustedNumberCleaned,0,3)+"-"+substring(trustedNumberCleaned,3,6)+"-"+substring(trustedNumberCleaned,6);
+                }
                 set(coHolder, "trustedContact", {
                     "name": [o.trustedContact.firstName, o.trustedContact.middleName, o.trustedContact.lastName].join(' '),
                     "relationship": o.trustedContactRelationship,
-                    "phone": tcPhoneNumberCleaned,
+                    "phone": tcPhoneNumberFormated,
                     "email": o.trustedContact.primaryEmail
                 });
                 if (o.trustedContact.mailingAddress) {
