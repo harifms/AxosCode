@@ -1,55 +1,54 @@
 // mapping logic 1
 
-set(accDetails, "name", apiResponse.accountName);
-set(accDetails, "nickName", apiResponse.principalName);
-set(accDetails, "accountCustodianStatus", apiResponse.status);
-set(accDetails, "startDate", parseDate(apiResponse.openedDate, "yyyy-MM-dd"));
+set(accDetails, "name", modifiedApiResponse.accountName);
+set(accDetails, "nickName", modifiedApiResponse.principalName);
+set(accDetails, "accountCustodianStatus", modifiedApiResponse.status);
+set(accDetails, "startDate", parseDate(modifiedApiResponse.openedDate, "yyyy-MM-dd"));
 set(accDetails, "repCodeLink", isEmpty(repCodeBo) ? accDetails.repCodeLink : repCodeBo[0]);
 set(accDetails, "ouLevel1", isEmpty(orgUnitBo) ? accDetails.ouLevel1 : orgUnitBo[0]);
 
 let tradingPrivileges = [];
 
-if (apiResponse.enableMargin && apiResponse.enableMargin == 'YES') {
+if (modifiedApiResponse.enableMargin && modifiedApiResponse.enableMargin == 'YES') {
   tradingPrivileges = concat(tradingPrivileges, 'Margin');
 }
-
-if (apiResponse.enableOptions && apiResponse.enableOptions == 'YES') {
+if (modifiedApiResponse.enableOptions && modifiedApiResponse.enableOptions == 'YES') {
   tradingPrivileges = concat(tradingPrivileges, 'Options');
 }
 
 set(accDetails, "tradingPrivileges", tradingPrivileges);
-set(accDetails, "initialFundingSource", apiResponse.fundingFeatures ? maps.financialSourcesMap[apiResponse.fundingFeatures.fundingSource] : null);
-set(accDetails, "otherInitialFundingSource", apiResponse.fundingFeatures ? apiResponse.fundingFeatures.fundingSpecifics : null);
-set(accDetails, "moneyFundSweepOptIn", apiResponse.fundingFeatures ? maps.insuranceSweepMap[apiResponse.fundingFeatures.moneyFundInstructions] : null);
-set(accDetails, "cashDividendOption", apiResponse.fundingFeatures ? maps.cashDividendOptionMap[apiResponse.fundingFeatures.dividendCashOptions] : null);
-set(accDetails, "dividendReinvestmentOption", apiResponse.fundingFeatures ? maps.dividendReinvestmentMap[apiResponse.fundingFeatures.dividendDripOptions] : null);
-set(accDetails, "annualIncome", apiResponse.investmentProfile ? maps.incomeCategoryMap[apiResponse.investmentProfile.annualIncomeRange] : null);
-set(accDetails, "netWorthExcludingHome", apiResponse.investmentProfile ? maps.incomeCategoryMap[apiResponse.investmentProfile.netWorthRange] : null);
-set(accDetails, "liquidAssets", apiResponse.investmentProfile ? maps.incomeCategoryMap[apiResponse.investmentProfile.liquidNetWorthRange] : null);
-set(accDetails, "federalMarginalTaxRate", apiResponse.investmentProfile ? toString(apiResponse.investmentProfile.taxBracket) : null);
-set(accDetails, "riskTolerance", apiResponse.investmentProfile ? maps.investmentRiskMap[apiResponse.investmentProfile.riskTolerance] : null);
-set(accDetails, "estimatedValueOfInvestments", apiResponse.investmentProfile ? maps.incomeCategoryMap[apiResponse.investmentProfile.investmentValueRange] : null);
-set(accDetails, "investmentObjective", apiResponse.investmentProfile ? maps.investmentObjectiveMap[apiResponse.investmentProfile.investmentObjective] : null);
-set(accDetails, "investmentExperience", apiResponse.investmentProfile ? maps.ratingLevelMap[apiResponse.investmentProfile.investmentKnowledge] : null);
-set(accDetails, "liquidityNeeds", apiResponse.investmentProfile ? maps.experienceMap[apiResponse.investmentProfile.liquidityNeeds] : null);
-set(accDetails, "annualExpenses", apiResponse.investmentProfile ? apiResponse.investmentProfile.annualExpenses : 0);
-set(accDetails, "specialExpenses", apiResponse.investmentProfile ? apiResponse.investmentProfile.specialExpenses : 0);
-set(accDetails, "specialExpensesTimeframe", apiResponse.investmentProfile ? maps.experienceMap[apiResponse.investmentProfile.specialExpenseTimeFrame] : null);
-set(accDetails, "timeHorizon", apiResponse.investmentProfile ? maps.experienceMap[apiResponse.investmentProfile.timeHorizon] : null);
-set(accDetails, "optionsRiskLevel", apiResponse.optionsLevel ? maps.optionsRiskLevelMap[apiResponse.optionsLevel] : null);
-set(accDetails, "advisorTradingDiscretion", apiResponse.discretion);
+set(accDetails, "initialFundingSource", modifiedApiResponse.fundingFeatures ? maps.financialSourcesMap[modifiedApiResponse.fundingFeatures.fundingSource] : null);
+set(accDetails, "otherInitialFundingSource", modifiedApiResponse.fundingFeatures ? modifiedApiResponse.fundingFeatures.fundingSpecifics : null);
+set(accDetails, "moneyFundSweepOptIn", modifiedApiResponse.fundingFeatures ? maps.insuranceSweepMap[modifiedApiResponse.fundingFeatures.moneyFundInstructions] : null);
+set(accDetails, "cashDividendOption", modifiedApiResponse.fundingFeatures ? maps.cashDividendOptionMap[modifiedApiResponse.fundingFeatures.dividendCashOptions] : null);
+set(accDetails, "dividendReinvestmentOption", modifiedApiResponse.fundingFeatures ? maps.dividendReinvestmentMap[modifiedApiResponse.fundingFeatures.dividendDripOptions] : null);
+set(accDetails, "annualIncome", modifiedApiResponse.investmentProfile ? maps.incomeCategoryMap[modifiedApiResponse.investmentProfile.annualIncomeRange] : null);
+set(accDetails, "netWorthExcludingHome", modifiedApiResponse.investmentProfile ? maps.incomeCategoryMap[modifiedApiResponse.investmentProfile.netWorthRange] : null);
+set(accDetails, "liquidAssets", modifiedApiResponse.investmentProfile ? maps.incomeCategoryMap[modifiedApiResponse.investmentProfile.liquidNetWorthRange] : null);
+set(accDetails, "federalMarginalTaxRate", modifiedApiResponse.investmentProfile ? toString(modifiedApiResponse.investmentProfile.taxBracket) : null);
+set(accDetails, "riskTolerance", modifiedApiResponse.investmentProfile ? maps.investmentRiskMap[modifiedApiResponse.investmentProfile.riskTolerance] : null);
+set(accDetails, "estimatedValueOfInvestments", modifiedApiResponse.investmentProfile ? maps.incomeCategoryMap[modifiedApiResponse.investmentProfile.investmentValueRange] : null);
+set(accDetails, "investmentObjective", modifiedApiResponse.investmentProfile ? maps.investmentObjectiveMap[modifiedApiResponse.investmentProfile.investmentObjective] : null);
+set(accDetails, "investmentExperience", modifiedApiResponse.investmentProfile ? maps.ratingLevelMap[modifiedApiResponse.investmentProfile.investmentKnowledge] : null);
+set(accDetails, "liquidityNeeds", modifiedApiResponse.investmentProfile ? maps.experienceMap[modifiedApiResponse.investmentProfile.liquidityNeeds] : null);
+set(accDetails, "annualExpenses", modifiedApiResponse.investmentProfile ? modifiedApiResponse.investmentProfile.annualExpenses : 0);
+set(accDetails, "specialExpenses", modifiedApiResponse.investmentProfile ? modifiedApiResponse.investmentProfile.specialExpenses : 0);
+set(accDetails, "specialExpensesTimeframe", modifiedApiResponse.investmentProfile ? maps.experienceMap[modifiedApiResponse.investmentProfile.specialExpenseTimeFrame] : null);
+set(accDetails, "timeHorizon", modifiedApiResponse.investmentProfile ? maps.experienceMap[modifiedApiResponse.investmentProfile.timeHorizon] : null);
+set(accDetails, "optionsRiskLevel", modifiedApiResponse.optionsLevel ? maps.optionsRiskLevelMap[modifiedApiResponse.optionsLevel] : null);
+set(accDetails, "advisorTradingDiscretion", modifiedApiResponse.discretion);
 
-if(apiResponse.investmentProfile){
-  if (apiResponse.investmentProfile.annualIncomeOther) {
-    set(accDetails, "annualIncomeExact", apiResponse.investmentProfile.annualIncomeOther);
+if(modifiedApiResponse.investmentProfile){
+  if (modifiedApiResponse.investmentProfile.annualIncomeOther) {
+    set(accDetails, "annualIncomeExact", modifiedApiResponse.investmentProfile.annualIncomeOther);
   }
 
-  if (apiResponse.investmentProfile.netWorthOther) {
-    set(accDetails, "netWorthExcludingHomeExact", apiResponse.investmentProfile.netWorthOther);
+  if (modifiedApiResponse.investmentProfile.netWorthOther) {
+    set(accDetails, "netWorthExcludingHomeExact", modifiedApiResponse.investmentProfile.netWorthOther);
   }
 
-  if (apiResponse.investmentProfile.liquidNetWorthOther) {
-    set(accDetails, "liquidAssetsExact", apiResponse.investmentProfile.liquidNetWorthOther);
+  if (modifiedApiResponse.investmentProfile.liquidNetWorthOther) {
+    set(accDetails, "liquidAssetsExact", modifiedApiResponse.investmentProfile.liquidNetWorthOther);
   }
 }
 
@@ -84,63 +83,66 @@ let fieldsAssigned = [
   "discretion",
   "registrationType",
   "repCodeLink",
-  "ouLevel1"
+  "ouLevel1",
+  "enableMargin",
+  "enableOptions",
+  "optionsLevel"
 ];
 
 // mapping logic 2
 
-if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType != "TRUST_REVOCABLE") {
-  if (isPresent(apiResponse.individualHolder)) {
+if (modifiedApiResponse.accountType != "TRUST_IRREVOCABLE" && modifiedApiResponse.accountType != "TRUST_REVOCABLE") {
+  if (isPresent(modifiedApiResponse.individualHolder)) {
     let ssNOrTaxID = null;
-    if (isPresent(apiResponse.individualHolder.ssn)) {
-      ssNOrTaxID = replace(apiResponse.individualHolder.ssn, '-', '');
+    if (isPresent(modifiedApiResponse.individualHolder.ssn)) {
+      ssNOrTaxID = replace(modifiedApiResponse.individualHolder.ssn, '-', '');
     }
     if (!accDetails.primaryOwner) {
       set(accDetails, "primaryOwner", {});
     }
     let owner = accDetails.primaryOwner.owner || {};
 
-    set(owner, "firstName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.givenName ? apiResponse.individualHolder.name.givenName : null);
-    set(owner, "middleName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.middleInitial ? apiResponse.individualHolder.name.middleInitial : null);
-    set(owner, "lastName", apiResponse.individualHolder.name && apiResponse.individualHolder.name.familyName ? apiResponse.individualHolder.name.familyName : null);
-    set(owner, "dateOfBirth", apiResponse.individualHolder.birthDate ? apiResponse.individualHolder.birthDate : null);
-    set(owner, "gender", apiResponse.individualHolder.gender ? maps.genderTypeMap[apiResponse.individualHolder.gender] : null);
-    set(owner, "citizenshipStatus", apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.citizenshipStatus ? maps.residencyStatusMap[apiResponse.individualHolder.citizenship.citizenshipStatus] : null);
+    set(owner, "firstName", modifiedApiResponse.individualHolder.name && modifiedApiResponse.individualHolder.name.givenName ? modifiedApiResponse.individualHolder.name.givenName : null);
+    set(owner, "middleName", modifiedApiResponse.individualHolder.name && modifiedApiResponse.individualHolder.name.middleInitial ? modifiedApiResponse.individualHolder.name.middleInitial : null);
+    set(owner, "lastName", modifiedApiResponse.individualHolder.name && modifiedApiResponse.individualHolder.name.familyName ? modifiedApiResponse.individualHolder.name.familyName : null);
+    set(owner, "dateOfBirth", modifiedApiResponse.individualHolder.birthDate ? modifiedApiResponse.individualHolder.birthDate : null);
+    set(owner, "gender", modifiedApiResponse.individualHolder.gender ? maps.genderTypeMap[modifiedApiResponse.individualHolder.gender] : null);
+    set(owner, "citizenshipStatus", modifiedApiResponse.individualHolder.citizenship && modifiedApiResponse.individualHolder.citizenship.citizenshipStatus ? maps.residencyStatusMap[modifiedApiResponse.individualHolder.citizenship.citizenshipStatus] : null);
     set(owner, "ssNOrTaxID", ssNOrTaxID ? substring(ssNOrTaxID, 0, 3) + '-' + substring(ssNOrTaxID, 3, 5) + '-' + substring(ssNOrTaxID, 5, 9) : null);
-    set(owner, "numberOfDependents", apiResponse.individualHolder.numDependents ? apiResponse.individualHolder.numDependents : 0);
-    set(owner, "maritalStatus", apiResponse.individualHolder.maritalStatus ? maps.maritalStatusMap[apiResponse.individualHolder.maritalStatus] : null);
-    set(owner, "employmentStatus", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.employmentStatus ? maps.employmentStatusMap[apiResponse.individualHolder.employment.employmentStatus] : null);
-    set(owner, "occupation", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.occupation ? apiResponse.individualHolder.employment.occupation : null);
-    set(owner, "natureOfBusiness", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.natureOfBusiness ? apiResponse.individualHolder.employment.natureOfBusiness : null);
-    set(owner, "employer", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.employer ? apiResponse.individualHolder.employment.employer : null);
-    set(owner, "yearsEmployed", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.yearsEmployed ? apiResponse.individualHolder.employment.yearsEmployed : 0);
-    set(owner, "yeMployed", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.yearsEmployed ? apiResponse.individualHolder.employment.yearsEmployed : 0);
-    set(owner, "employerPhoneNumber", apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.workPhone ? apiResponse.individualHolder.employment.workPhone : null);
-    set(owner, "homeOwnership", apiResponse.individualHolder.homeType ? maps.ownershipStatusMap[apiResponse.individualHolder.homeType] : null);
-    set(owner, "primaryEmail", apiResponse.individualHolder.email ? apiResponse.individualHolder.email : null);
-    set(owner, "primaryPhoneNumber", apiResponse.individualHolder.contact && apiResponse.individualHolder.contact.phone ? apiResponse.individualHolder.contact.phone : null);
+    set(owner, "numberOfDependents", modifiedApiResponse.individualHolder.numDependents ? modifiedApiResponse.individualHolder.numDependents : 0);
+    set(owner, "maritalStatus", modifiedApiResponse.individualHolder.maritalStatus ? maps.maritalStatusMap[modifiedApiResponse.individualHolder.maritalStatus] : null);
+    set(owner, "employmentStatus", modifiedApiResponse.individualHolder.employment && modifiedApiResponse.individualHolder.employment.employmentStatus ? maps.employmentStatusMap[modifiedApiResponse.individualHolder.employment.employmentStatus] : null);
+    set(owner, "occupation", modifiedApiResponse.individualHolder.employment && modifiedApiResponse.individualHolder.employment.occupation ? modifiedApiResponse.individualHolder.employment.occupation : null);
+    set(owner, "natureOfBusiness", modifiedApiResponse.individualHolder.employment && modifiedApiResponse.individualHolder.employment.natureOfBusiness ? modifiedApiResponse.individualHolder.employment.natureOfBusiness : null);
+    set(owner, "employer", modifiedApiResponse.individualHolder.employment && modifiedApiResponse.individualHolder.employment.employer ? modifiedApiResponse.individualHolder.employment.employer : null);
+    set(owner, "yearsEmployed", modifiedApiResponse.individualHolder.employment && modifiedApiResponse.individualHolder.employment.yearsEmployed ? modifiedApiResponse.individualHolder.employment.yearsEmployed : 0);
+    set(owner, "yeMployed", modifiedApiResponse.individualHolder.employment && modifiedApiResponse.individualHolder.employment.yearsEmployed ? modifiedApiResponse.individualHolder.employment.yearsEmployed : 0);
+    set(owner, "employerPhoneNumber", modifiedApiResponse.individualHolder.employment && modifiedApiResponse.individualHolder.employment.workPhone ? modifiedApiResponse.individualHolder.employment.workPhone : null);
+    set(owner, "homeOwnership", modifiedApiResponse.individualHolder.homeType ? maps.ownershipStatusMap[modifiedApiResponse.individualHolder.homeType] : null);
+    set(owner, "primaryEmail", modifiedApiResponse.individualHolder.email ? modifiedApiResponse.individualHolder.email : null);
+    set(owner, "primaryPhoneNumber", modifiedApiResponse.individualHolder.contact && modifiedApiResponse.individualHolder.contact.phone ? modifiedApiResponse.individualHolder.contact.phone : null);
 
-    set(owner, "investmentExperienceEquities", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.stocksExperience.assetExperienceRange] : null);
-    set(owner, "investmentExperienceEquitiesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.stocksExperience ? toString(apiResponse.investmentProfile.stocksExperience.transactionsPerYear) : null);
-    set(owner, "investmentExperienceMutualFunds", apiResponse.investmentProfile && apiResponse.investmentProfile.mutualFundsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.mutualFundsExperience.assetExperienceRange] : null);
-    set(owner, "investmentExperienceMutualFundsTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.mutualFundsExperience ? apiResponse.investmentProfile.mutualFundsExperience.transactionsPerYear : null);
-    set(owner, "investmentExperienceFixedIncome", apiResponse.investmentProfile && apiResponse.investmentProfile.bondsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.bondsExperience.assetExperienceRange] : null);
-    set(owner, "investmentExperienceFixedIncomeTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.bondsExperience ? apiResponse.investmentProfile.bondsExperience.transactionsPerYear : null);
-    set(owner, "investmentExperienceOptions", apiResponse.investmentProfile && apiResponse.investmentProfile.optionsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.optionsExperience.assetExperienceRange] : null);
-    set(owner, "investmentExperienceOptionsTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.optionsExperience ? toString(apiResponse.investmentProfile.optionsExperience.transactionsPerYear) : null);
-    set(owner, "investExperienceFutures", apiResponse.investmentProfile && apiResponse.investmentProfile.futuresExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.futuresExperience.assetExperienceRange] : null);
-    set(owner, "investExperienceFuturesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.futuresExperience ? apiResponse.investmentProfile.futuresExperience.transactionsPerYear : null);
-    set(owner, "investmentExperienceAnnuities", apiResponse.investmentProfile && apiResponse.investmentProfile.annuitiesExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.annuitiesExperience.assetExperienceRange] : null);
-    set(owner, "investmentExperienceAnnuitiesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.annuitiesExperience ? apiResponse.investmentProfile.annuitiesExperience.transactionsPerYear : null);
-    set(owner, "investExperienceAlternatives", apiResponse.investmentProfile && apiResponse.investmentProfile.alternativeInvestmentsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.alternativeInvestmentsExperience.assetExperienceRange] : null);
-    set(owner, "investExperienceAlternativesTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.alternativeInvestmentsExperience ? apiResponse.investmentProfile.alternativeInvestmentsExperience.transactionsPerYear : null);
-    set(owner, "investExperienceMargin", apiResponse.investmentProfile && apiResponse.investmentProfile.marginsExperience ? maps.assetExperienceRangeMap[apiResponse.investmentProfile.marginsExperience.assetExperienceRange] : null);
-    set(owner, "investExperienceMarginTransactions", apiResponse.investmentProfile && apiResponse.investmentProfile.marginsExperience ? apiResponse.investmentProfile.marginsExperience.transactionsPerYear : null);
-    set(owner, "backupWithholdingExemptPayeeCode", apiResponse.w9 && apiResponse.w9.exemptPayee ? apiResponse.w9.exemptPayee : null);
-    set(owner, "faTCAReportingExemptionCode", apiResponse.w9 && apiResponse.w9.factaCode ? apiResponse.w9.factaCode : null);
+    set(owner, "investmentExperienceEquities", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.stocksExperience ? maps.assetExperienceRangeMap[modifiedApiResponse.investmentProfile.stocksExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceEquitiesTransactions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.stocksExperience ? toString(modifiedApiResponse.investmentProfile.stocksExperience.transactionsPerYear) : null);
+    set(owner, "investmentExperienceMutualFunds", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.mutualFundsExperience ? maps.assetExperienceRangeMap[modifiedApiResponse.investmentProfile.mutualFundsExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceMutualFundsTransactions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.mutualFundsExperience ? modifiedApiResponse.investmentProfile.mutualFundsExperience.transactionsPerYear : null);
+    set(owner, "investmentExperienceFixedIncome", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.bondsExperience ? maps.assetExperienceRangeMap[modifiedApiResponse.investmentProfile.bondsExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceFixedIncomeTransactions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.bondsExperience ? modifiedApiResponse.investmentProfile.bondsExperience.transactionsPerYear : null);
+    set(owner, "investmentExperienceOptions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.optionsExperience ? maps.assetExperienceRangeMap[modifiedApiResponse.investmentProfile.optionsExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceOptionsTransactions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.optionsExperience ? toString(modifiedApiResponse.investmentProfile.optionsExperience.transactionsPerYear) : null);
+    set(owner, "investExperienceFutures", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.futuresExperience ? maps.assetExperienceRangeMap[modifiedApiResponse.investmentProfile.futuresExperience.assetExperienceRange] : null);
+    set(owner, "investExperienceFuturesTransactions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.futuresExperience ? modifiedApiResponse.investmentProfile.futuresExperience.transactionsPerYear : null);
+    set(owner, "investmentExperienceAnnuities", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.annuitiesExperience ? maps.assetExperienceRangeMap[modifiedApiResponse.investmentProfile.annuitiesExperience.assetExperienceRange] : null);
+    set(owner, "investmentExperienceAnnuitiesTransactions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.annuitiesExperience ? modifiedApiResponse.investmentProfile.annuitiesExperience.transactionsPerYear : null);
+    set(owner, "investExperienceAlternatives", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.alternativeInvestmentsExperience ? maps.assetExperienceRangeMap[modifiedApiResponse.investmentProfile.alternativeInvestmentsExperience.assetExperienceRange] : null);
+    set(owner, "investExperienceAlternativesTransactions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.alternativeInvestmentsExperience ? modifiedApiResponse.investmentProfile.alternativeInvestmentsExperience.transactionsPerYear : null);
+    set(owner, "investExperienceMargin", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.marginsExperience ? maps.assetExperienceRangeMap[modifiedApiResponse.investmentProfile.marginsExperience.assetExperienceRange] : null);
+    set(owner, "investExperienceMarginTransactions", modifiedApiResponse.investmentProfile && modifiedApiResponse.investmentProfile.marginsExperience ? modifiedApiResponse.investmentProfile.marginsExperience.transactionsPerYear : null);
+    set(owner, "backupWithholdingExemptPayeeCode", modifiedApiResponse.w9 && modifiedApiResponse.w9.exemptPayee ? modifiedApiResponse.w9.exemptPayee : null);
+    set(owner, "faTCAReportingExemptionCode", modifiedApiResponse.w9 && modifiedApiResponse.w9.factaCode ? modifiedApiResponse.w9.factaCode : null);
 
-    if (apiResponse.individualHolder.employment && apiResponse.individualHolder.employment.workAddress) {
-      let workAddress = apiResponse.individualHolder.employment.workAddress;
+    if (modifiedApiResponse.individualHolder.employment && modifiedApiResponse.individualHolder.employment.workAddress) {
+      let workAddress = modifiedApiResponse.individualHolder.employment.workAddress;
       let employerAddress = owner.employerAddress || {};
 
       set(employerAddress, "line1", workAddress.streetLine1);
@@ -153,80 +155,80 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
       set(owner, "employerAddress", employerAddress);
     }
 
-    if (apiResponse.individualHolder.contact) {
-      if (apiResponse.individualHolder.contact.legalAddress) {
+    if (modifiedApiResponse.individualHolder.contact) {
+      if (modifiedApiResponse.individualHolder.contact.legalAddress) {
         let legalAddress = owner.legalAddress || {};
 
-        set(legalAddress, "line1", apiResponse.individualHolder.contact.legalAddress.streetLine1);
-        set(legalAddress, "line2", apiResponse.individualHolder.contact.legalAddress.streetLine2);
-        set(legalAddress, "city", apiResponse.individualHolder.contact.legalAddress.city);
-        set(legalAddress, "postalCode", apiResponse.individualHolder.contact.legalAddress.postalCode);
-        set(legalAddress, "state", find(stateBO, state, state.code == apiResponse.individualHolder.contact.legalAddress.stateOrProvince));
-        set(legalAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.contact.legalAddress.country]));
+        set(legalAddress, "line1", modifiedApiResponse.individualHolder.contact.legalAddress.streetLine1);
+        set(legalAddress, "line2", modifiedApiResponse.individualHolder.contact.legalAddress.streetLine2);
+        set(legalAddress, "city", modifiedApiResponse.individualHolder.contact.legalAddress.city);
+        set(legalAddress, "postalCode", modifiedApiResponse.individualHolder.contact.legalAddress.postalCode);
+        set(legalAddress, "state", find(stateBO, state, state.code == modifiedApiResponse.individualHolder.contact.legalAddress.stateOrProvince));
+        set(legalAddress, "country", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.contact.legalAddress.country]));
 
         set(owner, "legalAddress", legalAddress);
       }
-      if (apiResponse.individualHolder.contact.mailingAddress) {
+      if (modifiedApiResponse.individualHolder.contact.mailingAddress) {
         let mailingAddress = owner.mailingAddress || {};
-        set(mailingAddress, "line1", apiResponse.individualHolder.contact.mailingAddress.streetLine1);
-        set(mailingAddress, "line2", apiResponse.individualHolder.contact.mailingAddress.streetLine2);
-        set(mailingAddress, "city", apiResponse.individualHolder.contact.mailingAddress.city);
-        set(mailingAddress, "postalCode", apiResponse.individualHolder.contact.mailingAddress.postalCode);
-        set(mailingAddress, "state", find(stateBO, state, state.code == apiResponse.individualHolder.contact.mailingAddress.stateOrProvince));
-        set(mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.contact.mailingAddress.country]));
+        set(mailingAddress, "line1", modifiedApiResponse.individualHolder.contact.mailingAddress.streetLine1);
+        set(mailingAddress, "line2", modifiedApiResponse.individualHolder.contact.mailingAddress.streetLine2);
+        set(mailingAddress, "city", modifiedApiResponse.individualHolder.contact.mailingAddress.city);
+        set(mailingAddress, "postalCode", modifiedApiResponse.individualHolder.contact.mailingAddress.postalCode);
+        set(mailingAddress, "state", find(stateBO, state, state.code == modifiedApiResponse.individualHolder.contact.mailingAddress.stateOrProvince));
+        set(mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.contact.mailingAddress.country]));
         set(owner, "mailingAddress", mailingAddress);
       }
-      if (apiResponse.individualHolder.contact.previousAddress) {
+      if (modifiedApiResponse.individualHolder.contact.previousAddress) {
         let previousAddress = owner.previousLegalAddress || {};
 
-        set(previousAddress, "line1", apiResponse.individualHolder.contact.previousAddress.streetLine1);
-        set(previousAddress, "line2", apiResponse.individualHolder.contact.previousAddress.streetLine2);
-        set(previousAddress, "city", apiResponse.individualHolder.contact.previousAddress.city);
-        set(previousAddress, "postalCode", apiResponse.individualHolder.contact.previousAddress.postalCode);
-        set(previousAddress, "state", find(stateBO, state, state.code == apiResponse.individualHolder.contact.previousAddress.stateOrProvince));
-        set(previousAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.contact.previousAddress.country]));
+        set(previousAddress, "line1", modifiedApiResponse.individualHolder.contact.previousAddress.streetLine1);
+        set(previousAddress, "line2", modifiedApiResponse.individualHolder.contact.previousAddress.streetLine2);
+        set(previousAddress, "city", modifiedApiResponse.individualHolder.contact.previousAddress.city);
+        set(previousAddress, "postalCode", modifiedApiResponse.individualHolder.contact.previousAddress.postalCode);
+        set(previousAddress, "state", find(stateBO, state, state.code == modifiedApiResponse.individualHolder.contact.previousAddress.stateOrProvince));
+        set(previousAddress, "country", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.contact.previousAddress.country]));
 
         set(owner, "previousLegalAddress", previousAddress);
       }
-      if (apiResponse.individualHolder.contact.affiliationsGroup) {
-        if (apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup) {
+      if (modifiedApiResponse.individualHolder.contact.affiliationsGroup) {
+        if (modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup) {
           let securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
-          set(securitiesIndustryAffiliation, "typeOfEmployer", apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdType);
-          set(securitiesIndustryAffiliation, "firmNameForEmployee", apiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
+          set(securitiesIndustryAffiliation, "typeOfEmployer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdType);
+          set(securitiesIndustryAffiliation, "firmNameForEmployee", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
-        if (apiResponse.individualHolder.contact.affiliationsGroup.companyGroup) {
+        if (modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup) {
           let publicCompanyOfficial = owner.publicCompanyOfficial || {};
-          set(publicCompanyOfficial, "firmNameForOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompany);
-          set(publicCompanyOfficial, "relationshipOfOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
-          set(publicCompanyOfficial, "firmTickerForOfficer", apiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
+          set(publicCompanyOfficial, "firmNameForOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "relationshipOfOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
+          set(publicCompanyOfficial, "firmTickerForOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
-        if (apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup) {
+        if (modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup) {
           let foreignOfficial = owner.foreignOfficial || {};
-          set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
           set(owner, "foreignOfficial", foreignOfficial);
         }
       }
     }
 
-    if (apiResponse.individualHolder.patriotAct) {
+    if (modifiedApiResponse.individualHolder.patriotAct) {
       let proofOfIdentity = owner.proofOfIdentity || {};
 
-      set(proofOfIdentity, "type", apiResponse.individualHolder.patriotAct.idType);
-      set(proofOfIdentity, "idNumber", apiResponse.individualHolder.patriotAct.idNumber);
-      set(proofOfIdentity, "issueDate", apiResponse.individualHolder.patriotAct.issueDate);
-      set(proofOfIdentity, "expiryDate", apiResponse.individualHolder.patriotAct.expirationDate);
-      set(proofOfIdentity, "issuingCountry", find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.patriotAct.issuedByCountry]));
+      set(proofOfIdentity, "type", modifiedApiResponse.individualHolder.patriotAct.idType);
+      set(proofOfIdentity, "idNumber", modifiedApiResponse.individualHolder.patriotAct.idNumber);
+      set(proofOfIdentity, "issueDate", modifiedApiResponse.individualHolder.patriotAct.issueDate);
+      set(proofOfIdentity, "expiryDate", modifiedApiResponse.individualHolder.patriotAct.expirationDate);
+      set(proofOfIdentity, "issuingCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.patriotAct.issuedByCountry]));
 
       set(owner, "proofOfIdentity", proofOfIdentity);
     }
-    if (apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.countryOfResidence) {
-      let countryOfResidence = find(countryBO, country, country.code2Letters == countryMap[apiResponse.individualHolder.citizenship.countryOfResidence]);
+    if (modifiedApiResponse.individualHolder.citizenship && modifiedApiResponse.individualHolder.citizenship.countryOfResidence) {
+      let countryOfResidence = find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.citizenship.countryOfResidence]);
       set(owner, "countryOfResidence", countryOfResidence);
     }
-    if (apiResponse.individualHolder.citizenship && apiResponse.individualHolder.citizenship.taxJurisdiction) {
-      let taxJurisdiction = find(countryBO, country, country.code2Letters == apiResponse.individualHolder.citizenship.taxJurisdiction);
+    if (modifiedApiResponse.individualHolder.citizenship && modifiedApiResponse.individualHolder.citizenship.taxJurisdiction) {
+      let taxJurisdiction = find(countryBO, country, country.code2Letters == modifiedApiResponse.individualHolder.citizenship.taxJurisdiction);
       set(owner, "countryOfTaxJurisdiction", taxJurisdiction);
     }
     set(accDetails.primaryOwner, "owner", owner);
@@ -319,27 +321,27 @@ if (apiResponse.accountType != "TRUST_IRREVOCABLE" && apiResponse.accountType !=
 
 // mapping logic 3
 
-if (apiResponse.trustedContact) {
+if (modifiedApiResponse.trustedContact) {
   let trustedContact = accDetails.primaryOwner && accDetails.primaryOwner.trustedContact ? accDetails.primaryOwner.trustedContact : {};
   set(accDetails.primaryOwner, "includeTrustedContact", true);
 
-  set(trustedContact, "fullName", apiResponse.trustedContact.name);
-  set(trustedContact, "primaryEmail", apiResponse.trustedContact.email);
-  set(trustedContact, "primaryPhoneNumber", apiResponse.trustedContact.phone);
+  set(trustedContact, "fullName", modifiedApiResponse.trustedContact.name);
+  set(trustedContact, "primaryEmail", modifiedApiResponse.trustedContact.email);
+  set(trustedContact, "primaryPhoneNumber", modifiedApiResponse.trustedContact.phone);
 
-  if (apiResponse.trustedContact.address){
+  if (modifiedApiResponse.trustedContact.address){
     if (!trustedContact.mailingAddress) {
         set(trustedContact, "mailingAddress", {});
     }
-    set(trustedContact.mailingAddress, "line1", apiResponse.trustedContact.address.streetLine1);
-    set(trustedContact.mailingAddress, "line2", apiResponse.trustedContact.address.streetLine2);
-    set(trustedContact.mailingAddress, "city", apiResponse.trustedContact.address.city);
-    set(trustedContact.mailingAddress, "postalCode", apiResponse.trustedContact.address.postalCode);
-    set(trustedContact.mailingAddress, "state", find(stateBO, state, state.code == apiResponse.trustedContact.address.stateOrProvince));
-    set(trustedContact.mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.trustedContact.address.country]));
+    set(trustedContact.mailingAddress, "line1", modifiedApiResponse.trustedContact.address.streetLine1);
+    set(trustedContact.mailingAddress, "line2", modifiedApiResponse.trustedContact.address.streetLine2);
+    set(trustedContact.mailingAddress, "city", modifiedApiResponse.trustedContact.address.city);
+    set(trustedContact.mailingAddress, "postalCode", modifiedApiResponse.trustedContact.address.postalCode);
+    set(trustedContact.mailingAddress, "state", find(stateBO, state, state.code == modifiedApiResponse.trustedContact.address.stateOrProvince));
+    set(trustedContact.mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.trustedContact.address.country]));
   }
 
-  set(accDetails.primaryOwner, "trustedContactRelationship", apiResponse.trustedContact.relationship);
+  set(accDetails.primaryOwner, "trustedContactRelationship", modifiedApiResponse.trustedContact.relationship);
   set(accDetails.primaryOwner, "trustedContact", trustedContact);
   fieldsAssigned = concat(fieldsAssigned, [
     "primaryOwner.includeTrustedContact",
@@ -355,18 +357,18 @@ if (apiResponse.trustedContact) {
     "primaryOwner.owner.trustedContact.mailingAddress.country",
   ]);
 }
-if (apiResponse.jointAccount && apiResponse.jointAccount.jointTenantMarried) {
-  set(accDetails.primaryOwner, "spouseIsAJointOwner", apiResponse.jointAccount.jointTenantMarried == 'YES' ? true : false);
+if (modifiedApiResponse.jointAccount && modifiedApiResponse.jointAccount.jointTenantMarried) {
+  set(accDetails.primaryOwner, "spouseIsAJointOwner", modifiedApiResponse.jointAccount.jointTenantMarried == 'YES' ? true : false);
   fieldsAssigned = concat(fieldsAssigned, [
     "primaryOwner.spouseIsAJointOwner"
   ]);
 }
 
-if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)) {
+if (modifiedApiResponse.beneficiaries && isArray(modifiedApiResponse.beneficiaries)) {
   let beneficiaries = [];
   let contingentBeneficiaries = [];
   let i = 0;
-  for (let item of apiResponse.beneficiaries) {
+  for (let item of modifiedApiResponse.beneficiaries) {
     let benObj = {};
     set(benObj, "perStirpes", item.perStirpes == 'NO' ? false : true);
     set(benObj, "percentage", item.percentage);
@@ -439,78 +441,78 @@ if (apiResponse.beneficiaries && isArray(apiResponse.beneficiaries)) {
 
 // mapping logic 4
 
-if (apiResponse.accountType == "TRUST_IRREVOCABLE" || apiResponse.accountType == "TRUST_REVOCABLE") {
-  if (isPresent(apiResponse.entityHolder)) {
+if (modifiedApiResponse.accountType == "TRUST_IRREVOCABLE" || modifiedApiResponse.accountType == "TRUST_REVOCABLE") {
+  if (isPresent(modifiedApiResponse.entityHolder)) {
     owner = accDetails.primaryOwner.owner;
-    set(owner, "fullName", apiResponse.entityHolder.entityName);
-    set(owner, "dateOfBirth", apiResponse.entityHolder.entityFormationDate);
-    set(owner, "citizenshipStatus", apiResponse.entityHolder.citizenship && apiResponse.entityHolder.citizenship.citizenshipStatus ? maps.residencyStatusMap[apiResponse.entityHolder.citizenship.citizenshipStatus] : "");
-    set(owner, "ein", apiResponse.entityHolder.itin);
-    if (apiResponse.entityHolder.contact) {
-      set(owner, "businessPhoneNumber", apiResponse.entityHolder.contact.phone);
+    set(owner, "fullName", modifiedApiResponse.entityHolder.entityName);
+    set(owner, "dateOfBirth", modifiedApiResponse.entityHolder.entityFormationDate);
+    set(owner, "citizenshipStatus", modifiedApiResponse.entityHolder.citizenship && modifiedApiResponse.entityHolder.citizenship.citizenshipStatus ? maps.residencyStatusMap[modifiedApiResponse.entityHolder.citizenship.citizenshipStatus] : "");
+    set(owner, "ein", modifiedApiResponse.entityHolder.itin);
+    if (modifiedApiResponse.entityHolder.contact) {
+      set(owner, "businessPhoneNumber", modifiedApiResponse.entityHolder.contact.phone);
 
-      if (apiResponse.entityHolder.contact.legalAddress) {
+      if (modifiedApiResponse.entityHolder.contact.legalAddress) {
         legalAddress = owner.legalAddress || {};
 
-        set(legalAddress, "line1", apiResponse.entityHolder.contact.legalAddress.streetLine1);
-        set(legalAddress, "line2", apiResponse.entityHolder.contact.legalAddress.streetLine2);
-        set(legalAddress, "city", apiResponse.entityHolder.contact.legalAddress.city);
-        set(legalAddress, "postalCode", apiResponse.entityHolder.contact.legalAddress.postalCode);
-        set(legalAddress, "state", find(stateBO, state, state.code == apiResponse.entityHolder.contact.legalAddress.stateOrProvince));
-        set(legalAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.entityHolder.contact.legalAddress.country]));
+        set(legalAddress, "line1", modifiedApiResponse.entityHolder.contact.legalAddress.streetLine1);
+        set(legalAddress, "line2", modifiedApiResponse.entityHolder.contact.legalAddress.streetLine2);
+        set(legalAddress, "city", modifiedApiResponse.entityHolder.contact.legalAddress.city);
+        set(legalAddress, "postalCode", modifiedApiResponse.entityHolder.contact.legalAddress.postalCode);
+        set(legalAddress, "state", find(stateBO, state, state.code == modifiedApiResponse.entityHolder.contact.legalAddress.stateOrProvince));
+        set(legalAddress, "country", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.entityHolder.contact.legalAddress.country]));
 
         set(owner, "legalAddress", legalAddress);
       }
-      if (apiResponse.entityHolder.contact.mailingAddress) {
+      if (modifiedApiResponse.entityHolder.contact.mailingAddress) {
         mailingAddress = owner.mailingAddress || {};
-        set(mailingAddress, "line1", apiResponse.entityHolder.contact.mailingAddress.streetLine1);
-        set(mailingAddress, "line2", apiResponse.entityHolder.contact.mailingAddress.streetLine2);
-        set(mailingAddress, "city", apiResponse.entityHolder.contact.mailingAddress.city);
-        set(mailingAddress, "postalCode", apiResponse.entityHolder.contact.mailingAddress.postalCode);
-        set(mailingAddress, "state", find(stateBO, state, state.code == apiResponse.entityHolder.contact.mailingAddress.stateOrProvince));
-        set(mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.entityHolder.contact.mailingAddress.country]));
+        set(mailingAddress, "line1", modifiedApiResponse.entityHolder.contact.mailingAddress.streetLine1);
+        set(mailingAddress, "line2", modifiedApiResponse.entityHolder.contact.mailingAddress.streetLine2);
+        set(mailingAddress, "city", modifiedApiResponse.entityHolder.contact.mailingAddress.city);
+        set(mailingAddress, "postalCode", modifiedApiResponse.entityHolder.contact.mailingAddress.postalCode);
+        set(mailingAddress, "state", find(stateBO, state, state.code == modifiedApiResponse.entityHolder.contact.mailingAddress.stateOrProvince));
+        set(mailingAddress, "country", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.entityHolder.contact.mailingAddress.country]));
         set(owner, "mailingAddress", mailingAddress);
       }
-      if (apiResponse.entityHolder.contact.previousAddress) {
+      if (modifiedApiResponse.entityHolder.contact.previousAddress) {
         previousAddress = owner.previousLegalAddress || {};
 
-        set(previousAddress, "line1", apiResponse.entityHolder.contact.previousAddress.streetLine1);
-        set(previousAddress, "line2", apiResponse.entityHolder.contact.previousAddress.streetLine2);
-        set(previousAddress, "city", apiResponse.entityHolder.contact.previousAddress.city);
-        set(previousAddress, "postalCode", apiResponse.entityHolder.contact.previousAddress.postalCode);
-        set(previousAddress, "state", find(stateBO, state, state.code == apiResponse.entityHolder.contact.previousAddress.stateOrProvince));
-        set(previousAddress, "country", find(countryBO, country, country.code2Letters == countryMap[apiResponse.entityHolder.contact.previousAddress.country]));
+        set(previousAddress, "line1", modifiedApiResponse.entityHolder.contact.previousAddress.streetLine1);
+        set(previousAddress, "line2", modifiedApiResponse.entityHolder.contact.previousAddress.streetLine2);
+        set(previousAddress, "city", modifiedApiResponse.entityHolder.contact.previousAddress.city);
+        set(previousAddress, "postalCode", modifiedApiResponse.entityHolder.contact.previousAddress.postalCode);
+        set(previousAddress, "state", find(stateBO, state, state.code == modifiedApiResponse.entityHolder.contact.previousAddress.stateOrProvince));
+        set(previousAddress, "country", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.entityHolder.contact.previousAddress.country]));
 
         set(owner, "previousLegalAddress", previousAddress);
       }
-      if (apiResponse.entityHolder.contact.affiliationsGroup) {
-        if (apiResponse.entityHolder.contact.affiliationsGroup.nasdGroup) {
+      if (modifiedApiResponse.entityHolder.contact.affiliationsGroup) {
+        if (modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup) {
           securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
-          set(securitiesIndustryAffiliation, "typeOfEmployer", apiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasdType);
-          set(securitiesIndustryAffiliation, "firmNameForEmployee", apiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
+          set(securitiesIndustryAffiliation, "typeOfEmployer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasdType);
+          set(securitiesIndustryAffiliation, "firmNameForEmployee", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
-        if (apiResponse.entityHolder.contact.affiliationsGroup.companyGroup) {
+        if (modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup) {
           publicCompanyOfficial = owner.publicCompanyOfficial || {};
-          set(publicCompanyOfficial, "firmNameForOfficer", apiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompany);
-          set(publicCompanyOfficial, "relationshipOfOfficer", apiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
-          set(publicCompanyOfficial, "firmTickerForOfficer", apiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
+          set(publicCompanyOfficial, "firmNameForOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "relationshipOfOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
+          set(publicCompanyOfficial, "firmTickerForOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
-        if (apiResponse.entityHolder.contact.affiliationsGroup.foreignGroup) {
+        if (modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup) {
           foreignOfficial = owner.foreignOfficial || {};
-          set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[apiResponse.entityHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
           set(owner, "foreignOfficial", foreignOfficial);
         }
 
       }
     }
-    if (apiResponse.entityHolder.citizenship && apiResponse.entityHolder.citizenship.countryOfResidence) {
-      countryOfResidence = find(countryBO, country, country.code2Letters == countryMap[apiResponse.entityHolder.citizenship.countryOfResidence]);
+    if (modifiedApiResponse.entityHolder.citizenship && modifiedApiResponse.entityHolder.citizenship.countryOfResidence) {
+      countryOfResidence = find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.entityHolder.citizenship.countryOfResidence]);
       set(owner, "countryOfResidence", countryOfResidence);
     }
-    if (apiResponse.entityHolder.citizenship && apiResponse.entityHolder.citizenship.taxJurisdiction) {
-      taxJurisdiction = find(countryBO, country, country.code2Letters == apiResponse.entityHolder.citizenship.taxJurisdiction);
+    if (modifiedApiResponse.entityHolder.citizenship && modifiedApiResponse.entityHolder.citizenship.taxJurisdiction) {
+      taxJurisdiction = find(countryBO, country, country.code2Letters == modifiedApiResponse.entityHolder.citizenship.taxJurisdiction);
       set(owner, "countryOfTaxJurisdiction", taxJurisdiction);
     }
     set(accDetails.primaryOwner, "owner", owner);
@@ -562,10 +564,10 @@ if (apiResponse.accountType == "TRUST_IRREVOCABLE" || apiResponse.accountType ==
 
 //mapping logic 5
 
-if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
+if (modifiedApiResponse.coHolders && isArray(modifiedApiResponse.coHolders)) {
   let secondaryOwners = [];
 
-  for (let secondaryOwner of apiResponse.coHolders) {
+  for (let secondaryOwner of modifiedApiResponse.coHolders) {
     let secOwner = find(accDetails.secondaryOwners, so, so.id == secondaryOwner.externalClientId) || {};
     owner = secOwner.owner || {};
     set(owner, "firstName", secondaryOwner.name && secondaryOwner.name.givenName ? secondaryOwner.name.givenName : null);
@@ -781,9 +783,9 @@ if (apiResponse.coHolders && isArray(apiResponse.coHolders)) {
   set(accDetails, "secondaryOwners", secondaryOwners);
 }
 // pledgedCollateral
-if (apiResponse.creditCards && isArray(apiResponse.creditCards)) {
+if (modifiedApiResponse.creditCards && isArray(modifiedApiResponse.creditCards)) {
   let pledgedCollateral = [];
-  for(let creditCard of apiResponse.creditCards){
+  for(let creditCard of modifiedApiResponse.creditCards){
     let pledgedCollateralObj = {
       "outStandingBalance": creditCard.outStandingBalance ? creditCard.outStandingBalance : null,
       "availableCredit": creditCard.availableCredit ? creditCard.availableCredit : null,
