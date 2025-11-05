@@ -86,7 +86,7 @@ if (Account.advisorTradingDiscretion){
 }
 
 if (Account.primaryOwner.trustedContact && Account.primaryOwner.includeTrustedContact) {
-    let phoneNumberCleaned = removeCharacters(Account.primaryOwner.trustedContact.primaryPhoneNumber, ["+1"," ",")","(","-"]);
+    let phoneNumberCleaned = removeCharacters(replace(Account.primaryOwner.trustedContact.primaryPhoneNumber,"+1",""), [" ",")","(","-"]);
     let phoneNumberFormatted = substring(phoneNumberCleaned,0,3)+"-"+substring(phoneNumberCleaned,3,6)+"-"+substring(phoneNumberCleaned,6);
     set(payload.requests[0], "trustedContact", {
         "name": [Account.primaryOwner.trustedContact.firstName, Account.primaryOwner.trustedContact.middleName, Account.primaryOwner.trustedContact.lastName].join(' '),

@@ -5,7 +5,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
 
     for (let o of Account.secondaryOwners) {
         if (isPresent(o.owner)) {
-            let phoneNumberCleaned = removeCharacters(o.owner.primaryPhoneNumber, ["+1"," ",")","(","-"]);
+            let phoneNumberCleaned = removeCharacters(replace(o.owner.primaryPhoneNumber,"+1",""), [" ",")","(","-"]);
             let phoneNumberFormatted = substring(phoneNumberCleaned,0,3)+"-"+substring(phoneNumberCleaned,3,6)+"-"+substring(phoneNumberCleaned,6);
             let coHolder = {
                 "name": {
@@ -40,7 +40,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             if (o.owner.employmentStatus != "UNEMPLOYED") {
                 let empPhoneNumberFormated = null;
                 if(o.owner.employerPhoneNumber){
-                    let emplyrNumberCleaned = removeCharacters(o.owner.employerPhoneNumber, ["+1"," ",")","(","-"]);
+                    let emplyrNumberCleaned = removeCharacters(replace(o.owner.employerPhoneNumber,"+1",""), [" ",")","(","-"]);
                     empPhoneNumberFormated = substring(emplyrNumberCleaned,0,3)+"-"+substring(emplyrNumberCleaned,3,6)+"-"+substring(emplyrNumberCleaned,6);
                 }
                 set(coHolder, "employment", {
@@ -69,7 +69,7 @@ if (isPresent(Account.secondaryOwners) && Account.registrationType != "INDIVIDUA
             if (o.trustedContact && o.includeTrustedContact) {
                 let tcPhoneNumberFormated =  null;
                 if(o.trustedContact.primaryPhoneNumber){
-                    let trustedNumberCleaned = removeCharacters(o.trustedContact.primaryPhoneNumber, ["+1"," ",")","(","-"]);
+                    let trustedNumberCleaned = removeCharacters(replace(o.trustedContact.primaryPhoneNumber,"+1",""), [" ",")","(","-"]);
                     tcPhoneNumberFormated = substring(trustedNumberCleaned,0,3)+"-"+substring(trustedNumberCleaned,3,6)+"-"+substring(trustedNumberCleaned,6);
                 }
                 set(coHolder, "trustedContact", {

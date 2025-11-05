@@ -195,18 +195,21 @@ if (modifiedApiResponse.accountType != "TRUST_IRREVOCABLE" && modifiedApiRespons
           let securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
           set(securitiesIndustryAffiliation, "typeOfEmployer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdType);
           set(securitiesIndustryAffiliation, "firmNameForEmployee", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
+          set(securitiesIndustryAffiliation, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasd);
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
         if (modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup) {
           let publicCompanyOfficial = owner.publicCompanyOfficial || {};
-          set(publicCompanyOfficial, "firmNameForOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "firmNameForOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(publicCompanyOfficial, "relationshipOfOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
-          set(publicCompanyOfficial, "firmTickerForOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
+          set(publicCompanyOfficial, "firmTickerForOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyTypeDescription);
+          set(publicCompanyOfficial, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompany);
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
         if (modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup) {
           let foreignOfficial = owner.foreignOfficial || {};
           set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(foreignOfficial, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficial);
           set(owner, "foreignOfficial", foreignOfficial);
         }
       }
@@ -490,18 +493,21 @@ if (modifiedApiResponse.accountType == "TRUST_IRREVOCABLE" || modifiedApiRespons
           securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
           set(securitiesIndustryAffiliation, "typeOfEmployer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasdType);
           set(securitiesIndustryAffiliation, "firmNameForEmployee", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
+          set(securitiesIndustryAffiliation, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasd);
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
         if (modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup) {
           publicCompanyOfficial = owner.publicCompanyOfficial || {};
-          set(publicCompanyOfficial, "firmNameForOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "firmNameForOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(publicCompanyOfficial, "relationshipOfOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
-          set(publicCompanyOfficial, "firmTickerForOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
+          set(publicCompanyOfficial, "firmTickerForOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyTypeDescription);
+          set(publicCompanyOfficial, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompany);
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
         if (modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup) {
           foreignOfficial = owner.foreignOfficial || {};
           set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(foreignOfficial, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup.foreignOfficial);
           set(owner, "foreignOfficial", foreignOfficial);
         }
 
@@ -611,18 +617,21 @@ if (modifiedApiResponse.coHolders && isArray(modifiedApiResponse.coHolders)) {
           securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
           set(securitiesIndustryAffiliation, "typeOfEmployer", secondaryOwner.affiliationsGroup.nasdGroup.nasdType);
           set(securitiesIndustryAffiliation, "firmNameForEmployee", secondaryOwner.affiliationsGroup.nasdGroup.nasdEntity);
+          set(securitiesIndustryAffiliation, "enabled", secondaryOwner.affiliationsGroup.nasdGroup.nasd);
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
         if (secondaryOwner.affiliationsGroup.companyGroup) {
           publicCompanyOfficial = owner.publicCompanyOfficial || {};
-          set(publicCompanyOfficial, "firmNameForOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "firmNameForOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(publicCompanyOfficial, "relationshipOfOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyType);
-          set(publicCompanyOfficial, "firmTickerForOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
+          set(publicCompanyOfficial, "firmTickerForOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyTypeDescription);
+          set(publicCompanyOfficial, "enabled", secondaryOwner.affiliationsGroup.companyGroup.publicCompany);
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
         if (secondaryOwner.affiliationsGroup.foreignGroup) {
           foreignOfficial = owner.foreignOfficial || {};
           set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[secondaryOwner.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(foreignOfficial, "enabled", secondaryOwner.affiliationsGroup.foreignGroup.foreignOfficial);
           set(owner, "foreignOfficial", foreignOfficial);
         }
       }

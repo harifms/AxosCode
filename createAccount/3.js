@@ -1,6 +1,6 @@
 let affiliationsGroup = {};
 if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType != "TRUST_REVOCABLE") {
-    let phoneNumberCleaned = removeCharacters(Account.primaryOwner.owner.primaryPhoneNumber, ["+1"," ",")","(","-"]);
+    let phoneNumberCleaned = removeCharacters(replace(Account.primaryOwner.owner.primaryPhoneNumber,"+1",""), [" ",")","(","-"]);
     let phoneNumberFormatted = substring(phoneNumberCleaned,0,3)+"-"+substring(phoneNumberCleaned,3,6)+"-"+substring(phoneNumberCleaned,6);
     set(payload.requests[0], "individualHolder", {
         "name": {
@@ -32,7 +32,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
     if (Account.primaryOwner.owner.employmentStatus != "UNEMPLOYED") {
         let empPhoneNumberFormatted=null;
         if(Account.primaryOwner.owner.employerPhoneNumber){
-             let empPhoneNumberCleaned = removeCharacters(Account.primaryOwner.owner.employerPhoneNumber, ["+1"," ",")","(","-"]);
+             let empPhoneNumberCleaned = removeCharacters(replace(Account.primaryOwner.owner.employerPhoneNumber,"+1",""), [" ",")","(","-"]);
             empPhoneNumberFormatted = substring(empPhoneNumberCleaned,0,3)+"-"+substring(empPhoneNumberCleaned,3,6)+"-"+substring(empPhoneNumberCleaned,6);
         }
        set(payload.requests[0].individualHolder, "employment", {
@@ -171,7 +171,7 @@ if (Account.registrationType != "TRUST_IRREVOCABLE" && Account.registrationType 
     });
     let bizPhoneNumberFormatted =  null;
     if(Account.primaryOwner.owner.businessPhoneNumber){
-        let bizPhoneNumberCleaned = removeCharacters(Account.primaryOwner.owner.businessPhoneNumber, ["+1"," ",")","(","-"]);
+        let bizPhoneNumberCleaned = removeCharacters(replace(Account.primaryOwner.owner.businessPhoneNumber,"+1",""), [" ",")","(","-"]);
         bizPhoneNumberFormatted = substring(bizPhoneNumberCleaned,0,3)+"-"+substring(bizPhoneNumberCleaned,3,6)+"-"+substring(bizPhoneNumberCleaned,6);
     }
     set(payload.requests[0].entityHolder, "contact", {
