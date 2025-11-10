@@ -195,7 +195,7 @@ if (modifiedApiResponse.accountType != "TRUST_IRREVOCABLE" && modifiedApiRespons
           let securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
           set(securitiesIndustryAffiliation, "typeOfEmployer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdType);
           set(securitiesIndustryAffiliation, "firmNameForEmployee", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
-          set(securitiesIndustryAffiliation, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasd);
+          set(securitiesIndustryAffiliation, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.nasdGroup.nasd == 'YES');
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
         if (modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup) {
@@ -203,13 +203,13 @@ if (modifiedApiResponse.accountType != "TRUST_IRREVOCABLE" && modifiedApiRespons
           set(publicCompanyOfficial, "firmNameForOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(publicCompanyOfficial, "relationshipOfOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
           set(publicCompanyOfficial, "firmTickerForOfficer", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompanyTypeDescription);
-          set(publicCompanyOfficial, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.companyGroup.publicCompany == 'YES');
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
         if (modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup) {
           let foreignOfficial = owner.foreignOfficial || {};
-          set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
-          set(foreignOfficial, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficial);
+          set(foreignOfficial, "foreignCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(foreignOfficial, "enabled", modifiedApiResponse.individualHolder.contact.affiliationsGroup.foreignGroup.foreignOfficial == 'YES');
           set(owner, "foreignOfficial", foreignOfficial);
         }
       }
@@ -493,7 +493,7 @@ if (modifiedApiResponse.accountType == "TRUST_IRREVOCABLE" || modifiedApiRespons
           securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
           set(securitiesIndustryAffiliation, "typeOfEmployer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasdType);
           set(securitiesIndustryAffiliation, "firmNameForEmployee", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasdEntity);
-          set(securitiesIndustryAffiliation, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasd);
+          set(securitiesIndustryAffiliation, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.nasdGroup.nasd == 'YES');
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
         if (modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup) {
@@ -501,13 +501,13 @@ if (modifiedApiResponse.accountType == "TRUST_IRREVOCABLE" || modifiedApiRespons
           set(publicCompanyOfficial, "firmNameForOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(publicCompanyOfficial, "relationshipOfOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyType);
           set(publicCompanyOfficial, "firmTickerForOfficer", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompanyTypeDescription);
-          set(publicCompanyOfficial, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.companyGroup.publicCompany == 'YES');
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
         if (modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup) {
           foreignOfficial = owner.foreignOfficial || {};
-          set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
-          set(foreignOfficial, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup.foreignOfficial);
+          set(foreignOfficial, "foreignCountry", find(countryBO, country, country.code2Letters == countryMap[modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(foreignOfficial, "enabled", modifiedApiResponse.entityHolder.contact.affiliationsGroup.foreignGroup.foreignOfficial == 'YES');
           set(owner, "foreignOfficial", foreignOfficial);
         }
 
@@ -617,7 +617,7 @@ if (modifiedApiResponse.coHolders && isArray(modifiedApiResponse.coHolders)) {
           securitiesIndustryAffiliation = owner.securitiesIndustryAffiliation || {};
           set(securitiesIndustryAffiliation, "typeOfEmployer", secondaryOwner.affiliationsGroup.nasdGroup.nasdType);
           set(securitiesIndustryAffiliation, "firmNameForEmployee", secondaryOwner.affiliationsGroup.nasdGroup.nasdEntity);
-          set(securitiesIndustryAffiliation, "enabled", secondaryOwner.affiliationsGroup.nasdGroup.nasd);
+          set(securitiesIndustryAffiliation, "enabled", secondaryOwner.affiliationsGroup.nasdGroup.nasd == 'YES');
           set(owner, "securitiesIndustryAffiliation", securitiesIndustryAffiliation);
         }
         if (secondaryOwner.affiliationsGroup.companyGroup) {
@@ -625,13 +625,13 @@ if (modifiedApiResponse.coHolders && isArray(modifiedApiResponse.coHolders)) {
           set(publicCompanyOfficial, "firmNameForOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyNameOrSymbol);
           set(publicCompanyOfficial, "relationshipOfOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyType);
           set(publicCompanyOfficial, "firmTickerForOfficer", secondaryOwner.affiliationsGroup.companyGroup.publicCompanyTypeDescription);
-          set(publicCompanyOfficial, "enabled", secondaryOwner.affiliationsGroup.companyGroup.publicCompany);
+          set(publicCompanyOfficial, "enabled", secondaryOwner.affiliationsGroup.companyGroup.publicCompany == 'YES');
           set(owner, "publicCompanyOfficial", publicCompanyOfficial);
         }
         if (secondaryOwner.affiliationsGroup.foreignGroup) {
           foreignOfficial = owner.foreignOfficial || {};
-          set(foreignOfficial, "foreignOfficialCountry", find(countryBO, country, country.code2Letters == countryMap[secondaryOwner.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
-          set(foreignOfficial, "enabled", secondaryOwner.affiliationsGroup.foreignGroup.foreignOfficial);
+          set(foreignOfficial, "foreignCountry", find(countryBO, country, country.code2Letters == countryMap[secondaryOwner.affiliationsGroup.foreignGroup.foreignOfficialCountry]));
+          set(foreignOfficial, "enabled", secondaryOwner.affiliationsGroup.foreignGroup.foreignOfficial == 'YES');
           set(owner, "foreignOfficial", foreignOfficial);
         }
       }
@@ -799,8 +799,8 @@ if (modifiedApiResponse.creditCards && isArray(modifiedApiResponse.creditCards))
       "outStandingBalance": creditCard.outStandingBalance ? creditCard.outStandingBalance : null,
       "availableCredit": creditCard.availableCredit ? creditCard.availableCredit : null,
       "creditLimit": creditCard.creditLimit ? creditCard.creditLimit : null,
-      "subStatusLaHlx3u": creditCard.subStatusLabel ? creditCard.subStatusLabel : null,
-      "macroStatusLa3z7ya": creditCard.macroStatusLabel ? creditCard.macroStatusLabel : null,
+      "subStatusLabel": creditCard.subStatusLabel ? creditCard.subStatusLabel : null,
+      "macroStatusLabel": creditCard.macroStatusLabel ? creditCard.macroStatusLabel : null,
       "nextPaymentDueDate": creditCard.nextPaymentDueDate ? creditCard.nextPaymentDueDate : null,
       "minimumPaymentDueAmount": creditCard.minimumPaymentDueAmount ? creditCard.minimumPaymentDueAmount : null,
       "statementBalanceAmount": creditCard.statementBalanceAmount ? creditCard.statementBalanceAmount : null,
