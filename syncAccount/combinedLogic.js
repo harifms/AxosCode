@@ -796,14 +796,14 @@ if (modifiedApiResponse.creditCards && isArray(modifiedApiResponse.creditCards))
   let pledgedCollateral = [];
   for(let creditCard of modifiedApiResponse.creditCards){
     let pledgedCollateralObj = {
-      "outStandingBalance": creditCard.outStandingBalance ? creditCard.outStandingBalance : null,
-      "availableCredit": creditCard.availableCredit ? creditCard.availableCredit : null,
-      "creditLimit": creditCard.creditLimit ? creditCard.creditLimit : null,
+      "outStandingBalance": isPresent(creditCard.outStandingBalance) ? creditCard.outStandingBalance : null,
+      "availableCredit": isPresent(creditCard.availableCredit) ? creditCard.availableCredit : null,
+      "creditLimit": isPresent(creditCard.creditLimit) ? creditCard.creditLimit : null,
       "subStatusLabel": creditCard.subStatusLabel ? creditCard.subStatusLabel : null,
       "macroStatusLabel": creditCard.macroStatusLabel ? creditCard.macroStatusLabel : null,
       "nextPaymentDueDate": creditCard.nextPaymentDueDate ? creditCard.nextPaymentDueDate : null,
-      "minimumPaymentDueAmount": creditCard.minimumPaymentDueAmount ? creditCard.minimumPaymentDueAmount : null,
-      "statementBalanceAmount": creditCard.statementBalanceAmount ? creditCard.statementBalanceAmount : null,
+      "minimumPaymentDueAmount": isPresent(creditCard.minimumPaymentDueAmount) ? creditCard.minimumPaymentDueAmount : null,
+      "statementBalanceAmount": isPresent(creditCard.statementBalanceAmount) ? creditCard.statementBalanceAmount : null,
       "cardNumberLast4Digits": creditCard.cardNumberLast4Digits ? creditCard.cardNumberLast4Digits : null,
       "description": creditCard.description ? creditCard.description : null
     };
